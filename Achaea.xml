@@ -22057,9 +22057,14 @@ IN.echo("prefer " .. w[1] .. " when you have both")
           </Alias>
           <Alias isActive="yes" isFolder="no">
             <name>in refill</name>
-            <script>-- in refill [plan]       fill empty vials with whatever your set is missing
+            <script>-- in refill [plan] [rift|tun]  fill empty vials with what your set is missing
 local w = acs.words(matches[2] or "")
-if w[1] == "plan" then IN.refill(true) else IN.refill(false) end
+local show, src = false, nil
+for _, x in ipairs(w) do
+  x = x:lower()
+  if x == "plan" then show = true elseif x == "rift" or x == "tun" then src = x end
+end
+IN.refill(show, src)
 </script>
             <command></command>
             <packageName></packageName>
@@ -37069,8 +37074,9 @@ IN.defaults = {
     mending = 1, restoration = 1, epidermal = 1, caloric = 1, mass = 1,
   },
   refill_venoms = 1,    -- vials of each venom to keep (0 = don't refill venoms)
-  -- the game's syntax is REFILL &lt;vial|fluid|empty&gt; WITH &lt;tun|fluid&gt;
-  refill_cmd = "refill {vial} with {fluid}",
+  -- FILL VIAL&lt;id&gt; WITH &lt;liquid&gt; FROM RIFT|TUN. {source} is "rift" when the
+  -- rift has that liquid, else "tun" (a shop); "in refill rift|tun" forces one.
+  refill_cmd = "fill vial{vial} with {fluid} from {source}",
 }
 
 function IN.echo(msg) acs.echo(msg, "in") end
@@ -37935,8 +37941,13 @@ function IN.register_commands(M)
     IN.echo("refreshing inventory, room, rift, vials and pipes")
   end, "refresh             re-read everything from the game")
   M.command("refill", function(w)
-    if w[1] == "plan" then IN.refill(true) else IN.refill(false) end
-  end, "refill [plan]       fill empty vials with whatever your set is missing")
+    local show, src = false, nil
+    for _, x in ipairs(w) do
+      x = x:lower()
+      if x == "plan" then show = true elseif x == "rift" or x == "tun" then src = x end
+    end
+    IN.refill(show, src)
+  end, "refill [plan] [rift|tun]  fill empty vials with what your set is missing")
   M.command("want", function(w)
     local f, n = w[1] and w[1]:lower(), tonumber(w[2])
     if f == "venoms" and n then IN.settings.refill_venoms = n
@@ -37969,8 +37980,9 @@ end
 -- The set is IN.settings.vial_set (elixirs and salves, n vials each) plus
 -- refill_venoms vials of every venom. Missing = wanted minus the non-empty
 -- vials of that kind in the last ELIXLIST. Each missing vial takes one empty
--- vial, cures first, then venoms, until the empties run out. Refills cost
--- gold and need a seller (Seasone, or a shop's tun), so stand there first.
+-- vial, cures first, then venoms, until the empties run out. A liquid comes
+-- from your rift when the rift has it, otherwise from a tun (stand in the
+-- shop and have the gold on you).
 
 function IN.wanted()
   local r = {}
@@ -37995,9 +38007,15 @@ function IN.wanted()
   return r
 end
 
--- Work out the refills. Returns { cmds = {...}, filled = {{vial, fluid}},
+-- Where to fill a liquid from: forced source, else rift if it has some.
+function IN.refill_source(fluid, force)
+  if force then return force end
+  return IN.rift_count(fluid) &gt; 0 and "rift" or "tun"
+end
+
+-- Work out the refills. source = "rift", "tun" or nil (pick per liquid). Returns { cmds = {...}, filled = {{vial, fluid}},
 -- short = {fluid = n still missing after empties ran out} }.
-function IN.refill_plan()
+function IN.refill_plan(source)
   local empties = {}
   for _, v in ipairs(IN.vials) do
     if v.kind == "empty" then empties[#empties + 1] = v.id end
@@ -38008,9 +38026,10 @@ function IN.refill_plan()
     for _ = 1, missing do
       local vial = table.remove(empties, 1)
       if vial then
-        local cmd = IN.settings.refill_cmd:gsub("{vial}", vial):gsub("{fluid}", w.fluid)
+        local src = IN.refill_source(w.fluid, source)
+        local cmd = IN.settings.refill_cmd:gsub("{vial}", vial):gsub("{fluid}", w.fluid):gsub("{source}", src)
         plan.cmds[#plan.cmds + 1] = cmd
-        plan.filled[#plan.filled + 1] = { vial = vial, fluid = w.fluid }
+        plan.filled[#plan.filled + 1] = { vial = vial, fluid = w.fluid, source = src }
       else
         plan.short[w.fluid] = (plan.short[w.fluid] or 0) + 1
       end
@@ -38025,7 +38044,7 @@ local function report(plan, verb)
     return
   end
   local names = {}
-  for _, f in ipairs(plan.filled) do names[#names + 1] = f.fluid end
+  for _, f in ipairs(plan.filled) do names[#names + 1] = f.fluid .. (f.source == "rift" and " (rift)" or "") end
   if #names &gt; 0 then IN.echo(("%s %d: %s"):format(verb, #names, table.concat(names, ", "))) end
   if next(plan.short) then
     local s = {}
@@ -38035,9 +38054,9 @@ local function report(plan, verb)
 end
 
 -- Send the refills, then ELIXLIST again so the counts are right.
--- show_only = true just prints the plan.
-function IN.refill(show_only)
-  local plan = IN.refill_plan()
+-- show_only = true just prints the plan; source as in IN.refill_plan.
+function IN.refill(show_only, source)
+  local plan = IN.refill_plan(source)
   if show_only then report(plan, "would refill") return plan end
   report(plan, "refilling")
   for _, c in ipairs(plan.cmds) do IN.send(c) end
@@ -38059,6 +38078,8 @@ function IN.init()
   M.title = "IN inventory"
   IN.M = M
   IN.settings = acs.store("in", IN.defaults)
+  -- the first refill wording was wrong; move saved copies to the real one
+  if IN.settings.refill_cmd == "refill {vial} with {fluid}" then IN.settings.refill_cmd = IN.defaults.refill_cmd end
   acs.gmcp_support({ "Char.Items 1", "IRE.Rift 1" })
 
   M.on("gmcp.Char.Items.List", IN.on_list)
@@ -47670,12 +47691,12 @@ shelp.data = {
         readme = { "`in prefer herb/mineral` : which form `best_form` picks when you have both" },
       },
       refill = {
-        help = { "refill [plan]       fill empty vials with whatever your set is missing" },
+        help = { "refill [plan] [rift|tun]  fill empty vials with what your set is missing" },
         see = nil,
         readme = {
           "`in refill [plan]` : fill empty vials with whatever your vial set is missing (`plan` only shows it)",
-          "`in refill` compares your last ELIXLIST with your vial set and sends `REFILL &lt;vial&gt; WITH &lt;fluid&gt;` for each missing fluid, one empty vial each, then runs ELIXLIST again. The default set is one vial each of health, mana, immunity, levitation, speed, frost, venom, mending, restoration, epidermal, caloric and mass, plus one of every venom. Elixirs and salves get empties before venoms, and it tells you what didn't fit. Bonus vials (ogre, epicurus) are left alone. Stand where refills are sold (Seasone, or a shop with tuns) and have the gold on you. Change the set with `in want`, or the command itself with `IN.settings.refill_cmd` (default `\"refill {vial} with {fluid}\"`). From a script: `IN.refill()` or `IN.refill_plan()`.",
-          "Inventory, room, containers, rift and gold come from GMCP. ELIXLIST and PIPELIST parsing is tested against the output you pasted, and typing either command yourself updates the lists too. The REFILL wording is from the wiki (`REFILL &lt;vial|fluid|empty&gt; WITH &lt;tun|fluid&gt;`); try `in refill plan` first.",
+          "`in refill` compares your last ELIXLIST with your vial set and sends `fill vial&lt;id&gt; with &lt;liquid&gt; from rift` for each missing liquid you have in the rift, or `... from tun` for the rest (be in the shop, with the gold), one empty vial each. `in refill rift` or `in refill tun` forces one source, then runs ELIXLIST again. The default set is one vial each of health, mana, immunity, levitation, speed, frost, venom, mending, restoration, epidermal, caloric and mass, plus one of every venom. Elixirs and salves get empties before venoms, and it tells you what didn't fit. Bonus vials (ogre, epicurus) are left alone. Change the set with `in want`, or the command itself with `IN.settings.refill_cmd` (default `\"fill vial{vial} with {fluid} from {source}\"`). From a script: `IN.refill()` or `IN.refill_plan()`.",
+          "Inventory, room, containers, rift and gold come from GMCP. ELIXLIST and PIPELIST parsing is tested against the output you pasted, and typing either command yourself updates the lists too. Try `in refill plan` before the first real refill.",
         },
       },
       refresh = {
@@ -47706,7 +47727,7 @@ shelp.data = {
         see = nil,
         readme = {
           "`in want [&lt;fluid&gt; &lt;n&gt;]` : vials of each fluid in your set; `in want venoms &lt;n&gt;` for every venom; no args lists it",
-          "`in refill` compares your last ELIXLIST with your vial set and sends `REFILL &lt;vial&gt; WITH &lt;fluid&gt;` for each missing fluid, one empty vial each, then runs ELIXLIST again. The default set is one vial each of health, mana, immunity, levitation, speed, frost, venom, mending, restoration, epidermal, caloric and mass, plus one of every venom. Elixirs and salves get empties before venoms, and it tells you what didn't fit. Bonus vials (ogre, epicurus) are left alone. Stand where refills are sold (Seasone, or a shop with tuns) and have the gold on you. Change the set with `in want`, or the command itself with `IN.settings.refill_cmd` (default `\"refill {vial} with {fluid}\"`). From a script: `IN.refill()` or `IN.refill_plan()`.",
+          "`in refill` compares your last ELIXLIST with your vial set and sends `fill vial&lt;id&gt; with &lt;liquid&gt; from rift` for each missing liquid you have in the rift, or `... from tun` for the rest (be in the shop, with the gold), one empty vial each. `in refill rift` or `in refill tun` forces one source, then runs ELIXLIST again. The default set is one vial each of health, mana, immunity, levitation, speed, frost, venom, mending, restoration, epidermal, caloric and mass, plus one of every venom. Elixirs and salves get empties before venoms, and it tells you what didn't fit. Bonus vials (ogre, epicurus) are left alone. Change the set with `in want`, or the command itself with `IN.settings.refill_cmd` (default `\"fill vial{vial} with {fluid} from {source}\"`). From a script: `IN.refill()` or `IN.refill_plan()`.",
         },
       },
       weapons = {
@@ -47823,25 +47844,25 @@ shelp.data = {
       {
         name = "IN.curative_key",
         sig = "IN.curative_key(name)",
-        file = "src/01_in_core.lua:87",
+        file = "src/01_in_core.lua:88",
         doc = { "\"piece of kelp\", \"irid moss\", \"2 slippery elm\" -&gt; \"kelp\", \"moss\", \"elm\"" },
       },
       {
         name = "IN.debug",
         sig = "IN.debug(msg)",
-        file = "src/01_in_core.lua:58",
+        file = "src/01_in_core.lua:59",
         doc = {},
       },
       {
         name = "IN.echo",
         sig = "IN.echo(msg)",
-        file = "src/01_in_core.lua:56",
+        file = "src/01_in_core.lua:57",
         doc = {},
       },
       {
         name = "IN.err",
         sig = "IN.err(msg)",
-        file = "src/01_in_core.lua:57",
+        file = "src/01_in_core.lua:58",
         doc = {},
       },
       {
@@ -47865,7 +47886,7 @@ shelp.data = {
       {
         name = "IN.fluid_kind",
         sig = "IN.fluid_kind(text)",
-        file = "src/01_in_core.lua:124",
+        file = "src/01_in_core.lua:125",
         doc = {},
       },
       {
@@ -48016,21 +48037,27 @@ shelp.data = {
       },
       {
         name = "IN.refill",
-        sig = "IN.refill(show_only)",
-        file = "src/05_refill.lua:73",
+        sig = "IN.refill(show_only, source)",
+        file = "src/05_refill.lua:81",
         doc = {
           "Send the refills, then ELIXLIST again so the counts are right.",
-          "show_only = true just prints the plan.",
+          "show_only = true just prints the plan; source as in IN.refill_plan.",
         },
       },
       {
         name = "IN.refill_plan",
-        sig = "IN.refill_plan()",
-        file = "src/05_refill.lua:34",
+        sig = "IN.refill_plan(source)",
+        file = "src/05_refill.lua:41",
         doc = {
-          "Work out the refills. Returns { cmds = {...}, filled = {{vial, fluid}},",
+          "Work out the refills. source = \"rift\", \"tun\" or nil (pick per liquid). Returns { cmds = {...}, filled = {{vial, fluid}},",
           "short = {fluid = n still missing after empties ran out} }.",
         },
+      },
+      {
+        name = "IN.refill_source",
+        sig = "IN.refill_source(fluid, force)",
+        file = "src/05_refill.lua:34",
+        doc = { "Where to fill a liquid from: forced source, else rift if it has some." },
       },
       {
         name = "IN.refresh_gear",
@@ -48086,7 +48113,7 @@ shelp.data = {
       {
         name = "IN.rift_key",
         sig = "IN.rift_key(name)",
-        file = "src/01_in_core.lua:97",
+        file = "src/01_in_core.lua:98",
         doc = { "Key for anything in the rift: its curative word, or the name itself." },
       },
       {
@@ -48101,7 +48128,7 @@ shelp.data = {
       {
         name = "IN.send",
         sig = "IN.send(cmd)",
-        file = "src/01_in_core.lua:59",
+        file = "src/01_in_core.lua:60",
         doc = {},
       },
       {
@@ -48173,7 +48200,7 @@ shelp.data = {
       {
         name = "IN.tonum",
         sig = "IN.tonum(v)",
-        file = "src/01_in_core.lua:135",
+        file = "src/01_in_core.lua:136",
         doc = {},
       },
       {
@@ -48191,7 +48218,7 @@ shelp.data = {
       {
         name = "IN.wanted",
         sig = "IN.wanted()",
-        file = "src/05_refill.lua:9",
+        file = "src/05_refill.lua:10",
         doc = {},
       },
       {
@@ -48295,23 +48322,24 @@ shelp.data = {
       "## Refilling vials",
       "",
       "`in refill` compares your last ELIXLIST with your vial set and sends",
-      "`REFILL &lt;vial&gt; WITH &lt;fluid&gt;` for each missing fluid, one empty vial each,",
+      "`fill vial&lt;id&gt; with &lt;liquid&gt; from rift` for each missing liquid you have in",
+      "the rift, or `... from tun` for the rest (be in the shop, with the gold),",
+      "one empty vial each. `in refill rift` or `in refill tun` forces one source,",
       "then runs ELIXLIST again. The default set is one vial each of health, mana,",
       "immunity, levitation, speed, frost, venom, mending, restoration, epidermal,",
       "caloric and mass, plus one of every venom. Elixirs and salves get empties",
       "before venoms, and it tells you what didn't fit. Bonus vials (ogre,",
-      "epicurus) are left alone. Stand where refills are sold (Seasone, or a shop",
-      "with tuns) and have the gold on you. Change the set with `in want`, or the",
-      "command itself with `IN.settings.refill_cmd` (default",
-      "`\"refill {vial} with {fluid}\"`). From a script: `IN.refill()` or",
+      "epicurus) are left alone. Change the set with `in want`, or the command",
+      "itself with `IN.settings.refill_cmd` (default",
+      "`\"fill vial{vial} with {fluid} from {source}\"`). From a script: `IN.refill()` or",
       "`IN.refill_plan()`.",
       "",
       "## Check in game",
       "",
       "Inventory, room, containers, rift and gold come from GMCP. ELIXLIST and",
       "PIPELIST parsing is tested against the output you pasted, and typing either",
-      "command yourself updates the lists too. The REFILL wording is from the wiki",
-      "(`REFILL &lt;vial|fluid|empty&gt; WITH &lt;tun|fluid&gt;`); try `in refill plan` first.",
+      "command yourself updates the lists too. Try `in refill plan` before the",
+      "first real refill.",
       "",
       "Vial sips and pipe puffs don't update as you use them (the game doesn't send",
       "that); they're as of the last list. `in refresh` re-reads everything.",
