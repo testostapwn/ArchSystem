@@ -19342,6 +19342,17 @@ acs.echo("dry run " .. (acs.core.dryrun and "on" or "off"))
             <regex>^acs\s+(?i)dry(?:\s+(.*))?$</regex>
           </Alias>
           <Alias isActive="yes" isFolder="no">
+            <name>acs echo</name>
+            <script>-- acs echo on|off       show every command the system sends (all packages)
+local w = acs.words(matches[2] or "")
+acs.core.echo = acs.onoff(w[1], acs.core.echo) acs.save("core")
+acs.echo("command echo " .. (acs.core.echo and "on" or "off"))
+</script>
+            <command></command>
+            <packageName></packageName>
+            <regex>^acs\s+(?i)echo(?:\s+(.*))?$</regex>
+          </Alias>
+          <Alias isActive="yes" isFolder="no">
             <name>acs who</name>
             <script>-- acs who               character and class the system sees
 acs.echo(("character &lt;white&gt;%s&lt;reset&gt;, class &lt;white&gt;%s"):format(tostring(acs.me.name), tostring(acs.me.class)))
@@ -19964,7 +19975,7 @@ ss.save()
           </Alias>
           <Alias isActive="yes" isFolder="no">
             <name>ss defaffs</name>
-            <script>-- ss defaffs on|off       leave blindness/deafness/insomnia alone when kept up
+            <script>-- ss defaffs on|off       (no effect: blindness, deafness and insomnia are never treated as afflictions)
 local w = acs.words(matches[2] or "")
 local key = "ignore_def_affs"
 local label = "defence-named afflictions left alone"
@@ -20855,6 +20866,53 @@ ss.M.run(matches[2] or "")
             <command></command>
             <packageName></packageName>
             <regex>^ss(?:\s+(.*))?$</regex>
+          </Alias>
+        </AliasGroup>
+        <AliasGroup isActive="yes" isFolder="yes">
+          <name>other</name>
+          <script></script>
+          <command></command>
+          <packageName></packageName>
+          <regex></regex>
+          <Alias isActive="yes" isFolder="no">
+            <name>sh</name>
+            <script>ss.keepup.up_now("shield")
+</script>
+            <command></command>
+            <packageName></packageName>
+            <regex>^sh$</regex>
+          </Alias>
+          <Alias isActive="yes" isFolder="no">
+            <name>ksh</name>
+            <script>ss.keepup.toggle("shield")
+</script>
+            <command></command>
+            <packageName></packageName>
+            <regex>^ksh$</regex>
+          </Alias>
+          <Alias isActive="yes" isFolder="no">
+            <name>cw</name>
+            <script>ss.keepup.up_now("curseward")
+</script>
+            <command></command>
+            <packageName></packageName>
+            <regex>^cw$</regex>
+          </Alias>
+          <Alias isActive="yes" isFolder="no">
+            <name>kcw</name>
+            <script>ss.keepup.toggle("curseward")
+</script>
+            <command></command>
+            <packageName></packageName>
+            <regex>^kcw$</regex>
+          </Alias>
+          <Alias isActive="yes" isFolder="no">
+            <name>reb</name>
+            <script>ss.keepup.toggle("rebounding")
+</script>
+            <command></command>
+            <packageName></packageName>
+            <regex>^reb$</regex>
           </Alias>
         </AliasGroup>
         <AliasGroup isActive="yes" isFolder="yes">
@@ -22809,7 +22867,7 @@ bs.show("sent when you start, for " .. cls, bs.class_part("prep") or {})
           </Alias>
           <Alias isActive="yes" isFolder="no">
             <name>bs qtype</name>
-            <script>-- bs qtype TYPE           server queue type for swings (default free, as pve)
+            <script>-- bs qtype TYPE           server queue type for swings (default freestand, as pve)
 local w = acs.words(matches[2] or "")
 if w[1] then bs.settings.qtype = w[1] bs.save_settings() end
 bs.echo("swings queue as: " .. bs.settings.qtype)
@@ -23499,6 +23557,11 @@ acs_items = {
   ["ss\0" .. [[^The knowledge that you've been cursed floods your mind\.$]]] = true,
   ["ss\0" .. [[^(\S+) whispers something to a Vodun doll of ]]] = true,
   ["ss\0" .. [[^Your mental faculties scatter even as you attempt to bring your psionic might to bare\.$]]] = true,
+  ["ss\0" .. [[^sh$]]] = true,
+  ["ss\0" .. [[^ksh$]]] = true,
+  ["ss\0" .. [[^cw$]]] = true,
+  ["ss\0" .. [[^kcw$]]] = true,
+  ["ss\0" .. [[^reb$]]] = true,
   ["ar\0" .. [[^ar(?:\s+(.*))?$]]] = true,
   ["ar\0" .. [[^(\S+)\s*eats (.*)\.$]]] = true,
   ["ar\0" .. [[^(\S+) takes some salve from a vial and rubs it on \w+ (\S+)\.$]]] = true,
@@ -24121,6 +24184,7 @@ acs_items = {
 acs_command_items = {
   ["core debug"] = true,
   ["core dry"] = true,
+  ["core echo"] = true,
   ["core who"] = true,
   ["hb budget"] = true,
   ["hb interval"] = true,
@@ -24356,7 +24420,7 @@ acs_command_items = {
 -- What it provides, all under the global `acs`:
 --   acs.module(name, {prefix = "ss"})  per-package registry; see below
 --   acs.send(cmd)                      the one place commands leave the client
---                                      (dry run, debug echo, "acs.sent" event)
+--                                      (dry run, "acs echo", "acs.sent" event)
 --   acs.echo/err/debug(msg, tag)       output helpers
 --   acs.store(name, defaults)          per-character saved settings table
 --   acs.save(name)                     save one store
@@ -24369,7 +24433,7 @@ acs_command_items = {
 -- Events raised: "acs.class.changed"(new, old), "acs.char.loaded"(name),
 -- "acs.sent"(cmd), "acs.login"(name) each time you log in, "acs.logout".
 
-local CORE_VERSION = 4
+local CORE_VERSION = 5
 
 acs = acs or {}
 if (acs._core_version or 0) &gt;= CORE_VERSION then return end
@@ -24402,17 +24466,29 @@ end
 -- loading Mudlet (or sitting at the login prompt) stays quiet.
 function acs.online() return acs._online == true end
 
+-- "acs echo on": one line for every command acs.send handles, tagged with
+-- the package whose handler sent it (acs._src, set by the module guards).
+local function echo_sent(cmd, how)
+  if not (acs.core and acs.core.echo) then return end
+  local tag = acs._src and (" " .. acs._src) or ""
+  local head = how == "sent" and "&lt;green&gt;&gt;" or "&lt;red&gt;x"
+  local note = how == "offline" and " &lt;dim_grey&gt;(not logged in, not sent)" or ""
+  cecho("\n&lt;dim_grey&gt;[" .. head .. "&lt;dim_grey&gt;" .. tag .. "]&lt;reset&gt; &lt;white&gt;" .. tostring(cmd) .. note)
+end
+
 -- Every package sends through here so dry run covers everything. Returns
 -- false (and sends nothing) when not logged in.
 function acs.send(cmd)
   if not acs.online() then
     acs.debug("not logged in, not sent: " .. tostring(cmd))
+    echo_sent(cmd, "offline")
     return false
   end
   if acs.core and acs.core.dryrun then
     acs.echo("&lt;yellow&gt;(dry) &lt;reset&gt;" .. cmd)
   else
     acs.debug("send: " .. cmd)
+    echo_sent(cmd, "sent")
     send(cmd, false)
   end
   raiseEvent("acs.sent", cmd)
@@ -24425,6 +24501,15 @@ end
 function acs.norm(name)
   if not name then return nil end
   return (tostring(name):lower():gsub("[%s_%-]", ""))
+end
+
+-- Defences GMCP also lists as afflictions (AW): every package leaves
+-- these out of its affliction list.
+acs.NOT_AFFS = { blindness = true, deafness = true, insomnia = true }
+function acs.not_aff(name)
+  if type(name) == "table" then name = name.name end
+  name = acs.norm(tostring(name or ""):gsub("%s*%(%d+%)%s*$", ""))
+  return acs.NOT_AFFS[name] == true
 end
 
 function acs.now()
@@ -24572,7 +24657,10 @@ function acs.module(name, opts)
 
   local function guard(what, fn)
     return function(...)
+      local src = acs._src
+      acs._src = M.tag
       local ok, err = pcall(fn, ...)
+      acs._src = src
       if not ok then acs.err(what .. ": " .. tostring(err), M.tag) end
     end
   end
@@ -24699,7 +24787,7 @@ end
 
 local core = acs.module("core", { prefix = "acs" })
 core.title = "ACS core"
-acs.core = acs.store("core", { dryrun = false, debug = false })
+acs.core = acs.store("core", { dryrun = false, debug = false, echo = false })
 
 core.on("gmcp.Char.Name", function()
   local n = gmcp.Char.Name
@@ -24733,6 +24821,10 @@ core.command("debug", function(w)
   acs.core.debug = acs.onoff(w[1], acs.core.debug) acs.save("core")
   acs.echo("debug " .. (acs.core.debug and "on" or "off"))
 end, "debug on|off      show debug output (all packages)")
+core.command("echo", function(w)
+  acs.core.echo = acs.onoff(w[1], acs.core.echo) acs.save("core")
+  acs.echo("command echo " .. (acs.core.echo and "on" or "off"))
+end, "echo on|off       show every command the system sends (all packages)")
 core.command("who", function()
   acs.echo(("character &lt;white&gt;%s&lt;reset&gt;, class &lt;white&gt;%s"):format(tostring(acs.me.name), tostring(acs.me.class)))
 end, "who               character and class the system sees")
@@ -28168,6 +28260,7 @@ function ss.add_aff(item)
   local raw, n = tostring(item.name or ""):match("^(.-)%s*%((%d+)%)%s*$")
   local name = ss.data.canon(raw or item.name)
   if not name or name == "" then return end
+  if acs.not_aff and acs.not_aff(name) then return end  -- defences GMCP lists as afflictions
   local old = ss.affs[name]
   ss.affs[name] = { since = old and old.since or acs.now(),
                     cure = item.cure and tostring(item.cure):lower() or (old and old.cure),
@@ -29461,6 +29554,27 @@ function K.toggle(def, on)
   return t[def]
 end
 
+-- Raise a defence once, now (the "sh" and "cw" aliases).
+function K.up_now(def)
+  local info = K.def_info(def)
+  if not (info and info.cmd) then ss.err("don't know how to raise " .. def) return false end
+  acs.send(info.cmd)
+  return true
+end
+
+-- Short aliases (AW): sh / cw raise shield / curseward once; ksh / kcw
+-- keep them up (toggle); reb keeps rebounding up (toggle).
+K.QUICK = {
+  { [[^sh$]], function() K.up_now("shield") end },
+  { [[^ksh$]], function() K.toggle("shield") end },
+  { [[^cw$]], function() K.up_now("curseward") end },
+  { [[^kcw$]], function() K.toggle("curseward") end },
+  { [[^reb$]], function() K.toggle("rebounding") end },
+}
+function K.install(M)
+  for _, a in ipairs(K.QUICK) do M.alias(a[1], a[2]) end
+end
+
 -- What should be kept up right now: def -&gt; priority. A toggle decides for
 -- its defence even when keepup lists it, as in AW's old system.
 function K.wanted()
@@ -30590,7 +30704,7 @@ ss._cmd("skills", "skills [text]        abilities GMCP says you have (filter by 
 end)
 
 ss._cmd("autoactive", "autoactive on|off    turn on actives/passives you have the skill for", ss.toggle("auto_actives", "automatic actives"))
-ss._cmd("defaffs", "defaffs on|off       leave blindness/deafness/insomnia alone when kept up", ss.toggle("ignore_def_affs", "defence-named afflictions left alone"))
+ss._cmd("defaffs", "defaffs on|off       (no effect: blindness, deafness and insomnia are never treated as afflictions)", ss.toggle("ignore_def_affs", "defence-named afflictions left alone"))
 ss._cmd("ui", "ui on|off            status window", function(w)
   ss.settings.ui = ss.onoff(w[1], ss.settings.ui)
   ss.save()
@@ -32158,6 +32272,7 @@ function ss.init()
   ss.exec.install(M)
   ss.install_extra_lines(M)
   ss.salves.install(M)
+  ss.keepup.install(M)
   -- the mana floor for clotting follows the opponent (06_server.lua)
   M.on("ss.attackers.changed", function() ss.server.clot_check() end)
   ss.classes.apply()
@@ -39378,7 +39493,7 @@ pt.init()
 
 bs = acs.module("bs", { prefix = "bs", tag = "bs" })
 bs.title = "BS bashing"
-bs.version = "0.1.0"
+bs.version = "0.1.1"
 
 bs.default_settings = {
   areas = {},          -- area name -&gt; { "mob name", ... } in priority order
@@ -39396,7 +39511,7 @@ bs.default_settings = {
   settarget = true,    -- "st &lt;id&gt;" so the game targets the mob (and reports its health)
   party = false,       -- "pt target: &lt;id&gt;" to your party when the target changes
   stand = true,        -- start each swing with "stand"
-  qtype = "free",      -- queue type the swing goes on (pve used free)
+  qtype = "freestand", -- queue type the swing goes on (pve's BASHING alias used freestand)
   stash = "",          -- e.g. "put sovereigns in pack" after picking up gold
   pickup = { "sovereign" }, -- text in item names to pick up
   warn_at = 50,        -- health percent: warn once
@@ -39408,6 +39523,17 @@ bs.default_settings = {
   on_enemy = "pause",  -- an enemy player walks in: "pause", "flee" or "ignore"
 }
 bs.settings = acs.store("bs", bs.default_settings)
+
+-- Settings saved before 0.1.1 have the old "free" default; freestand is
+-- what pve used (it stands you up first instead of waiting).
+function bs.migrate()
+  if not bs.settings.qtype_v2 then
+    if bs.settings.qtype == "free" then bs.settings.qtype = "freestand" end
+    bs.settings.qtype_v2 = true
+  end
+end
+bs.migrate()
+bs.on("acs.char.loaded", bs.migrate)
 
 function bs.save_settings() acs.save("bs") end
 function bs.echo(msg) acs.echo(msg, "bs") end
@@ -39587,14 +39713,18 @@ function bs.on_player_added()
 end
 
 -- Own affliction list, only consulted when the curing package isn't loaded.
+-- blindness, deafness, insomnia: defences GMCP also lists as afflictions
+local function not_aff(n) return acs.not_aff ~= nil and acs.not_aff(n) end
 function bs.on_aff_list()
   bs.affs = {}
-  for _, a in ipairs(gmcp.Char.Afflictions.List or {}) do bs.affs[a.name or a] = true end
+  for _, a in ipairs(gmcp.Char.Afflictions.List or {}) do
+    if not not_aff(a) then bs.affs[a.name or a] = true end
+  end
   bs.schedule()
 end
 function bs.on_aff_add()
   local a = gmcp.Char.Afflictions.Add
-  if a then bs.affs[a.name or a] = true end
+  if a and not not_aff(a) then bs.affs[a.name or a] = true end
 end
 function bs.on_aff_remove()
   local r = gmcp.Char.Afflictions.Remove
@@ -39769,12 +39899,26 @@ function bs.queue_swing(cmds, rage_i)
   bs._queued_rage = rage_i
   if bs._queued and text == bs._queued_text then return end
   local qtype = bs.settings.qtype
+  local ok
   if qm and qm.queue then
-    qm.queue(cmds, { type = qtype, mode = "addclear", key = "bash", on_run = function() bs.swung() end })
+    ok = qm.queue(cmds, { type = qtype, mode = "addclear", key = "bash", on_run = function() bs.swung() end })
   else
-    if text ~= bs._alias_text then acs.send("setalias " .. bs.ALIAS .. " " .. text) bs._alias_text = text end
-    if not bs._queued then acs.send("queue addclear " .. qtype .. " " .. bs.ALIAS) end
+    ok = text == bs._alias_text or acs.send("setalias " .. bs.ALIAS .. " " .. text)
+    if ok then bs._alias_text = text end
+    if ok and not bs._queued then ok = acs.send("queue addclear " .. qtype .. " " .. bs.ALIAS) end
   end
+  if not ok then
+    -- not marked as queued, so the next prompt or GMCP update tries again
+    bs._queued, bs._queued_text = false, nil
+    if not bs._send_warned then
+      bs._send_warned = true
+      local why = acs.online and not acs.online() and "ACS hasn't seen you log in yet; it sends once GMCP vitals arrive"
+        or "the queue command didn't go out (acs debug on shows why)"
+      bs.err("couldn't queue the swing: " .. why)
+    end
+    return
+  end
+  bs._send_warned = false
   bs._queued, bs._queued_text = true, text
 end
 
@@ -40098,7 +40242,7 @@ toggle("stand", "stand before each swing", "stand on|off         put 'stand' at 
 bs.command("qtype", function(w)
   if w[1] then bs.settings.qtype = w[1] bs.save_settings() end
   bs.echo("swings queue as: " .. bs.settings.qtype)
-end, "qtype TYPE           server queue type for swings (default free, as pve)")
+end, "qtype TYPE           server queue type for swings (default freestand, as pve)")
 
 bs.command("stash", function(w, rest)
   if rest == "none" then bs.settings.stash = "" elseif rest and rest ~= "" then bs.settings.stash = rest end
@@ -40745,10 +40889,15 @@ function G.names_of(list)
   return r
 end
 
-function G.on_affs_list() G.affs = G.names_of(gmcp.Char.Afflictions.List) end
+-- blindness, deafness, insomnia: defences GMCP also lists as afflictions
+local function not_aff(n) return acs.not_aff ~= nil and acs.not_aff(n) end
+function G.on_affs_list()
+  G.affs = G.names_of(gmcp.Char.Afflictions.List)
+  for n in pairs(G.affs) do if not_aff(n) then G.affs[n] = nil end end
+end
 function G.on_affs_add()
   local a = gmcp.Char.Afflictions.Add
-  if a and a.name then G.affs[acs.norm(a.name)] = true end
+  if a and a.name and not not_aff(a.name) then G.affs[acs.norm(a.name)] = true end
 end
 function G.on_affs_remove()
   local r = gmcp.Char.Afflictions.Remove
@@ -42114,6 +42263,11 @@ shelp.data = {
         see = nil,
         readme = {},
       },
+      echo = {
+        help = { "echo on|off       show every command the system sends (all packages)" },
+        see = nil,
+        readme = {},
+      },
       who = {
         help = { "who               character and class the system sees" },
         see = nil,
@@ -42125,13 +42279,13 @@ shelp.data = {
       {
         name = "acs.copy",
         sig = "acs.copy(t)",
-        file = "acs_core.lua:83",
+        file = "acs_core.lua:104",
         doc = {},
       },
       {
         name = "acs.count",
         sig = "acs.count(t)",
-        file = "acs_core.lua:116",
+        file = "acs_core.lua:137",
         doc = {},
       },
       {
@@ -42155,19 +42309,19 @@ shelp.data = {
       {
         name = "acs.gmcp_support",
         sig = "acs.gmcp_support(list)",
-        file = "acs_core.lua:312",
+        file = "acs_core.lua:336",
         doc = { "  acs.gmcp_support({\"Char.Skills 1\"}) ask the server for GMCP modules" },
       },
       {
         name = "acs.help",
         sig = "acs.help(M)",
-        file = "acs_core.lua:298",
+        file = "acs_core.lua:322",
         doc = {},
       },
       {
         name = "acs.merge_defaults",
         sig = "acs.merge_defaults(dst, src)",
-        file = "acs_core.lua:92",
+        file = "acs_core.lua:113",
         doc = {
           "Fill keys missing from dst with copies from src, recursively. Lists",
           "(tables with [1]) are taken whole, not merged.",
@@ -42176,19 +42330,25 @@ shelp.data = {
       {
         name = "acs.module",
         sig = "acs.module(name, opts)",
-        file = "acs_core.lua:208",
+        file = "acs_core.lua:229",
         doc = { "Module registry. acs.module(name, {prefix =, bare =, tag =}) returns the package's registry," },
       },
       {
         name = "acs.norm",
         sig = "acs.norm(name)",
-        file = "acs_core.lua:74",
+        file = "acs_core.lua:86",
+        doc = {},
+      },
+      {
+        name = "acs.not_aff",
+        sig = "acs.not_aff(name)",
+        file = "acs_core.lua:94",
         doc = {},
       },
       {
         name = "acs.now",
         sig = "acs.now()",
-        file = "acs_core.lua:79",
+        file = "acs_core.lua:100",
         doc = {},
       },
       {
@@ -42204,25 +42364,25 @@ shelp.data = {
       {
         name = "acs.onoff",
         sig = "acs.onoff(v, cur)",
-        file = "acs_core.lua:373",
+        file = "acs_core.lua:397",
         doc = {},
       },
       {
         name = "acs.run_item",
         sig = "acs.run_item(module, pattern)",
-        file = "acs_core.lua:199",
+        file = "acs_core.lua:220",
         doc = { "Called by a Mudlet trigger/alias item: run what the package registered", "for that pattern." },
       },
       {
         name = "acs.save",
         sig = "acs.save(name)",
-        file = "acs_core.lua:157",
+        file = "acs_core.lua:178",
         doc = { "  acs.save(name)                     save one store" },
       },
       {
         name = "acs.send",
         sig = "acs.send(cmd)",
-        file = "acs_core.lua:56",
+        file = "acs_core.lua:66",
         doc = {
           "Every package sends through here so dry run covers everything. Returns",
           "false (and sends nothing) when not logged in.",
@@ -42231,43 +42391,43 @@ shelp.data = {
       {
         name = "acs.send_gmcp_support",
         sig = "acs.send_gmcp_support()",
-        file = "acs_core.lua:317",
+        file = "acs_core.lua:341",
         doc = {},
       },
       {
         name = "acs.set_class",
         sig = "acs.set_class(cls)",
-        file = "acs_core.lua:333",
+        file = "acs_core.lua:357",
         doc = {},
       },
       {
         name = "acs.set_name",
         sig = "acs.set_name(name)",
-        file = "acs_core.lua:326",
+        file = "acs_core.lua:350",
         doc = {},
       },
       {
         name = "acs.set_online",
         sig = "acs.set_online(on)",
-        file = "acs_core.lua:342",
+        file = "acs_core.lua:366",
         doc = {},
       },
       {
         name = "acs.sorted_keys",
         sig = "acs.sorted_keys(t)",
-        file = "acs_core.lua:109",
+        file = "acs_core.lua:130",
         doc = {},
       },
       {
         name = "acs.store",
         sig = "acs.store(name, defaults)",
-        file = "acs_core.lua:145",
+        file = "acs_core.lua:166",
         doc = { "  acs.store(name, defaults)          per-character saved settings table" },
       },
       {
         name = "acs.words",
         sig = "acs.words(s)",
-        file = "acs_core.lua:103",
+        file = "acs_core.lua:124",
         doc = {},
       },
     },
@@ -42357,7 +42517,9 @@ shelp.data = {
         readme = {},
       },
       defaffs = {
-        help = { "defaffs on|off       leave blindness/deafness/insomnia alone when kept up" },
+        help = {
+          "defaffs on|off       (no effect: blindness, deafness and insomnia are never treated as afflictions)",
+        },
         see = nil,
         readme = {
           "* Afflictions with the same name as a defence you keep up (blindness, deafness, insomnia) are left alone, since GMCP lists them as both. Turn that off with `ss defaffs off`.",
@@ -42704,7 +42866,33 @@ shelp.data = {
         },
       },
     },
-    aliases = {},
+    aliases = {
+      {
+        usage = "^cw$",
+        help = "(no description yet)",
+        pattern = "^cw$",
+      },
+      {
+        usage = "^kcw$",
+        help = "(no description yet)",
+        pattern = "^kcw$",
+      },
+      {
+        usage = "^ksh$",
+        help = "(no description yet)",
+        pattern = "^ksh$",
+      },
+      {
+        usage = "^reb$",
+        help = "(no description yet)",
+        pattern = "^reb$",
+      },
+      {
+        usage = "^sh$",
+        help = "(no description yet)",
+        pattern = "^sh$",
+      },
+    },
     functions = {
       {
         name = "AFF.blocked",
@@ -42757,7 +42945,7 @@ shelp.data = {
       {
         name = "ss.add_def",
         sig = "ss.add_def(d)",
-        file = "src/03_state.lua:254",
+        file = "src/03_state.lua:255",
         doc = {},
       },
       {
@@ -43328,7 +43516,7 @@ shelp.data = {
       {
         name = "ss.def_name",
         sig = "ss.def_name(d)",
-        file = "src/03_state.lua:252",
+        file = "src/03_state.lua:253",
         doc = {},
       },
       {
@@ -43599,7 +43787,7 @@ shelp.data = {
       {
         name = "ss.has_skill",
         sig = "ss.has_skill(name)",
-        file = "src/03_state.lua:362",
+        file = "src/03_state.lua:363",
         doc = {},
       },
       {
@@ -43629,7 +43817,7 @@ shelp.data = {
       {
         name = "ss.keepup.can_have",
         sig = "ss.keepup.can_have(def)",
-        file = "src/05_keepup.lua:188",
+        file = "src/05_keepup.lua:209",
         doc = {
           "Can the class you're playing have this defence? Toggles and situations",
           "aren't per class, so a defence that's only on other classes' lists",
@@ -43640,7 +43828,7 @@ shelp.data = {
       {
         name = "ss.keepup.catalogue",
         sig = "ss.keepup.catalogue(cls)",
-        file = "src/05_keepup.lua:175",
+        file = "src/05_keepup.lua:196",
         doc = {
           "For a class: general, the class's own and (for the class you're playing)",
           "your weapon spec's. Returns { general, class, spec, spec_name }.",
@@ -43661,7 +43849,7 @@ shelp.data = {
       {
         name = "ss.keepup.def_info",
         sig = "ss.keepup.def_info(def)",
-        file = "src/05_keepup.lua:293",
+        file = "src/05_keepup.lua:314",
         doc = {},
       },
       {
@@ -43673,7 +43861,7 @@ shelp.data = {
       {
         name = "ss.keepup.defup_now",
         sig = "ss.keepup.defup_now()",
-        file = "src/05_keepup.lua:139",
+        file = "src/05_keepup.lua:160",
         doc = {
           "Raise this class's defup defences that are down (after its pre-defup",
           "commands). Keepup ones that are down are sent to serverside again too,",
@@ -43683,13 +43871,19 @@ shelp.data = {
       {
         name = "ss.keepup.echo_def",
         sig = "ss.keepup.echo_def(def, up)",
-        file = "src/05_keepup.lua:369",
+        file = "src/05_keepup.lua:390",
         doc = {},
       },
       {
         name = "ss.keepup.grid",
         sig = "ss.keepup.grid(cls)",
-        file = "src/05_keepup.lua:227",
+        file = "src/05_keepup.lua:248",
+        doc = {},
+      },
+      {
+        name = "ss.keepup.install",
+        sig = "ss.keepup.install(M)",
+        file = "src/05_keepup.lua:114",
         doc = {},
       },
       {
@@ -43701,13 +43895,13 @@ shelp.data = {
       {
         name = "ss.keepup.known_class",
         sig = "ss.keepup.known_class(cls)",
-        file = "src/05_keepup.lua:203",
+        file = "src/05_keepup.lua:224",
         doc = {},
       },
       {
         name = "ss.keepup.learn",
         sig = "ss.keepup.learn()",
-        file = "src/05_keepup.lua:354",
+        file = "src/05_keepup.lua:375",
         doc = { "Add the defences you have up now to this class's keepup table." },
       },
       {
@@ -43722,19 +43916,19 @@ shelp.data = {
       {
         name = "ss.keepup.missing",
         sig = "ss.keepup.missing()",
-        file = "src/05_keepup.lua:115",
+        file = "src/05_keepup.lua:136",
         doc = {},
       },
       {
         name = "ss.keepup.on_up",
         sig = "ss.keepup.on_up(def)",
-        file = "src/05_keepup.lua:157",
+        file = "src/05_keepup.lua:178",
         doc = { "A defup defence came up: serverside can stop raising it." },
       },
       {
         name = "ss.keepup.predefup",
         sig = "ss.keepup.predefup(cls)",
-        file = "src/05_keepup.lua:127",
+        file = "src/05_keepup.lua:148",
         doc = {},
       },
       {
@@ -43746,7 +43940,7 @@ shelp.data = {
       {
         name = "ss.keepup.ref_cmd",
         sig = "ss.keepup.ref_cmd(r)",
-        file = "src/05_keepup.lua:285",
+        file = "src/05_keepup.lua:306",
         doc = {
           "Command and balance for a defence: your override, then this class's",
           "entry, then the general table, then the shared defence reference",
@@ -43758,7 +43952,7 @@ shelp.data = {
       {
         name = "ss.keepup.run",
         sig = "ss.keepup.run()",
-        file = "src/05_keepup.lua:322",
+        file = "src/05_keepup.lua:343",
         doc = {},
       },
       {
@@ -43782,13 +43976,13 @@ shelp.data = {
       {
         name = "ss.keepup.stop",
         sig = "ss.keepup.stop()",
-        file = "src/05_keepup.lua:165",
+        file = "src/05_keepup.lua:186",
         doc = { "Stop raising defup defences that haven't come up." },
       },
       {
         name = "ss.keepup.suggest",
         sig = "ss.keepup.suggest(cls)",
-        file = "src/05_keepup.lua:313",
+        file = "src/05_keepup.lua:334",
         doc = { "Defences the shared reference lists for a class (its own plus General)." },
       },
       {
@@ -43798,9 +43992,15 @@ shelp.data = {
         doc = {},
       },
       {
+        name = "ss.keepup.up_now",
+        sig = "ss.keepup.up_now(def)",
+        file = "src/05_keepup.lua:98",
+        doc = { "Raise a defence once, now (the \"sh\" and \"cw\" aliases)." },
+      },
+      {
         name = "ss.keepup.wanted",
         sig = "ss.keepup.wanted()",
-        file = "src/05_keepup.lua:99",
+        file = "src/05_keepup.lua:120",
         doc = {
           "What should be kept up right now: def -&gt; priority. A toggle decides for",
           "its defence even when keepup lists it, as in AW's old system.",
@@ -43809,7 +44009,7 @@ shelp.data = {
       {
         name = "ss.keepup.width",
         sig = "ss.keepup.width()",
-        file = "src/05_keepup.lua:215",
+        file = "src/05_keepup.lua:236",
         doc = {
           "How wide a line can be before Mudlet wraps it: the main window's wrap",
           "setting, or its width in characters if that's narrower.",
@@ -43951,37 +44151,37 @@ shelp.data = {
       {
         name = "ss.on_aff_add",
         sig = "ss.on_aff_add()",
-        file = "src/03_state.lua:310",
+        file = "src/03_state.lua:311",
         doc = {},
       },
       {
         name = "ss.on_aff_list",
         sig = "ss.on_aff_list()",
-        file = "src/03_state.lua:298",
+        file = "src/03_state.lua:299",
         doc = {},
       },
       {
         name = "ss.on_aff_remove",
         sig = "ss.on_aff_remove()",
-        file = "src/03_state.lua:315",
+        file = "src/03_state.lua:316",
         doc = {},
       },
       {
         name = "ss.on_def_add",
         sig = "ss.on_def_add()",
-        file = "src/03_state.lua:332",
+        file = "src/03_state.lua:333",
         doc = {},
       },
       {
         name = "ss.on_def_list",
         sig = "ss.on_def_list()",
-        file = "src/03_state.lua:322",
+        file = "src/03_state.lua:323",
         doc = {},
       },
       {
         name = "ss.on_def_remove",
         sig = "ss.on_def_remove()",
-        file = "src/03_state.lua:337",
+        file = "src/03_state.lua:338",
         doc = {},
       },
       {
@@ -44005,13 +44205,13 @@ shelp.data = {
       {
         name = "ss.on_rift_change",
         sig = "ss.on_rift_change()",
-        file = "src/03_state.lua:372",
+        file = "src/03_state.lua:373",
         doc = {},
       },
       {
         name = "ss.on_rift_list",
         sig = "ss.on_rift_list()",
-        file = "src/03_state.lua:367",
+        file = "src/03_state.lua:368",
         doc = { "Rift: IRE.Rift.List / Change { name, amount, desc }" },
       },
       {
@@ -44023,7 +44223,7 @@ shelp.data = {
       {
         name = "ss.on_skill_groups",
         sig = "ss.on_skill_groups()",
-        file = "src/03_state.lua:346",
+        file = "src/03_state.lua:347",
         doc = {
           "Skills: Char.Skills.Groups lists your skill groups; we ask for each",
           "group's abilities so actives and passives know what you can use.",
@@ -44032,13 +44232,13 @@ shelp.data = {
       {
         name = "ss.on_skill_list",
         sig = "ss.on_skill_list()",
-        file = "src/03_state.lua:355",
+        file = "src/03_state.lua:356",
         doc = {},
       },
       {
         name = "ss.on_vitals",
         sig = "ss.on_vitals()",
-        file = "src/03_state.lua:278",
+        file = "src/03_state.lua:279",
         doc = {},
       },
       {
@@ -44192,7 +44392,7 @@ shelp.data = {
       {
         name = "ss.pct",
         sig = "ss.pct(cur, max)",
-        file = "src/03_state.lua:273",
+        file = "src/03_state.lua:274",
         doc = {},
       },
       {
@@ -44593,7 +44793,7 @@ shelp.data = {
       {
         name = "ss.remove_aff",
         sig = "ss.remove_aff(name)",
-        file = "src/03_state.lua:241",
+        file = "src/03_state.lua:242",
         doc = {
           "these aren't real balances, just anti-spam windows",
           "writhing again while writhing makes it take longer (HELP ENTANGLEMENT),",
@@ -44603,7 +44803,7 @@ shelp.data = {
       {
         name = "ss.remove_def",
         sig = "ss.remove_def(d)",
-        file = "src/03_state.lua:262",
+        file = "src/03_state.lua:263",
         doc = {},
       },
       {
@@ -44700,7 +44900,7 @@ shelp.data = {
       {
         name = "ss.schedule",
         sig = "ss.schedule()",
-        file = "src/03_state.lua:383",
+        file = "src/03_state.lua:384",
         doc = {},
       },
       {
@@ -44806,7 +45006,7 @@ shelp.data = {
       {
         name = "ss.tick",
         sig = "ss.tick()",
-        file = "src/03_state.lua:393",
+        file = "src/03_state.lua:394",
         doc = {},
       },
       {
@@ -46670,7 +46870,7 @@ shelp.data = {
         },
       },
       qtype = {
-        help = { "qtype TYPE           server queue type for swings (default free, as pve)" },
+        help = { "qtype TYPE           server queue type for swings (default freestand, as pve)" },
         see = nil,
         readme = {},
       },
@@ -46812,13 +47012,13 @@ shelp.data = {
       {
         name = "bs.area",
         sig = "bs.area()",
-        file = "src/01_bs.lua:94",
+        file = "src/01_bs.lua:105",
         doc = {},
       },
       {
         name = "bs.area_list",
         sig = "bs.area_list(area)",
-        file = "src/01_bs.lua:96",
+        file = "src/01_bs.lua:107",
         doc = {},
       },
       {
@@ -46830,13 +47030,13 @@ shelp.data = {
       {
         name = "bs.back_dir",
         sig = "bs.back_dir()",
-        file = "src/03_hunt.lua:224",
+        file = "src/03_hunt.lua:238",
         doc = {},
       },
       {
         name = "bs.blocked",
         sig = "bs.blocked()",
-        file = "src/03_hunt.lua:179",
+        file = "src/03_hunt.lua:193",
         doc = { "Why we're holding the swing, or nil." },
       },
       {
@@ -46853,7 +47053,7 @@ shelp.data = {
       {
         name = "bs.changed",
         sig = "bs.changed()",
-        file = "src/03_hunt.lua:176",
+        file = "src/03_hunt.lua:190",
         doc = { "Something the swing depends on changed (shield, target health, class state)." },
       },
       {
@@ -46882,7 +47082,7 @@ shelp.data = {
       {
         name = "bs.class",
         sig = "bs.class()",
-        file = "src/01_bs.lua:92",
+        file = "src/01_bs.lua:103",
         doc = {},
       },
       {
@@ -47014,7 +47214,7 @@ shelp.data = {
       {
         name = "bs.clear_swing",
         sig = "bs.clear_swing()",
-        file = "src/03_hunt.lua:151",
+        file = "src/03_hunt.lua:165",
         doc = {},
       },
       {
@@ -47206,7 +47406,7 @@ shelp.data = {
       {
         name = "bs.debug",
         sig = "bs.debug(msg)",
-        file = "src/01_bs.lua:66",
+        file = "src/01_bs.lua:77",
         doc = {},
       },
       {
@@ -47218,13 +47418,13 @@ shelp.data = {
       {
         name = "bs.echo",
         sig = "bs.echo(msg)",
-        file = "src/01_bs.lua:64",
+        file = "src/01_bs.lua:75",
         doc = {},
       },
       {
         name = "bs.err",
         sig = "bs.err(msg)",
-        file = "src/01_bs.lua:65",
+        file = "src/01_bs.lua:76",
         doc = {},
       },
       {
@@ -47236,19 +47436,19 @@ shelp.data = {
       {
         name = "bs.flee",
         sig = "bs.flee(why)",
-        file = "src/03_hunt.lua:229",
+        file = "src/03_hunt.lua:243",
         doc = {},
       },
       {
         name = "bs.has",
         sig = "bs.has(aff)",
-        file = "src/01_bs.lua:87",
+        file = "src/01_bs.lua:98",
         doc = {},
       },
       {
         name = "bs.is_enemy",
         sig = "bs.is_enemy(name)",
-        file = "src/03_hunt.lua:244",
+        file = "src/03_hunt.lua:258",
         doc = {},
       },
       {
@@ -47266,8 +47466,17 @@ shelp.data = {
       {
         name = "bs.listed_here",
         sig = "bs.listed_here()",
-        file = "src/03_hunt.lua:188",
+        file = "src/03_hunt.lua:202",
         doc = {},
+      },
+      {
+        name = "bs.migrate",
+        sig = "bs.migrate()",
+        file = "src/01_bs.lua:65",
+        doc = {
+          "Settings saved before 0.1.1 have the old \"free\" default; freestand is",
+          "what pve used (it stands you up first instead of waiting).",
+        },
       },
       {
         name = "bs.mob_aff",
@@ -47294,19 +47503,19 @@ shelp.data = {
       {
         name = "bs.on_aff_add",
         sig = "bs.on_aff_add()",
-        file = "src/02_gmcp.lua:130",
+        file = "src/02_gmcp.lua:134",
         doc = {},
       },
       {
         name = "bs.on_aff_list",
         sig = "bs.on_aff_list()",
-        file = "src/02_gmcp.lua:125",
-        doc = { "Own affliction list, only consulted when the curing package isn't loaded." },
+        file = "src/02_gmcp.lua:127",
+        doc = {},
       },
       {
         name = "bs.on_aff_remove",
         sig = "bs.on_aff_remove()",
-        file = "src/02_gmcp.lua:134",
+        file = "src/02_gmcp.lua:138",
         doc = {},
       },
       {
@@ -47375,7 +47584,7 @@ shelp.data = {
       {
         name = "bs.player_arrived",
         sig = "bs.player_arrived(name)",
-        file = "src/03_hunt.lua:249",
+        file = "src/03_hunt.lua:263",
         doc = {},
       },
       {
@@ -47417,13 +47626,13 @@ shelp.data = {
       {
         name = "bs.save_settings",
         sig = "bs.save_settings()",
-        file = "src/01_bs.lua:63",
+        file = "src/01_bs.lua:74",
         doc = {},
       },
       {
         name = "bs.schedule",
         sig = "bs.schedule()",
-        file = "src/01_bs.lua:103",
+        file = "src/01_bs.lua:114",
         doc = { "Run the hunt logic once per batch of GMCP (many arrive per prompt)." },
       },
       {
@@ -47441,19 +47650,19 @@ shelp.data = {
       {
         name = "bs.start",
         sig = "bs.start()",
-        file = "src/03_hunt.lua:196",
+        file = "src/03_hunt.lua:210",
         doc = {},
       },
       {
         name = "bs.stop",
         sig = "bs.stop(why)",
-        file = "src/03_hunt.lua:213",
+        file = "src/03_hunt.lua:227",
         doc = {},
       },
       {
         name = "bs.swung",
         sig = "bs.swung()",
-        file = "src/03_hunt.lua:157",
+        file = "src/03_hunt.lua:171",
         doc = {
           "The queue. One game alias holds the whole swing; it sits on the server",
           "queue until balance comes back. When the game runs it, bs.swung() starts",
@@ -47469,7 +47678,7 @@ shelp.data = {
       {
         name = "bs.tick",
         sig = "bs.tick()",
-        file = "src/03_hunt.lua:258",
+        file = "src/03_hunt.lua:272",
         doc = {},
       },
       {
@@ -47538,7 +47747,7 @@ shelp.data = {
       "",
       "## How a swing works (as in pve)",
       "",
-      "Each swing is one game alias, put on the server queue (`free`, as pve",
+      "Each swing is one game alias, put on the server queue (`freestand`, as pve",
       "did), so it fires the moment balance comes back:",
       "",
       "`stand / wield &lt;weapons&gt; / &lt;rage ability&gt; / &lt;attack&gt;`",
@@ -47570,7 +47779,7 @@ shelp.data = {
       "  starts when the game runs the swing.",
       "* **Weapons**: pve's wield list per class (`shield, blackjack` for Jester).",
       "* QM sends the SETALIAS and QUEUE when it's loaded; otherwise BS does",
-      "  (`setalias bsbash ...`, `queue addclear free bsbash`).",
+      "  (`setalias bsbash ...`, `queue addclear freestand bsbash`).",
       "",
       "Change any of it for the class you're on: `bs attack`, `bs raze`,",
       "`bs shatter`, `bs wield`, `bs prep` (sent on start; Pariah has pve's",
@@ -51738,25 +51947,25 @@ shelp.data = {
       {
         name = "gui.data.affs",
         sig = "gui.data.affs()",
-        file = "src/01_gui.lua:131",
+        file = "src/01_gui.lua:136",
         doc = { "Own afflictions, sorted; SS's view (includes ones only seen in text) if loaded." },
       },
       {
         name = "gui.data.attackers",
         sig = "gui.data.attackers()",
-        file = "src/01_gui.lua:243",
+        file = "src/01_gui.lua:248",
         doc = { "Attackers from SS: list of { name, class, city, hits, last, affs }." },
       },
       {
         name = "gui.data.balances",
         sig = "gui.data.balances()",
-        file = "src/01_gui.lua:123",
+        file = "src/01_gui.lua:128",
         doc = {},
       },
       {
         name = "gui.data.bash",
         sig = "gui.data.bash()",
-        file = "src/01_gui.lua:254",
+        file = "src/01_gui.lua:259",
         doc = {
           "Bashing, for the mobs box: nil unless BS is hunting. Otherwise",
           "{ area, mobs = {{id, name, hp, target, wanted, shield}}, kills, xp, gold,",
@@ -51766,25 +51975,25 @@ shelp.data = {
       {
         name = "gui.data.defs",
         sig = "gui.data.defs()",
-        file = "src/01_gui.lua:137",
+        file = "src/01_gui.lua:142",
         doc = { "Defences: { up = sorted list, missing = sorted list or nil (needs SS keepup) }" },
       },
       {
         name = "gui.data.person",
         sig = "gui.data.person(name)",
-        file = "src/01_gui.lua:230",
+        file = "src/01_gui.lua:235",
         doc = { "How a player's name is drawn: colour, relation, short info. Uses PT when loaded." },
       },
       {
         name = "gui.data.room",
         sig = "gui.data.room()",
-        file = "src/01_gui.lua:209",
+        file = "src/01_gui.lua:214",
         doc = { "Room: { name, num, area, exits = {dirs}, players = {names}, mobs = {{name, n}}, walk }" },
       },
       {
         name = "gui.data.target",
         sig = "gui.data.target()",
-        file = "src/01_gui.lua:152",
+        file = "src/01_gui.lua:157",
         doc = {
           "Target: { name, class, city, color, relation, hp, affs, chances = {{aff, pct, on}},",
           "  defs, limbs = {{limb, pct}}, parrying, lock, outs, here, bals } or nil.",
@@ -51794,13 +52003,13 @@ shelp.data = {
       {
         name = "gui.data.vitals",
         sig = "gui.data.vitals()",
-        file = "src/01_gui.lua:108",
+        file = "src/01_gui.lua:113",
         doc = { "{ hp = {cur, max}, mp = ..., ep = ..., wp = ..., bal, eq, nl, stats }" },
       },
       {
         name = "gui.data.walking",
         sig = "gui.data.walking()",
-        file = "src/01_gui.lua:200",
+        file = "src/01_gui.lua:205",
         doc = { "The mapper's walk in progress: { dest, steps_left } or nil." },
       },
       {
@@ -51842,43 +52051,43 @@ shelp.data = {
       {
         name = "gui.g.num",
         sig = "gui.g.num(v)",
-        file = "src/01_gui.lua:105",
+        file = "src/01_gui.lua:110",
         doc = {},
       },
       {
         name = "gui.g.on_affs_add",
         sig = "gui.g.on_affs_add()",
-        file = "src/01_gui.lua:77",
+        file = "src/01_gui.lua:82",
         doc = {},
       },
       {
         name = "gui.g.on_affs_list",
         sig = "gui.g.on_affs_list()",
-        file = "src/01_gui.lua:76",
+        file = "src/01_gui.lua:78",
         doc = {},
       },
       {
         name = "gui.g.on_affs_remove",
         sig = "gui.g.on_affs_remove()",
-        file = "src/01_gui.lua:81",
+        file = "src/01_gui.lua:86",
         doc = {},
       },
       {
         name = "gui.g.on_defs_add",
         sig = "gui.g.on_defs_add()",
-        file = "src/01_gui.lua:88",
+        file = "src/01_gui.lua:93",
         doc = {},
       },
       {
         name = "gui.g.on_defs_list",
         sig = "gui.g.on_defs_list()",
-        file = "src/01_gui.lua:87",
+        file = "src/01_gui.lua:92",
         doc = {},
       },
       {
         name = "gui.g.on_defs_remove",
         sig = "gui.g.on_defs_remove()",
-        file = "src/01_gui.lua:92",
+        file = "src/01_gui.lua:97",
         doc = {},
       },
       {
