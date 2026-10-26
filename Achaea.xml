@@ -22920,6 +22920,38 @@ ar.hits.learn(w[1]:lower())
             <regex>^ar\s+(?i)learn(?:\s+(.*))?$</regex>
           </Alias>
           <Alias isActive="yes" isFolder="no">
+            <name>ar limbreset</name>
+            <script>-- ar limbreset [name|all]   forget limb damage (the target's by default)
+local w = acs.words(matches[2] or "")
+local who = w[1] and w[1]:lower()
+if who == "all" then
+  for _, p in pairs(ar.people) do p:reset_limbs() end
+  ar.echo("limbs reset for everyone")
+else
+  local p = who and ar.person(who) or ar.current_person()
+  p:reset_limbs()
+  ar.echo("limbs reset for " .. p:name_or())
+end
+ar.show_soon()
+</script>
+            <command></command>
+            <packageName></packageName>
+            <regex>^ar\s+(?i)limbreset(?:\s+(.*))?$</regex>
+          </Alias>
+          <Alias isActive="yes" isFolder="no">
+            <name>ar limbs</name>
+            <script>-- ar limbs                  show the target's limb damage
+local l = ar.enemy.limbs or {}
+ar.echo(("%s limbs (%s%% a hit):"):format(ar.enemy.name_or(), tostring(ar.enemy.pphit or "?")))
+for _, k in ipairs({ "head", "torso", "left arm", "right arm", "left leg", "right leg" }) do
+  ar.echo(("  %-10s %s%%"):format(k, tostring(l[k] or 0)))
+end
+</script>
+            <command></command>
+            <packageName></packageName>
+            <regex>^ar\s+(?i)limbs(?:\s+(.*))?$</regex>
+          </Alias>
+          <Alias isActive="yes" isFolder="no">
             <name>ar lines</name>
             <script>-- ar attack lines per class; ar lines off|on &lt;class&gt;
 local w = acs.words(matches[2] or "")
@@ -23018,6 +23050,18 @@ ar.enemy.reset()
             <command></command>
             <packageName></packageName>
             <regex>^ar\s+(?i)reset(?:\s+(.*))?$</regex>
+          </Alias>
+          <Alias isActive="yes" isFolder="no">
+            <name>ar resetf</name>
+            <script>-- ar resetf                 full reset: afflictions, defences and limbs
+local p = ar.current_person()
+p:reset_limbs()
+p:reset()
+ar.echo("full reset for " .. p:name_or())
+</script>
+            <command></command>
+            <packageName></packageName>
+            <regex>^ar\s+(?i)resetf(?:\s+(.*))?$</regex>
           </Alias>
           <Alias isActive="yes" isFolder="no">
             <name>ar show</name>
@@ -26771,6 +26815,8 @@ acs_command_items = {
   ["ar hitline"] = true,
   ["ar hitlines"] = true,
   ["ar learn"] = true,
+  ["ar limbreset"] = true,
+  ["ar limbs"] = true,
   ["ar lines"] = true,
   ["ar log"] = true,
   ["ar mods"] = true,
@@ -26779,6 +26825,7 @@ acs_command_items = {
   ["ar optimistic"] = true,
   ["ar people"] = true,
   ["ar reset"] = true,
+  ["ar resetf"] = true,
   ["ar show"] = true,
   ["ar sign"] = true,
   ["ar style"] = true,
@@ -35603,6 +35650,13 @@ function P:backtrack(aff)
   end
 end
 
+-- Forget their limb damage (and the timers that would have reset it).
+function P:reset_limbs()
+  for _, id in pairs(self.limb_timers or {}) do killTimer(id) end
+  for _, id in pairs(self.restoring or {}) do killTimer(id) end
+  self.limbs, self.limb_timers, self.restoring, self.pphit = {}, {}, {}, nil
+end
+
 function P:reset(quiet)
   local name, class = self.name, self.class
   self:fresh()
@@ -36875,6 +36929,31 @@ function ar.install_commands()
     for _, a in ipairs(w) do EN.cure(a) end
   end, "cure &lt;aff&gt; [aff...]    remove afflictions from the target")
   M.command("reset", function() EN.reset() end, "reset                  forget the target's afflictions and defences")
+  M.command("resetf", function()
+    local p = ar.current_person()
+    p:reset_limbs()
+    p:reset()
+    ar.echo("full reset for " .. p:name_or())
+  end, "resetf                 full reset: afflictions, defences and limbs")
+  M.command("limbs", function()
+      local l = EN.limbs or {}
+      ar.echo(("%s limbs (%s%% a hit):"):format(EN.name_or(), tostring(EN.pphit or "?")))
+      for _, k in ipairs({ "head", "torso", "left arm", "right arm", "left leg", "right leg" }) do
+        ar.echo(("  %-10s %s%%"):format(k, tostring(l[k] or 0)))
+      end
+  end, "limbs                  show the target's limb damage")
+  M.command("limbreset", function(w)
+    local who = w[1] and w[1]:lower()
+    if who == "all" then
+      for _, p in pairs(ar.people) do p:reset_limbs() end
+      ar.echo("limbs reset for everyone")
+    else
+      local p = who and ar.person(who) or ar.current_person()
+      p:reset_limbs()
+      ar.echo("limbs reset for " .. p:name_or())
+    end
+    ar.show_soon()
+  end, "limbreset [name|all]   forget limb damage (the target's by default)")
   M.command("def", function(w)
     if not w[1] then ar.err("ar def &lt;def&gt; up|down") return end
     if w[2] == "down" or w[2] == "off" then EN.def_down(w[1]) else EN.def_up(w[1]) end
@@ -50858,6 +50937,16 @@ shelp.data = {
           "* An attack only counts once its hit line is seen. Teach AR each one with `ar learn &lt;attack&gt;`. The exception is blackout, where you can't see the line: AR weaponprobes the weapons it used, and venom still on means it missed. With nothing to probe, an attack that fired (you lost balance) and wasn't cancelled counts as a hit. Turn that off with `ar optimistic off`.",
         },
       },
+      limbreset = {
+        help = { "limbreset [name|all]   forget limb damage (the target's by default)" },
+        see = nil,
+        readme = {},
+      },
+      limbs = {
+        help = { "limbs                  show the target's limb damage" },
+        see = nil,
+        readme = {},
+      },
       lines = {
         help = { "attack lines per class; ar lines off|on &lt;class&gt;" },
         see = nil,
@@ -50901,6 +50990,11 @@ shelp.data = {
         help = { "reset                  forget the target's afflictions and defences" },
         see = nil,
         readme = { "`ar reset` : forget everything about the target" },
+      },
+      resetf = {
+        help = { "resetf                 full reset: afflictions, defences and limbs" },
+        see = nil,
+        readme = {},
       },
       show = {
         help = { "show on|off            echo the target status when it changes" },
@@ -51534,19 +51628,19 @@ shelp.data = {
       {
         name = "ar.Person.bal_left",
         sig = "ar.Person.bal_left(kind)",
-        file = "src/02_enemy.lua:285",
+        file = "src/02_enemy.lua:292",
         doc = { "Seconds until they can use that kind of cure again (0 = ready now)." },
       },
       {
         name = "ar.Person.bal_time",
         sig = "ar.Person.bal_time(kind)",
-        file = "src/02_enemy.lua:276",
+        file = "src/02_enemy.lua:283",
         doc = {},
       },
       {
         name = "ar.Person.can",
         sig = "ar.Person.can(kind)",
-        file = "src/02_enemy.lua:291",
+        file = "src/02_enemy.lua:298",
         doc = { "Can they cure this way at all right now (balance and not blocked)?" },
       },
       {
@@ -51570,19 +51664,19 @@ shelp.data = {
       {
         name = "ar.Person.check_lock",
         sig = "ar.Person.check_lock()",
-        file = "src/02_enemy.lua:390",
+        file = "src/02_enemy.lua:397",
         doc = {},
       },
       {
         name = "ar.Person.class_cure",
         sig = "ar.Person.class_cure(name)",
-        file = "src/02_enemy.lua:304",
+        file = "src/02_enemy.lua:311",
         doc = {},
       },
       {
         name = "ar.Person.class_cure_names",
         sig = "ar.Person.class_cure_names()",
-        file = "src/02_enemy.lua:308",
+        file = "src/02_enemy.lua:315",
         doc = {},
       },
       {
@@ -51594,7 +51688,7 @@ shelp.data = {
       {
         name = "ar.Person.count_of",
         sig = "ar.Person.count_of(list)",
-        file = "src/02_enemy.lua:402",
+        file = "src/02_enemy.lua:409",
         doc = { "How many affs they have from a list (for kill conditions)." },
       },
       {
@@ -51629,19 +51723,19 @@ shelp.data = {
       {
         name = "ar.Person.def_down",
         sig = "ar.Person.def_down(def)",
-        file = "src/02_enemy.lua:255",
+        file = "src/02_enemy.lua:262",
         doc = {},
       },
       {
         name = "ar.Person.def_up",
         sig = "ar.Person.def_up(def)",
-        file = "src/02_enemy.lua:244",
+        file = "src/02_enemy.lua:251",
         doc = {},
       },
       {
         name = "ar.Person.focus_down",
         sig = "ar.Person.focus_down()",
-        file = "src/02_enemy.lua:299",
+        file = "src/02_enemy.lua:306",
         doc = {},
       },
       {
@@ -51659,7 +51753,7 @@ shelp.data = {
       {
         name = "ar.Person.guard_unknown",
         sig = "ar.Person.guard_unknown()",
-        file = "src/02_enemy.lua:267",
+        file = "src/02_enemy.lua:274",
         doc = { "Shield or rebounding might be up and we don't know which." },
       },
       {
@@ -51671,7 +51765,7 @@ shelp.data = {
       {
         name = "ar.Person.has_def",
         sig = "ar.Person.has_def(def)",
-        file = "src/02_enemy.lua:271",
+        file = "src/02_enemy.lua:278",
         doc = {},
       },
       {
@@ -51683,25 +51777,25 @@ shelp.data = {
       {
         name = "ar.Person.lock",
         sig = "ar.Person.lock()",
-        file = "src/02_enemy.lua:375",
+        file = "src/02_enemy.lua:382",
         doc = {},
       },
       {
         name = "ar.Person.lock_info",
         sig = "ar.Person.lock_info()",
-        file = "src/02_enemy.lua:383",
+        file = "src/02_enemy.lua:390",
         doc = { "Lock level plus which class cures could break it." },
       },
       {
         name = "ar.Person.name_or",
         sig = "ar.Person.name_or()",
-        file = "src/02_enemy.lua:399",
+        file = "src/02_enemy.lua:406",
         doc = {},
       },
       {
         name = "ar.Person.ready_class_cures",
         sig = "ar.Person.ready_class_cures()",
-        file = "src/02_enemy.lua:317",
+        file = "src/02_enemy.lua:324",
         doc = {
           "Class cures this person could use right now. If we don't know their",
           "class, we only count ones we've seen them use.",
@@ -51710,8 +51804,14 @@ shelp.data = {
       {
         name = "ar.Person.reset",
         sig = "ar.Person.reset(quiet)",
-        file = "src/02_enemy.lua:233",
+        file = "src/02_enemy.lua:240",
         doc = {},
+      },
+      {
+        name = "ar.Person.reset_limbs",
+        sig = "ar.Person.reset_limbs()",
+        file = "src/02_enemy.lua:234",
+        doc = { "Forget their limb damage (and the timers that would have reset it)." },
       },
       {
         name = "ar.Person.set_chance",
@@ -51722,7 +51822,7 @@ shelp.data = {
       {
         name = "ar.Person.set_class",
         sig = "ar.Person.set_class(cls, quiet)",
-        file = "src/02_enemy.lua:359",
+        file = "src/02_enemy.lua:366",
         doc = {},
       },
       {
@@ -51734,19 +51834,19 @@ shelp.data = {
       {
         name = "ar.Person.tree_down",
         sig = "ar.Person.tree_down()",
-        file = "src/02_enemy.lua:298",
+        file = "src/02_enemy.lua:305",
         doc = {},
       },
       {
         name = "ar.Person.used_class_cure",
         sig = "ar.Person.used_class_cure(name)",
-        file = "src/02_enemy.lua:338",
+        file = "src/02_enemy.lua:345",
         doc = {},
       },
       {
         name = "ar.Person.used_cure",
         sig = "ar.Person.used_cure(kind)",
-        file = "src/02_enemy.lua:280",
+        file = "src/02_enemy.lua:287",
         doc = {},
       },
       {
