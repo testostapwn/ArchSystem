@@ -18124,6 +18124,48 @@ p:give("weariness")
             </regexCodePropertyList>
           </Trigger>
           <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+            <name>You are wielding:\s*</name>
+            <script>IN.start_capture("wielding", false)
+</script>
+            <triggerType>0</triggerType>
+            <conditonLineDelta>0</conditonLineDelta>
+            <mStayOpen>0</mStayOpen>
+            <mCommand></mCommand>
+            <packageName></packageName>
+            <mFgColor>#ff0000</mFgColor>
+            <mBgColor>#ffff00</mBgColor>
+            <mSoundFile></mSoundFile>
+            <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            <colorTriggerBgColor>#000000</colorTriggerBgColor>
+            <regexCodeList>
+              <string>^You are wielding:\s*$</string>
+            </regexCodeList>
+            <regexCodePropertyList>
+              <integer>1</integer>
+            </regexCodePropertyList>
+          </Trigger>
+          <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+            <name>You are wielding nothing</name>
+            <script>IN.set_wielding({})
+</script>
+            <triggerType>0</triggerType>
+            <conditonLineDelta>0</conditonLineDelta>
+            <mStayOpen>0</mStayOpen>
+            <mCommand></mCommand>
+            <packageName></packageName>
+            <mFgColor>#ff0000</mFgColor>
+            <mBgColor>#ffff00</mBgColor>
+            <mSoundFile></mSoundFile>
+            <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            <colorTriggerBgColor>#000000</colorTriggerBgColor>
+            <regexCodeList>
+              <string>^You are wielding nothing</string>
+            </regexCodeList>
+            <regexCodePropertyList>
+              <integer>1</integer>
+            </regexCodePropertyList>
+          </Trigger>
+          <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
             <name>\s*Weapon\s+Dmg\s+To-hit\s+Speed</name>
             <script>IN.start_capture("weapons", false)
 </script>
@@ -22282,6 +22324,15 @@ if w[1] == "show" then IN.show_weapons() else IN.request_weapons(true) end
             <regex>^in\s+(?i)weapons(?:\s+(.*))?$</regex>
           </Alias>
           <Alias isActive="yes" isFolder="no">
+            <name>in wielding</name>
+            <script>-- in wielding            WIELDING: what's in each hand
+IN.request_wielding(true)
+</script>
+            <command></command>
+            <packageName></packageName>
+            <regex>^in\s+(?i)wielding(?:\s+(.*))?$</regex>
+          </Alias>
+          <Alias isActive="yes" isFolder="no">
             <name>in (help and the rest)</name>
             <script>-- "in" on its own or with a word that isn't a command here:
 -- help, or what the package does with it. Each command has its own alias.
@@ -24203,6 +24254,8 @@ acs_items = {
   ["in\0" .. [[^in\s+(\S.*)$]]] = true,
   ["in\0" .. [[^\s*(?:Vial|Container)s?\s.*Sips]]] = true,
   ["in\0" .. [[^\s*Status\s+Pipe\s+Contents\s+Puffs]]] = true,
+  ["in\0" .. [[^You are wielding:\s*$]]] = true,
+  ["in\0" .. [[^You are wielding nothing]]] = true,
   ["in\0" .. [[^\s*Weapon\s+Dmg\s+To-hit\s+Speed]]] = true,
   ["in\0" .. [[^\s*Armour\s+Cutting\s+Blunt\s+Magical]]] = true,
   ["pt\0" .. [[^ptr(?:\s+(.*))?$]]] = true,
@@ -24414,6 +24467,7 @@ acs_command_items = {
   ["in vials"] = true,
   ["in want"] = true,
   ["in weapons"] = true,
+  ["in wielding"] = true,
   ["pt allies"] = true,
   ["pt ally"] = true,
   ["pt arrivals"] = true,
@@ -35073,6 +35127,135 @@ end
           <eventHandlerList />
         </Script>
         <Script isActive="yes" isFolder="no">
+          <name>weapons</name>
+          <packageName></packageName>
+          <script>-- AR weapons: wipe before every weapon attack, and weaponprobe in blackout.
+--
+-- A weapon only ever carries the one venom we just put on it: every attack
+-- with a weapon (plan.weapon or plan.venoms) first wipes each wielded
+-- weapon that's on your WEAPONLIST. Blunt weapons (flails, maces,
+-- morningstars) can't be envenomed and are left alone. What's in your
+-- hands comes from the inventory package (IN); without it, nothing is
+-- wiped unless the attack names its weapons (plan.weapons = { id, ... }).
+--
+-- In blackout you can't see the hit line, so AR probes the weapons the
+-- attack used instead: venom still on means it missed, gone means it hit.
+--   A Stormspear has no venoms or magical effects on it.
+--   A Stormspear has the following venoms or magical effects on it:
+--   1) curare
+
+ar.weapons = ar.weapons or {}
+local WP = ar.weapons
+local H = ar.hits
+local D = ar.data
+
+WP.blunt = { "flail", "mace", "morningstar" }
+
+function WP.is_blunt(it)
+  local n = tostring(it.name or "") .. " " .. tostring(it.id or "")
+  n = n:lower()
+  for _, w in ipairs(WP.blunt) do if n:find(w, 1, true) then return true end end
+  return false
+end
+
+-- Wielded weapons that take venom: on WEAPONLIST (once IN has read it) and
+-- not blunt. Ids, right hand first.
+function WP.wielded()
+  local r = {}
+  if not (IN and IN.weapons_wielded) then return r end
+  local listed = IN.weapons and #IN.weapons &gt; 0
+  for _, it in ipairs(IN.weapons_wielded()) do
+    if not WP.is_blunt(it) and (not listed or IN.weapon(it.id)) then r[#r + 1] = it.id end
+  end
+  return r
+end
+
+-- The weapons an attack uses: the ones it names, else what you're wielding.
+function WP.for_plan(plan)
+  if plan.weapons then return plan.weapons end
+  if plan.weapon or plan.venoms then return WP.wielded() end
+  return {}
+end
+
+-- cmds with a wipe for each weapon in front. Returns a list.
+function WP.prep(cmds, plan)
+  if type(cmds) == "string" then cmds = { cmds } end
+  local out = {}
+  for _, id in ipairs(WP.for_plan(plan or {})) do out[#out + 1] = "wipe " .. id end
+  for _, c in ipairs(cmds) do out[#out + 1] = c end
+  return out
+end
+
+---------------------------------------------------------------------------
+-- Probing (blackout only)
+
+-- Called when a pending attack fires in blackout. True if a probe went out
+-- and the attack now waits for its answer.
+function WP.probe(p)
+  if p.hit or p.missed or not p.venoms or #p.venoms == 0 then return false end
+  local ids = WP.for_plan(p)
+  if #ids == 0 then return false end
+  p.probe = { want = #ids, got = 0, still = {} }
+  for _, id in ipairs(ids) do ar.send("weaponprobe " .. id) end
+  -- no answer in time: fall back to the plain blackout rule
+  ar.M.timer(2, function()
+    if H.pending == p and p.probe and not p.probe.done then
+      p.probe = nil
+      H.resolve()
+    end
+  end)
+  return true
+end
+
+function WP.probing()
+  local p = H.pending
+  return p and p.probe and not p.probe.done and p or nil
+end
+
+-- One weapon answered. Once all have, settle shortly after (the venom
+-- list follows the header line in the same packet).
+function WP.answered()
+  local p = WP.probing()
+  if not p then return end
+  p.probe.got = p.probe.got + 1
+  WP._reading = true
+  if p.probe.got &gt;= p.probe.want then
+    ar.M.timer(0.2, function() WP.settle(p) end)
+  end
+end
+
+function WP.venom_line(v)
+  local p = WP.probing()
+  if p and WP._reading and D.venoms[v:lower()] then p.probe.still[v:lower()] = true end
+end
+
+function WP.settle(p)
+  WP._reading = false
+  if H.pending ~= p or not p.probe or p.probe.done then return end
+  p.probe.done = true
+  local landed = {}
+  for _, v in ipairs(p.venoms) do
+    if not p.probe.still[v] then landed[#landed + 1] = v end
+  end
+  if #landed == 0 then
+    p.missed = "probe: venom still on"
+  else
+    p.venoms = landed
+    p.hit = true
+    p.probed = true
+  end
+  H.resolve()
+end
+
+function WP.install()
+  ar.M.trigger([[^.+ has no venoms or magical effects on it\.$]], function() WP.answered() end)
+  ar.M.trigger([[^.+ has the following venoms or magical effects on it:$]], function() WP.answered() end)
+  ar.M.trigger([[^\s*\d+\) (\w+)$]], function(m) WP.venom_line(m[2]) end)
+end
+</script>
+          <eventHandlerList />
+        </Script>
+        <Script isActive="yes" isFolder="no">
           <name>startup</name>
           <packageName></packageName>
           <script>-- AR startup: (re)registers everything. Safe to run again.
@@ -37433,7 +37616,9 @@ function IN.refresh_gear()
   local left, right = nil, nil
   for k in pairs(IN.worn) do IN.worn[k] = nil end
   for id, it in pairs(IN.inv) do
-    if it.wielded == "left" then left = it elseif it.wielded == "right" then right = it end
+    if it.wielded == "left" then left = it
+    elseif it.wielded == "right" then right = it
+    elseif it.wielded == "both" then left, right = it, it end
     if it.worn then IN.worn[id] = it end
   end
   IN.wielded.left, IN.wielded.right = left, right
@@ -38071,9 +38256,18 @@ end
 
 function IN.show_gear()
   IN.echo("&lt;white&gt;gear")
-  local l, r = IN.wielded.left, IN.wielded.right
-  cecho("\n  &lt;grey&gt;left hand   &lt;reset&gt;" .. (l and (l.name .. " &lt;grey&gt;" .. l.id) or "-"))
-  cecho("\n  &lt;grey&gt;right hand  &lt;reset&gt;" .. (r and (r.name .. " &lt;grey&gt;" .. r.id) or "-"))
+  local main = IN.main_weapon()
+  for _, side in ipairs({ "left", "right" }) do
+    local it = IN.wielded[side]
+    local txt = "-"
+    if it then
+      local w = IN.weapon(it.id)
+      txt = it.name .. " &lt;grey&gt;" .. it.id
+      if w then txt = txt .. ("  dmg %s speed %s"):format(w.dmg or "-", w.speed or "-") end
+      if IN.is_shield(it) then txt = txt .. "  &lt;cyan&gt;shield" elseif main and main.id == it.id then txt = txt .. "  &lt;yellow&gt;main" end
+    end
+    cecho(("\n  &lt;grey&gt;%-11s &lt;reset&gt;%s"):format(side .. " hand", txt))
+  end
   local worn = {}
   for _, it in pairs(IN.worn) do worn[#worn + 1] = it end
   table.sort(worn, function(a, b) return a.name &lt; b.name end)
@@ -38182,6 +38376,8 @@ function IN.register_commands(M)
   M.command("armour", function(w)
     if w[1] == "show" then IN.show_armour() else IN.request_armour(true) end
   end, "armour [show]       ARMOURLIST: cutting, blunt, magical, decay")
+  M.command("wielding", function() IN.request_wielding(true) end,
+    "wielding            WIELDING: what's in each hand")
 end
 </script>
           <eventHandlerList />
@@ -38281,6 +38477,115 @@ end
           <eventHandlerList />
         </Script>
         <Script isActive="yes" isFolder="no">
+          <name>wielding</name>
+          <packageName></packageName>
+          <script>-- IN wielding: what's in each hand, for Offense (wipe, envenom, probe).
+--
+-- GMCP keeps it current: Char.Items attrib "l"/"L" mark the left/right hand,
+-- and every wield or unwield sends a Char.Items.Update. WIELDING output is
+-- also read, which fills in anything GMCP missed:
+--   You are wielding:
+--         shield457012: a Shield of Absorption in your left hand.
+--         spear117409: a Stormspear in your right hand.
+--
+--   IN.hand("left"|"right")  item in that hand, or nil
+--   IN.is_shield(item)       true for shields
+--   IN.weapons_wielded()     wielded weapons, right hand first: items on your
+--                            WEAPONLIST (before one is read: anything but a shield)
+--   IN.venom_weapons()       ids of those you can envenom: all of them except
+--                            blunt ones (flails, maces, morningstars)
+--   IN.main_weapon()         first wielded weapon;  IN.weapon_id() its id
+-- Event: "IN.wield.changed"(left, right)
+
+function IN.hand(side) return IN.wielded[side] end
+
+function IN.is_shield(it)
+  if not it then return false end
+  local a = IN.armour_piece and IN.armour_piece(it.id)
+  if a and a.slot == "shield" then return true end
+  local _, slot = IN.armour_type(it.name)
+  return slot == "shield" or tostring(it.name):lower():find("shield") ~= nil
+end
+
+function IN.weapons_wielded()
+  local r = {}
+  for _, side in ipairs({ "right", "left" }) do
+    local it = IN.wielded[side]
+    local is_weapon
+    if #IN.weapons &gt; 0 then is_weapon = IN.weapon(it and it.id) ~= nil
+    else is_weapon = it and not IN.is_shield(it) end
+    if it and is_weapon then
+      local dup = false
+      for _, x in ipairs(r) do if x.id == it.id then dup = true end end
+      if not dup then r[#r + 1] = it end
+    end
+  end
+  return r
+end
+
+IN.blunt_weapons = { "flail", "mace", "morningstar" }
+
+function IN.is_blunt(it)
+  local n = tostring(it.name or ""):lower()
+  local w = IN.weapon(it.id)
+  if w then n = n .. " " .. tostring(w.name):lower() end
+  for _, b in ipairs(IN.blunt_weapons) do
+    if n:find(b, 1, true) then return true end
+  end
+  return false
+end
+
+function IN.venom_weapons()
+  local r = {}
+  for _, it in ipairs(IN.weapons_wielded()) do
+    if not IN.is_blunt(it) then r[#r + 1] = it.id end
+  end
+  return r
+end
+
+function IN.main_weapon() return IN.weapons_wielded()[1] end
+function IN.weapon_id() local w = IN.main_weapon() return w and w.id end
+
+-- One WIELDING row -&gt; { id, name, hand }.
+function IN.parse_wielding(l)
+  local id, name, hand = l:match("^%s*%a*(%d%d%d+):%s*(.-) in your (%a+) hands?%.?%s*$")
+  if not id then return nil end
+  hand = hand:lower()
+  if hand ~= "left" and hand ~= "right" and hand ~= "both" then return nil end
+  return { id = id, name = name, hand = hand }
+end
+
+-- Apply a WIELDING list: those items are wielded, nothing else is.
+function IN.set_wielding(rows)
+  local held = {}
+  for _, r in ipairs(rows) do held[r.id] = r end
+  for id, it in pairs(IN.inv) do
+    if not held[id] then it.wielded = nil end
+  end
+  for id, r in pairs(held) do
+    local it = IN.inv[id]
+    if not it then
+      it = IN.make_item({ id = id, name = r.name, icon = "weapon", attrib = "" }, "inv")
+      IN.inv[id] = it
+    end
+    it.wielded = r.hand
+  end
+  IN.refresh_gear()
+end
+
+IN.capture_kinds.wielding = {
+  parse = function(l) return IN.parse_wielding(l) end,
+  done = function(rows, loud)
+    IN.set_wielding(rows)
+    if loud then IN.show_gear() end
+  end,
+}
+
+function IN.request_wielding(loud) IN.start_capture("wielding", loud) IN.send("wielding") end
+</script>
+          <eventHandlerList />
+        </Script>
+        <Script isActive="yes" isFolder="no">
           <name>startup</name>
           <packageName></packageName>
           <script>-- IN startup: GMCP handlers, ELIXLIST header trigger, commands. Safe to run
@@ -38316,6 +38621,8 @@ function IN.init()
   -- Typing ELIXLIST yourself also updates the vial list.
   M.trigger([[^\s*(?:Vial|Container)s?\s.*Sips]], function() IN.start_capture("vials", false) end)
   M.trigger([[^\s*Status\s+Pipe\s+Contents\s+Puffs]], function() IN.start_capture("pipes", false) end)
+  M.trigger([[^You are wielding:\s*$]], function() IN.start_capture("wielding", false) end)
+  M.trigger([[^You are wielding nothing]], function() IN.set_wielding({}) end)
   M.trigger([[^\s*Weapon\s+Dmg\s+To-hit\s+Speed]], function() IN.start_capture("weapons", false) end)
   M.trigger([[^\s*Armour\s+Cutting\s+Blunt\s+Magical]], function() IN.start_capture("armour", false) end)
 
@@ -47994,7 +48301,7 @@ shelp.data = {
       gear = {
         help = { "gear                wielded and worn" },
         see = nil,
-        readme = { "`in gear` : wielded (left/right) and worn" },
+        readme = { "`in gear` : each hand (with weapon stats, shield, main weapon) and worn" },
       },
       get = {
         help = { "get &lt;text&gt;|gold     pick up matching room items" },
@@ -48076,6 +48383,11 @@ shelp.data = {
         see = nil,
         readme = { "`in weapons [show]` : sends WEAPONLIST: damage, to-hit, speed, decay, and which hand" },
       },
+      wielding = {
+        help = { "wielding            WIELDING: what's in each hand" },
+        see = nil,
+        readme = { "`in wielding` : sends WIELDING and updates both hands (typing it yourself does too)" },
+      },
     },
     aliases = {},
     functions = {
@@ -48156,9 +48468,21 @@ shelp.data = {
         doc = {},
       },
       {
+        name = "IN.capture_kinds.wielding.done",
+        sig = "IN.capture_kinds.wielding.done(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "IN.capture_kinds.wielding.parse",
+        sig = "IN.capture_kinds.wielding.parse(...)",
+        file = nil,
+        doc = {},
+      },
+      {
         name = "IN.changed",
         sig = "IN.changed(kind, cid, action, it)",
-        file = "src/02_items.lua:63",
+        file = "src/02_items.lua:65",
         doc = {},
       },
       {
@@ -48209,13 +48533,13 @@ shelp.data = {
       {
         name = "IN.fetch_containers",
         sig = "IN.fetch_containers()",
-        file = "src/02_items.lua:128",
+        file = "src/02_items.lua:130",
         doc = { "Ask the server what's inside each container you carry." },
       },
       {
         name = "IN.find",
         sig = "IN.find(text, deep)",
-        file = "src/02_items.lua:153",
+        file = "src/02_items.lua:155",
         doc = { "Items you carry (and, with deep, inside your containers) matching text." },
       },
       {
@@ -48231,9 +48555,15 @@ shelp.data = {
         doc = {},
       },
       {
+        name = "IN.hand",
+        sig = "IN.hand(side)",
+        file = "src/06_wield.lua:17",
+        doc = { "  IN.hand(\"left\"|\"right\")  item in that hand, or nil" },
+      },
+      {
         name = "IN.has",
         sig = "IN.has(text, deep)",
-        file = "src/02_items.lua:167",
+        file = "src/02_items.lua:169",
         doc = {},
       },
       {
@@ -48245,8 +48575,14 @@ shelp.data = {
       {
         name = "IN.inv_count",
         sig = "IN.inv_count(key)",
-        file = "src/02_items.lua:170",
+        file = "src/02_items.lua:172",
         doc = { "Total quantity of a curative (short key) loose in inventory and containers." },
+      },
+      {
+        name = "IN.is_shield",
+        sig = "IN.is_shield(it)",
+        file = "src/06_wield.lua:19",
+        doc = { "  IN.is_shield(item)       true for shields" },
       },
       {
         name = "IN.line",
@@ -48261,6 +48597,12 @@ shelp.data = {
         doc = {},
       },
       {
+        name = "IN.main_weapon",
+        sig = "IN.main_weapon()",
+        file = "src/06_wield.lua:40",
+        doc = { "  IN.main_weapon()         first of those: the one to envenom/wipe/probe" },
+      },
+      {
         name = "IN.make_item",
         sig = "IN.make_item(...)",
         file = nil,
@@ -48269,31 +48611,31 @@ shelp.data = {
       {
         name = "IN.matches",
         sig = "IN.matches(it, text)",
-        file = "src/02_items.lua:146",
+        file = "src/02_items.lua:148",
         doc = {},
       },
       {
         name = "IN.maybe_autogold",
         sig = "IN.maybe_autogold()",
-        file = "src/02_items.lua:226",
+        file = "src/02_items.lua:228",
         doc = {},
       },
       {
         name = "IN.on_add",
         sig = "IN.on_add()",
-        file = "src/02_items.lua:93",
+        file = "src/02_items.lua:95",
         doc = {},
       },
       {
         name = "IN.on_list",
         sig = "IN.on_list()",
-        file = "src/02_items.lua:75",
+        file = "src/02_items.lua:77",
         doc = {},
       },
       {
         name = "IN.on_remove",
         sig = "IN.on_remove()",
-        file = "src/02_items.lua:113",
+        file = "src/02_items.lua:115",
         doc = {},
       },
       {
@@ -48311,13 +48653,13 @@ shelp.data = {
       {
         name = "IN.on_status",
         sig = "IN.on_status()",
-        file = "src/02_items.lua:235",
+        file = "src/02_items.lua:237",
         doc = {},
       },
       {
         name = "IN.on_update",
         sig = "IN.on_update()",
-        file = "src/02_items.lua:103",
+        file = "src/02_items.lua:105",
         doc = {},
       },
       {
@@ -48362,9 +48704,15 @@ shelp.data = {
         doc = {},
       },
       {
+        name = "IN.parse_wielding",
+        sig = "IN.parse_wielding(l)",
+        file = "src/06_wield.lua:44",
+        doc = { "One WIELDING row -&gt; { id, name, hand }." },
+      },
+      {
         name = "IN.pickup",
         sig = "IN.pickup(text)",
-        file = "src/02_items.lua:200",
+        file = "src/02_items.lua:202",
         doc = {
           "Pick up room items whose name contains text (or matching a function).",
           "Returns how many get commands were sent.",
@@ -48373,7 +48721,7 @@ shelp.data = {
       {
         name = "IN.pickup_gold",
         sig = "IN.pickup_gold()",
-        file = "src/02_items.lua:214",
+        file = "src/02_items.lua:216",
         doc = {},
       },
       {
@@ -48409,13 +48757,13 @@ shelp.data = {
       {
         name = "IN.register_commands",
         sig = "IN.register_commands(M)",
-        file = "src/04_commands.lua:124",
+        file = "src/04_commands.lua:133",
         doc = {},
       },
       {
         name = "IN.request_all",
         sig = "IN.request_all(flush)",
-        file = "src/02_items.lua:136",
+        file = "src/02_items.lua:138",
         doc = {
           "With MCCP on, IRE answers GMCP requests promptly only after a line of",
           "input, so commands typed by the user follow requests with send(\" \").",
@@ -48446,6 +48794,12 @@ shelp.data = {
         doc = {},
       },
       {
+        name = "IN.request_wielding",
+        sig = "IN.request_wielding(loud)",
+        file = "src/06_wield.lua:78",
+        doc = {},
+      },
+      {
         name = "IN.rift_count",
         sig = "IN.rift_count(name)",
         file = "src/03_supplies.lua:63",
@@ -48460,7 +48814,7 @@ shelp.data = {
       {
         name = "IN.room_items",
         sig = "IN.room_items(what)",
-        file = "src/02_items.lua:181",
+        file = "src/02_items.lua:183",
         doc = {
           "Room contents. what: \"items\" (default, no mobs), \"mobs\", \"all\", or a",
           "function(item) -&gt; bool.",
@@ -48477,6 +48831,12 @@ shelp.data = {
         sig = "IN.set_rift(name, amount, desc, quiet)",
         file = "src/03_supplies.lua:31",
         doc = {},
+      },
+      {
+        name = "IN.set_wielding",
+        sig = "IN.set_wielding(rows)",
+        file = "src/06_wield.lua:53",
+        doc = { "Apply a WIELDING list: those items are wielded, nothing else is." },
       },
       {
         name = "IN.show_armour",
@@ -48569,6 +48929,18 @@ shelp.data = {
         doc = { "The stats for an item id, from either list." },
       },
       {
+        name = "IN.weapon_id",
+        sig = "IN.weapon_id()",
+        file = "src/06_wield.lua:41",
+        doc = { "  IN.weapon_id()           its id (string), or nil" },
+      },
+      {
+        name = "IN.weapons_wielded",
+        sig = "IN.weapons_wielded()",
+        file = "src/06_wield.lua:27",
+        doc = { "  IN.weapons_wielded()     wielded non-shield items, right hand first" },
+      },
+      {
         name = "IN.where",
         sig = "IN.where(loc)",
         file = "src/02_items.lua:32",
@@ -48622,7 +48994,8 @@ shelp.data = {
       "| `in pipes [show]` | sends PIPELIST and lists pipes by herb |",
       "| `in weapons [show]` | sends WEAPONLIST: damage, to-hit, speed, decay, and which hand |",
       "| `in armour [show]` | sends ARMOURLIST: cutting, blunt, magical, decay, worn, and your class's best armour and shield |",
-      "| `in gear` | wielded (left/right) and worn |",
+      "| `in gear` | each hand (with weapon stats, shield, main weapon) and worn |",
+      "| `in wielding` | sends WIELDING and updates both hands (typing it yourself does too) |",
       "| `in gold` | gold on hand and in bank |",
       "| `in look &lt;container&gt;` | refresh and list one container |",
       "| `in get &lt;text&gt;` / `in get gold` | pick up matching room items |",
@@ -48644,7 +49017,9 @@ shelp.data = {
       "  IN.rift_count(\"potash\")    --&gt; just that rift entry",
       "  IN.pipes_by_herb.valerian  --&gt; pipe id to smoke",
       "  IN.vial_sips(\"health\")     --&gt; total sips across health vials",
-      "  IN.wielded.left, IN.wielded.right",
+      "  IN.hand(\"left\"), IN.hand(\"right\")  --&gt; item in that hand (two-handed: both)",
+      "  IN.weapon_id()             --&gt; id of the wielded weapon to envenom/wipe/probe (not the shield)",
+      "  IN.main_weapon(), IN.weapons_wielded(), IN.is_shield(item)",
       "  IN.weapon(id)              --&gt; { name, dmg, tohit, speed, months } from WEAPONLIST",
       "  IN.armour_piece(id)        --&gt; { name, cutting, blunt, magical, months, type, slot }",
       "  IN.best_armour[class], IN.best_shield[class]",
@@ -50138,7 +50513,7 @@ shelp.data = {
         help = { "ally [add|del NAME...]    your allies list" },
         see = nil,
         readme = {
-          "* `ptr enemy add NAME`, `ptr ally add NAME`, `ptr enemy` to list. Allies always win. The game's own `ENEMY NAME`, `UNENEMY NAME` and `UNENEMY ALL` keep this list in step too (PT reads their confirmation lines).",
+          "* `ptr enemy add NAME`, `ptr ally add NAME`, `ptr enemy` to list. Allies always win. Enemying, unenemying or clearing enemies in game keeps this list in step too (PT reads the game's confirmation lines).",
         },
       },
       arrivals = {
@@ -50177,7 +50552,7 @@ shelp.data = {
         help = { "enemy [add|del NAME...]   your enemies list (allies win over enemies)" },
         see = nil,
         readme = {
-          "* `ptr enemy add NAME`, `ptr ally add NAME`, `ptr enemy` to list. Allies always win. The game's own `ENEMY NAME`, `UNENEMY NAME` and `UNENEMY ALL` keep this list in step too (PT reads their confirmation lines).",
+          "* `ptr enemy add NAME`, `ptr ally add NAME`, `ptr enemy` to list. Allies always win. Enemying, unenemying or clearing enemies in game keeps this list in step too (PT reads the game's confirmation lines).",
         },
       },
       find = {
@@ -50970,8 +51345,8 @@ shelp.data = {
       "  online whose record is missing or more than 7 days old. Change it with",
       "  `ptr recheck SECONDS` or `ptr recheck off`.",
       "* `ptr enemy add NAME`, `ptr ally add NAME`, `ptr enemy` to list. Allies always win.",
-      "  The game's own `ENEMY NAME`, `UNENEMY NAME` and `UNENEMY ALL` keep this",
-      "  list in step too (PT reads their confirmation lines).",
+      "  Enemying, unenemying or clearing enemies in game keeps this list in step",
+      "  too (PT reads the game's confirmation lines).",
       "* `ptr hostile city mhaldor` makes everyone from Mhaldor count as an enemy",
       "  (`ptr hostile city mhaldor off` to undo). Houses work the same way.",
       "* `ptr list watch add NAME` makes your own lists.",
