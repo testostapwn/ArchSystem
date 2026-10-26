@@ -18250,6 +18250,84 @@ p:give("weariness")
             </regexCodePropertyList>
           </Trigger>
         </TriggerGroup>
+        <TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+          <name>install enemy sync</name>
+          <script></script>
+          <triggerType>0</triggerType>
+          <conditonLineDelta>0</conditonLineDelta>
+          <mStayOpen>0</mStayOpen>
+          <mCommand></mCommand>
+          <packageName></packageName>
+          <mFgColor>#ff0000</mFgColor>
+          <mBgColor>#ffff00</mBgColor>
+          <mSoundFile></mSoundFile>
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+            <name>(\w+) is now one of your enemies.</name>
+            <script>pt.list_add("enemies", matches[2])
+</script>
+            <triggerType>0</triggerType>
+            <conditonLineDelta>0</conditonLineDelta>
+            <mStayOpen>0</mStayOpen>
+            <mCommand></mCommand>
+            <packageName></packageName>
+            <mFgColor>#ff0000</mFgColor>
+            <mBgColor>#ffff00</mBgColor>
+            <mSoundFile></mSoundFile>
+            <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            <colorTriggerBgColor>#000000</colorTriggerBgColor>
+            <regexCodeList>
+              <string>^(\w+) is now one of your enemies\.$</string>
+            </regexCodeList>
+            <regexCodePropertyList>
+              <integer>1</integer>
+            </regexCodePropertyList>
+          </Trigger>
+          <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+            <name>You declare that (\w+) will no longer be one of your enemies.</name>
+            <script>pt.list_del("enemies", matches[2])
+</script>
+            <triggerType>0</triggerType>
+            <conditonLineDelta>0</conditonLineDelta>
+            <mStayOpen>0</mStayOpen>
+            <mCommand></mCommand>
+            <packageName></packageName>
+            <mFgColor>#ff0000</mFgColor>
+            <mBgColor>#ffff00</mBgColor>
+            <mSoundFile></mSoundFile>
+            <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            <colorTriggerBgColor>#000000</colorTriggerBgColor>
+            <regexCodeList>
+              <string>^You declare that (\w+) will no longer be one of your enemies\.$</string>
+            </regexCodeList>
+            <regexCodePropertyList>
+              <integer>1</integer>
+            </regexCodePropertyList>
+          </Trigger>
+          <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+            <name>In a moment of forgiveness, you declare that you have no enemies.</name>
+            <script>for _, n in ipairs(pt.list_names("enemies")) do pt.list_del("enemies", n) end
+pt.echo("enemies list cleared (hostile cities and houses still count)")
+</script>
+            <triggerType>0</triggerType>
+            <conditonLineDelta>0</conditonLineDelta>
+            <mStayOpen>0</mStayOpen>
+            <mCommand></mCommand>
+            <packageName></packageName>
+            <mFgColor>#ff0000</mFgColor>
+            <mBgColor>#ffff00</mBgColor>
+            <mSoundFile></mSoundFile>
+            <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            <colorTriggerBgColor>#000000</colorTriggerBgColor>
+            <regexCodeList>
+              <string>^In a moment of forgiveness, you declare that you have no enemies\.$</string>
+            </regexCodeList>
+            <regexCodePropertyList>
+              <integer>1</integer>
+            </regexCodePropertyList>
+          </Trigger>
+        </TriggerGroup>
       </TriggerGroup>
       <TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
         <name>BS</name>
@@ -21302,7 +21380,7 @@ ar.settings.enabled = true ar.save() ar.echo("offense on")
           </Alias>
           <Alias isActive="yes" isFolder="no">
             <name>ar optimistic</name>
-            <script>-- ar optimistic on|off      count unconfirmed attacks as hits unless they missed
+            <script>-- ar optimistic on|off      in blackout, count unconfirmed attacks as hits unless they missed
 local w = acs.words(matches[2] or "")
 local key = "optimistic"
 local label = "optimistic hits"
@@ -24130,6 +24208,9 @@ acs_items = {
   ["pt\0" .. [[^ptr(?:\s+(.*))?$]]] = true,
   ["pt\0" .. [[^\S]]] = true,
   ["pt\0" .. [[\b[A-Z][a-z]+\b]]] = true,
+  ["pt\0" .. [[^(\w+) is now one of your enemies\.$]]] = true,
+  ["pt\0" .. [[^You declare that (\w+) will no longer be one of your enemies\.$]]] = true,
+  ["pt\0" .. [[^In a moment of forgiveness, you declare that you have no enemies\.$]]] = true,
   ["bs\0" .. [[^bs(?:\s+(.*))?$]]] = true,
   ["bs\0" .. [[^\[System\]: Running queued \S+ command: BSBASH]]] = true,
   ["bs\0" .. [[^bstart$]]] = true,
@@ -32315,7 +32396,7 @@ local M = ar.M
 ar.default_settings = {
   target = nil,
   enabled = true,        -- master switch for automatic offense (hit tracking still runs)
-  optimistic = true,     -- an attack with no learned hit line counts as a hit unless a miss is seen
+  optimistic = true,     -- in blackout, an unconfirmed attack counts as a hit unless a miss is seen
   show = true,           -- echo the target's afflictions when they change
   queue = "eqbal",       -- default queue type for attacks
   enemy_bal = {},        -- overrides for ar.data.enemy_bal
@@ -33374,8 +33455,9 @@ end
 --     by the module) confirms it,
 --   * a parry/dodge/miss/rebound/shield line cancels it,
 --   * a fangbarrier line keeps the hit but drops the venoms.
--- With no hit line known yet, "optimistic" mode counts the attack as a hit
--- once it fires (you lose balance/eq) and nothing said it missed.
+-- Nothing confirmed means no affs, except in blackout, when you can't see
+-- the hit line: then an attack that fired (you lost balance/eq) and wasn't
+-- cancelled counts as a hit ("ar optimistic off" stops that too).
 --
 -- Also: "afflines", your own lines that afflict or cure the target, for any
 -- class ability: "ar affline add &lt;regex with %t&gt; = aff1 aff2 -curedaff".
@@ -33426,6 +33508,8 @@ end
 -- plan = { key = "dstab", venoms = {...}, affs = {...}, strip = "shield",
 --          weapon = true (rebounding stops it), on_hit = fn(plan), on_miss = fn(plan, why) }
 function H.expect(plan)
+  -- an earlier attack that fired but never reached a prompt (blackout)
+  if H.pending and H.pending.fired then H.resolve() end
   plan.at = acs.now()
   plan.who = ar.current_person() -- the target when the attack was sent
   plan.key = plan.key or "attack"
@@ -33475,7 +33559,7 @@ function H.resolve()
     return
   end
   if not p.hit then
-    if H.hitline(p.key) or not ar.settings.optimistic then
+    if not (ar.settings.optimistic and ar.blacked_out()) then
       H.record(p, "no hit line seen")
       if p.on_miss then p.on_miss(p, "unseen") end
       return
@@ -33498,7 +33582,22 @@ end
 function H.on_vitals()
   local v = gmcp.Char and gmcp.Char.Vitals
   local p = H.pending
-  if v and p and (tostring(v.bal) == "0" or tostring(v.eq) == "0") then p.fired = true end
+  if v and p and (tostring(v.bal) == "0" or tostring(v.eq) == "0") then
+    p.fired = true
+    -- blackout hides the prompt, so settle it now
+    if ar.blacked_out() then H.resolve() end
+  end
+end
+
+-- Are you in blackout? Asks the curing side (SS) when it's loaded,
+-- otherwise GMCP's affliction list.
+function ar.blacked_out()
+  if ss and ss.has then return ss.has("blackout") and true or false end
+  local list = gmcp and gmcp.Char and gmcp.Char.Afflictions and gmcp.Char.Afflictions.List
+  for _, a in ipairs(list or {}) do
+    if (type(a) == "table" and a.name or a) == "blackout" then return true end
+  end
+  return false
 end
 
 ---------------------------------------------------------------------------
@@ -33960,7 +34059,7 @@ function ar.install_commands()
   M.command("on", function() ar.settings.enabled = true ar.save() ar.echo("offense on") end,
     "on | off               allow or stop attacks from 'k'")
   M.command("off", function() ar.settings.enabled = false ar.save() ar.echo("offense off") end)
-  onoff_cmd("optimistic", "optimistic hits", "optimistic on|off      count unconfirmed attacks as hits unless they missed")
+  onoff_cmd("optimistic", "optimistic hits", "optimistic on|off      in blackout, count unconfirmed attacks as hits unless they missed")
   onoff_cmd("show", "status line", "show on|off            echo the target status when it changes")
   M.command("treeguess", function(w)
     ar.settings.tree_guess = ar.onoff(w[1], ar.settings.tree_guess ~= false) ar.save()
@@ -34374,7 +34473,7 @@ end
 -- bite when they're locked. Use it as the pattern for other classes.
 --
 -- Hit lines: run "ar learn dstab" once and doublestab your target; AR saves
--- the line it sees. Until then hits are assumed unless a miss is seen.
+-- the line it sees. Until then dstab only counts in blackout.
 
 ar.serpent = {}
 local O = ar.offense
@@ -39413,6 +39512,22 @@ end
           <packageName></packageName>
           <script>-- PT startup: GMCP room events, API replies, honours reading, highlighting.
 
+-- Keep the enemies list in step with the game's own ENEMY command.
+pt.enemy_lines = {
+  added = [[^(\w+) is now one of your enemies\.$]],
+  removed = [[^You declare that (\w+) will no longer be one of your enemies\.$]],
+  cleared = [[^In a moment of forgiveness, you declare that you have no enemies\.$]],
+}
+
+function pt.install_enemy_sync()
+  pt.trigger(pt.enemy_lines.added, function(m) pt.list_add("enemies", m[2]) end)
+  pt.trigger(pt.enemy_lines.removed, function(m) pt.list_del("enemies", m[2]) end)
+  pt.trigger(pt.enemy_lines.cleared, function()
+    for _, n in ipairs(pt.list_names("enemies")) do pt.list_del("enemies", n) end
+    pt.echo("enemies list cleared (hostile cities and houses still count)")
+  end)
+end
+
 function pt.init()
   pt.load()
   pt.room.reset()
@@ -39442,6 +39557,7 @@ function pt.init()
 
   pt.trigger([[^\S]], function() pt.honours.parse(line) end)
   pt.hl.install()
+  pt.install_enemy_sync()
   pt.install_signs()
 
   pt.api.start_recheck()
@@ -41580,7 +41696,9 @@ function U.draw_vitals()
     local s = k .. x.cur .. "/" .. x.max
     if U.last["g" .. k] ~= s then
       U.last["g" .. k] = s
-      U.g[k]:setValue(math.max(0, x.cur), math.max(1, x.max), text)
+      -- above max (health boosts) the bar stays full; the text shows the real number
+      local max = math.max(1, x.max)
+      U.g[k]:setValue(math.min(max, math.max(0, x.cur)), max, text)
     end
   end
   local html = R.balance_html(v, gui.data.balances())
@@ -45550,6 +45668,7 @@ shelp.data = {
         see = nil,
         readme = {
           "* A **hit line** confirms it. Teach one per attack: `ar learn dstab`, then attack. The next line naming your target is saved for that class. `ar hitlines` shows them, `ar log` shows recent results.",
+          "* An attack only counts once its hit line is seen. Teach AR each one with `ar learn &lt;attack&gt;`. The exception is blackout, where you can't see the line: an attack that fired (you lost balance) and wasn't cancelled counts as a hit. Turn that off with `ar optimistic off`.",
         },
       },
       lines = {
@@ -45580,10 +45699,10 @@ shelp.data = {
         readme = {},
       },
       optimistic = {
-        help = { "optimistic on|off      count unconfirmed attacks as hits unless they missed" },
+        help = { "optimistic on|off      in blackout, count unconfirmed attacks as hits unless they missed" },
         see = nil,
         readme = {
-          "* With no hit line yet, an attack that fired (you lost balance) and wasn't cancelled counts as a hit. Turn this off with `ar optimistic off`.",
+          "* An attack only counts once its hit line is seen. Teach AR each one with `ar learn &lt;attack&gt;`. The exception is blackout, where you can't see the line: an attack that fired (you lost balance) and wasn't cancelled counts as a hit. Turn that off with `ar optimistic off`.",
         },
       },
       people = {
@@ -45662,6 +45781,15 @@ shelp.data = {
       },
     },
     functions = {
+      {
+        name = "ar.blacked_out",
+        sig = "ar.blacked_out()",
+        file = "src/05_hits.lua:144",
+        doc = {
+          "Are you in blackout? Asks the curing side (SS) when it's loaded,",
+          "otherwise GMCP's affliction list.",
+        },
+      },
       {
         name = "ar.build_knight",
         sig = "ar.build_knight(...)",
@@ -45785,13 +45913,13 @@ shelp.data = {
       {
         name = "ar.hits.calling",
         sig = "ar.hits.calling(p, fn)",
-        file = "src/05_hits.lua:288",
+        file = "src/05_hits.lua:306",
         doc = { "Run fn(); any aff p didn't surely have before and does after gets called." },
       },
       {
         name = "ar.hits.expect",
         sig = "ar.hits.expect(plan)",
-        file = "src/05_hits.lua:59",
+        file = "src/05_hits.lua:60",
         doc = {
           "plan = { key = \"dstab\", venoms = {...}, affs = {...}, strip = \"shield\",",
           "         weapon = true (rebounding stops it), on_hit = fn(plan), on_miss = fn(plan, why) }",
@@ -45800,79 +45928,79 @@ shelp.data = {
       {
         name = "ar.hits.flush_calls",
         sig = "ar.hits.flush_calls()",
-        file = "src/05_hits.lua:303",
+        file = "src/05_hits.lua:321",
         doc = {},
       },
       {
         name = "ar.hits.hitline",
         sig = "ar.hits.hitline(key)",
-        file = "src/05_hits.lua:49",
+        file = "src/05_hits.lua:50",
         doc = {},
       },
       {
         name = "ar.hits.install",
         sig = "ar.hits.install()",
-        file = "src/05_hits.lua:318",
+        file = "src/05_hits.lua:336",
         doc = {},
       },
       {
         name = "ar.hits.install_afflines",
         sig = "ar.hits.install_afflines()",
-        file = "src/05_hits.lua:195",
+        file = "src/05_hits.lua:213",
         doc = {},
       },
       {
         name = "ar.hits.install_hitlines",
         sig = "ar.hits.install_hitlines()",
-        file = "src/05_hits.lua:177",
+        file = "src/05_hits.lua:195",
         doc = {},
       },
       {
         name = "ar.hits.learn",
         sig = "ar.hits.learn(key)",
-        file = "src/05_hits.lua:139",
+        file = "src/05_hits.lua:157",
         doc = {},
       },
       {
         name = "ar.hits.learn_line",
         sig = "ar.hits.learn_line(text)",
-        file = "src/05_hits.lua:153",
+        file = "src/05_hits.lua:171",
         doc = {},
       },
       {
         name = "ar.hits.limb",
         sig = "ar.hits.limb(name, limb, pct)",
-        file = "src/05_hits.lua:214",
+        file = "src/05_hits.lua:232",
         doc = { "Limb damage you dealt, as a running total per limb." },
       },
       {
         name = "ar.hits.mark_hit",
         sig = "ar.hits.mark_hit()",
-        file = "src/05_hits.lua:66",
+        file = "src/05_hits.lua:69",
         doc = {},
       },
       {
         name = "ar.hits.mark_miss",
         sig = "ar.hits.mark_miss(why, name)",
-        file = "src/05_hits.lua:70",
+        file = "src/05_hits.lua:73",
         doc = {},
       },
       {
         name = "ar.hits.on_prompt",
         sig = "ar.hits.on_prompt()",
-        file = "src/05_hits.lua:311",
+        file = "src/05_hits.lua:329",
         doc = {},
       },
       {
         name = "ar.hits.on_vitals",
         sig = "ar.hits.on_vitals()",
-        file = "src/05_hits.lua:129",
+        file = "src/05_hits.lua:132",
         doc = { "Balance or equilibrium going away while an attack is pending means it fired." },
       },
       {
         name = "ar.hits.party_affs",
         sig = "ar.hits.party_affs(name, text)",
-        file = "src/05_hits.lua:229",
+        file = "src/05_hits.lua:247",
         doc = {
           "Afflictions named in a party call: affliction names or venom names.",
           "A call that names an aff we saw land on them in the last few seconds is",
@@ -45883,31 +46011,31 @@ shelp.data = {
       {
         name = "ar.hits.record",
         sig = "ar.hits.record(p, result)",
-        file = "src/05_hits.lua:88",
+        file = "src/05_hits.lua:91",
         doc = {},
       },
       {
         name = "ar.hits.resolve",
         sig = "ar.hits.resolve()",
-        file = "src/05_hits.lua:95",
+        file = "src/05_hits.lua:98",
         doc = {},
       },
       {
         name = "ar.hits.set_hitline",
         sig = "ar.hits.set_hitline(key, pattern)",
-        file = "src/05_hits.lua:164",
+        file = "src/05_hits.lua:182",
         doc = {},
       },
       {
         name = "ar.hits.stop_learning",
         sig = "ar.hits.stop_learning()",
-        file = "src/05_hits.lua:148",
+        file = "src/05_hits.lua:166",
         doc = {},
       },
       {
         name = "ar.hits.T",
         sig = "ar.hits.T(m)",
-        file = "src/05_hits.lua:21",
+        file = "src/05_hits.lua:22",
         doc = {},
       },
       {
@@ -46716,8 +46844,10 @@ shelp.data = {
       "* A **hit line** confirms it. Teach one per attack: `ar learn dstab`, then",
       "  attack. The next line naming your target is saved for that class.",
       "  `ar hitlines` shows them, `ar log` shows recent results.",
-      "* With no hit line yet, an attack that fired (you lost balance) and wasn't",
-      "  cancelled counts as a hit. Turn this off with `ar optimistic off`.",
+      "* An attack only counts once its hit line is seen. Teach AR each one with",
+      "  `ar learn &lt;attack&gt;`. The exception is blackout, where you can't see the",
+      "  line: an attack that fired (you lost balance) and wasn't cancelled counts",
+      "  as a hit. Turn that off with `ar optimistic off`.",
       "",
       "## Any class, any ability",
       "",
@@ -50007,7 +50137,9 @@ shelp.data = {
       ally = {
         help = { "ally [add|del NAME...]    your allies list" },
         see = nil,
-        readme = { "* `ptr enemy add NAME`, `ptr ally add NAME`, `ptr enemy` to list. Allies always win." },
+        readme = {
+          "* `ptr enemy add NAME`, `ptr ally add NAME`, `ptr enemy` to list. Allies always win. The game's own `ENEMY NAME`, `UNENEMY NAME` and `UNENEMY ALL` keep this list in step too (PT reads their confirmation lines).",
+        },
       },
       arrivals = {
         help = {},
@@ -50044,7 +50176,9 @@ shelp.data = {
       enemy = {
         help = { "enemy [add|del NAME...]   your enemies list (allies win over enemies)" },
         see = nil,
-        readme = { "* `ptr enemy add NAME`, `ptr ally add NAME`, `ptr enemy` to list. Allies always win." },
+        readme = {
+          "* `ptr enemy add NAME`, `ptr ally add NAME`, `ptr enemy` to list. Allies always win. The game's own `ENEMY NAME`, `UNENEMY NAME` and `UNENEMY ALL` keep this list in step too (PT reads their confirmation lines).",
+        },
       },
       find = {
         help = { "find FIELD VALUE          everyone known with that city/house/class, e.g. ptr find class serpent" },
@@ -50453,13 +50587,19 @@ shelp.data = {
       {
         name = "pt.init",
         sig = "pt.init()",
-        file = "src/99_init.lua:3",
+        file = "src/99_init.lua:19",
         doc = {},
       },
       {
         name = "pt.install",
         sig = "pt.install(regex, cls)",
         file = "src/08_class_signs.lua:16",
+        doc = {},
+      },
+      {
+        name = "pt.install_enemy_sync",
+        sig = "pt.install_enemy_sync()",
+        file = "src/99_init.lua:10",
         doc = {},
       },
       {
@@ -50830,6 +50970,8 @@ shelp.data = {
       "  online whose record is missing or more than 7 days old. Change it with",
       "  `ptr recheck SECONDS` or `ptr recheck off`.",
       "* `ptr enemy add NAME`, `ptr ally add NAME`, `ptr enemy` to list. Allies always win.",
+      "  The game's own `ENEMY NAME`, `UNENEMY NAME` and `UNENEMY ALL` keep this",
+      "  list in step too (PT reads their confirmation lines).",
       "* `ptr hostile city mhaldor` makes everyone from Mhaldor count as an enemy",
       "  (`ptr hostile city mhaldor off` to undo). Houses work the same way.",
       "* `ptr list watch add NAME` makes your own lists.",
@@ -52246,7 +52388,7 @@ shelp.data = {
       {
         name = "gui.ui.draw_all",
         sig = "gui.ui.draw_all()",
-        file = "src/03_layout.lua:266",
+        file = "src/03_layout.lua:268",
         doc = {},
       },
       {
