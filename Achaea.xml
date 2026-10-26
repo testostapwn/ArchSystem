@@ -1362,7 +1362,7 @@ ar.watch.ate(p, matches[3])
               </regexCodePropertyList>
             </Trigger>
             <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
-              <name>(\S+) takes some salve from a vial and rubs it on \w+ (\S+).</name>
+              <name>(\S+) takes some salve from a vial and rubs it on \w+ (?:(?:left|ri...</name>
               <script>local p = ar.person(matches[2])
 if not p then return end
 ar.watch.applied(p, matches[3])
@@ -1378,7 +1378,46 @@ ar.watch.applied(p, matches[3])
               <colorTriggerFgColor>#000000</colorTriggerFgColor>
               <colorTriggerBgColor>#000000</colorTriggerBgColor>
               <regexCodeList>
-                <string>^(\S+) takes some salve from a vial and rubs it on \w+ (\S+)\.$</string>
+                <string>^(\S+) takes some salve from a vial and rubs it on \w+ (?:(?:left|right) )?(\S+)\.$</string>
+              </regexCodeList>
+              <regexCodePropertyList>
+                <integer>1</integer>
+              </regexCodePropertyList>
+            </Trigger>
+          </TriggerGroup>
+          <TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+            <name>a mended break</name>
+            <script></script>
+            <triggerType>0</triggerType>
+            <conditonLineDelta>0</conditonLineDelta>
+            <mStayOpen>0</mStayOpen>
+            <mCommand></mCommand>
+            <packageName></packageName>
+            <mFgColor>#ff0000</mFgColor>
+            <mBgColor>#ffff00</mBgColor>
+            <mSoundFile></mSoundFile>
+            <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            <colorTriggerBgColor>#000000</colorTriggerBgColor>
+            <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+              <name>(\S+) ceases to favour \w+ (left|right) (leg|arm).</name>
+              <script>local p = ar.person(matches[2])
+if not p then return end
+ar.watch.cured(p, "broken" .. matches[3] .. matches[4])
+local limb = matches[3] .. " " .. matches[4]
+if p.limbs and (p.limbs[limb] or 0) &gt;= 100 then p.limbs[limb] = 0 end
+</script>
+              <triggerType>0</triggerType>
+              <conditonLineDelta>0</conditonLineDelta>
+              <mStayOpen>0</mStayOpen>
+              <mCommand></mCommand>
+              <packageName></packageName>
+              <mFgColor>#ff0000</mFgColor>
+              <mBgColor>#ffff00</mBgColor>
+              <mSoundFile></mSoundFile>
+              <colorTriggerFgColor>#000000</colorTriggerFgColor>
+              <colorTriggerBgColor>#000000</colorTriggerBgColor>
+              <regexCodeList>
+                <string>^(\S+) ceases to favour \w+ (left|right) (leg|arm)\.$</string>
               </regexCodeList>
               <regexCodePropertyList>
                 <integer>1</integer>
@@ -18054,6 +18093,270 @@ p:give("impatience")
                 <integer>1</integer>
               </regexCodePropertyList>
             </Trigger>
+            <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+              <name>trip</name>
+              <script>-- sentinel: trip
+local p = ar.lines.start("sentinel", matches[2])
+if not p then return end
+ar.hits.giving(p, getLineNumber and getLineNumber() or nil, function()
+  p:def_down("mounted")
+  p:give("prone")
+end, not true)
+</script>
+              <triggerType>0</triggerType>
+              <conditonLineDelta>0</conditonLineDelta>
+              <mStayOpen>0</mStayOpen>
+              <mCommand></mCommand>
+              <packageName></packageName>
+              <mFgColor>#ff0000</mFgColor>
+              <mBgColor>#ffff00</mBgColor>
+              <mSoundFile></mSoundFile>
+              <colorTriggerFgColor>#000000</colorTriggerFgColor>
+              <colorTriggerBgColor>#000000</colorTriggerBgColor>
+              <regexCodeList>
+                <string>^You swiftly sweep (\S+)'s feet out from beneath.*$</string>
+              </regexCodeList>
+              <regexCodePropertyList>
+                <integer>1</integer>
+              </regexCodePropertyList>
+            </Trigger>
+            <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+              <name>trip</name>
+              <script>-- sentinel: trip
+local p = ar.lines.start("sentinel", matches[2])
+if not p then return end
+ar.hits.giving(p, getLineNumber and getLineNumber() or nil, function()
+  p:def_down("mounted")
+  p:give("prone")
+end, not true)
+</script>
+              <triggerType>0</triggerType>
+              <conditonLineDelta>0</conditonLineDelta>
+              <mStayOpen>0</mStayOpen>
+              <mCommand></mCommand>
+              <packageName></packageName>
+              <mFgColor>#ff0000</mFgColor>
+              <mBgColor>#ffff00</mBgColor>
+              <mSoundFile></mSoundFile>
+              <colorTriggerFgColor>#000000</colorTriggerFgColor>
+              <colorTriggerBgColor>#000000</colorTriggerBgColor>
+              <regexCodeList>
+                <string>^You deftly hook .* behind (\S+)'s foot and send \w+ tumbling.*$</string>
+              </regexCodeList>
+              <regexCodePropertyList>
+                <integer>1</integer>
+              </regexCodePropertyList>
+            </Trigger>
+            <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+              <name>rattle</name>
+              <script>-- sentinel: rattle
+local p = ar.lines.start("sentinel", matches[2])
+if not p then return end
+ar.hits.giving(p, getLineNumber and getLineNumber() or nil, function()
+  p:give("unconsciousness")
+end, not true)
+</script>
+              <triggerType>0</triggerType>
+              <conditonLineDelta>0</conditonLineDelta>
+              <mStayOpen>0</mStayOpen>
+              <mCommand></mCommand>
+              <packageName></packageName>
+              <mFgColor>#ff0000</mFgColor>
+              <mBgColor>#ffff00</mBgColor>
+              <mSoundFile></mSoundFile>
+              <colorTriggerFgColor>#000000</colorTriggerFgColor>
+              <colorTriggerBgColor>#000000</colorTriggerBgColor>
+              <regexCodeList>
+                <string>^Planting your feet, you whip the haft of .* in a ferocious blow to the side of the head of (\S+)\.$</string>
+              </regexCodeList>
+              <regexCodePropertyList>
+                <integer>1</integer>
+              </regexCodePropertyList>
+            </Trigger>
+            <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+              <name>rattle</name>
+              <script>-- sentinel: rattle
+local p = ar.lines.start("sentinel", matches[2])
+if not p then return end
+ar.hits.giving(p, getLineNumber and getLineNumber() or nil, function()
+  p:give("unconsciousness")
+end, not true)
+</script>
+              <triggerType>0</triggerType>
+              <conditonLineDelta>0</conditonLineDelta>
+              <mStayOpen>0</mStayOpen>
+              <mCommand></mCommand>
+              <packageName></packageName>
+              <mFgColor>#ff0000</mFgColor>
+              <mBgColor>#ffff00</mBgColor>
+              <mSoundFile></mSoundFile>
+              <colorTriggerFgColor>#000000</colorTriggerFgColor>
+              <colorTriggerBgColor>#000000</colorTriggerBgColor>
+              <regexCodeList>
+                <string>^(\S+)'s legs collapse under \w+ as \w+ suddenly passes out\.$</string>
+              </regexCodeList>
+              <regexCodePropertyList>
+                <integer>1</integer>
+              </regexCodePropertyList>
+            </Trigger>
+            <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+              <name>ensnare</name>
+              <script>-- sentinel: ensnare
+local p = ar.lines.start("sentinel", matches[2])
+if not p then return end
+ar.hits.giving(p, getLineNumber and getLineNumber() or nil, function()
+  p:give("transfixation")
+end, not true)
+</script>
+              <triggerType>0</triggerType>
+              <conditonLineDelta>0</conditonLineDelta>
+              <mStayOpen>0</mStayOpen>
+              <mCommand></mCommand>
+              <packageName></packageName>
+              <mFgColor>#ff0000</mFgColor>
+              <mBgColor>#ffff00</mBgColor>
+              <mSoundFile></mSoundFile>
+              <colorTriggerFgColor>#000000</colorTriggerFgColor>
+              <colorTriggerBgColor>#000000</colorTriggerBgColor>
+              <regexCodeList>
+                <string>^You expertly flourish .* in front of the eyes of (\S+), mesmerising \w+ with your skill\.$</string>
+              </regexCodeList>
+              <regexCodePropertyList>
+                <integer>1</integer>
+              </regexCodePropertyList>
+            </Trigger>
+            <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+              <name>truss</name>
+              <script>-- sentinel: truss
+local p = ar.lines.start("sentinel", matches[2])
+if not p then return end
+ar.hits.giving(p, getLineNumber and getLineNumber() or nil, function()
+  p:give("bound")
+  ar.lines.wears_off(p, "bound", 20)
+end, not true)
+</script>
+              <triggerType>0</triggerType>
+              <conditonLineDelta>0</conditonLineDelta>
+              <mStayOpen>0</mStayOpen>
+              <mCommand></mCommand>
+              <packageName></packageName>
+              <mFgColor>#ff0000</mFgColor>
+              <mBgColor>#ffff00</mBgColor>
+              <mSoundFile></mSoundFile>
+              <colorTriggerFgColor>#000000</colorTriggerFgColor>
+              <colorTriggerBgColor>#000000</colorTriggerBgColor>
+              <regexCodeList>
+                <string>^You quickly truss up the helpless form of (\S+)\.$</string>
+              </regexCodeList>
+              <regexCodePropertyList>
+                <integer>1</integer>
+              </regexCodePropertyList>
+            </Trigger>
+            <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+              <name>skullbash</name>
+              <script>-- sentinel: skullbash
+local p = ar.lines.start("sentinel", matches[2])
+if not p then return end
+ar.hits.giving(p, getLineNumber and getLineNumber() or nil, function()
+  p:give("skullbash")
+  ar.lines.wears_off(p, "skullbash", 20)
+end, not true)
+</script>
+              <triggerType>0</triggerType>
+              <conditonLineDelta>0</conditonLineDelta>
+              <mStayOpen>0</mStayOpen>
+              <mCommand></mCommand>
+              <packageName></packageName>
+              <mFgColor>#ff0000</mFgColor>
+              <mBgColor>#ffff00</mBgColor>
+              <mSoundFile></mSoundFile>
+              <colorTriggerFgColor>#000000</colorTriggerFgColor>
+              <colorTriggerBgColor>#000000</colorTriggerBgColor>
+              <regexCodeList>
+                <string>^Reversing your grip on .*, you bring the end of the haft down in a skull-splitting blow upon (\S+)\.$</string>
+              </regexCodeList>
+              <regexCodePropertyList>
+                <integer>1</integer>
+              </regexCodePropertyList>
+            </Trigger>
+            <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+              <name>lacerate</name>
+              <script>-- sentinel: lacerate
+local p = ar.lines.start("sentinel", matches[2])
+if not p then return end
+ar.hits.giving(p, getLineNumber and getLineNumber() or nil, function()
+  p:give("haemophilia")
+end, not true)
+</script>
+              <triggerType>0</triggerType>
+              <conditonLineDelta>0</conditonLineDelta>
+              <mStayOpen>0</mStayOpen>
+              <mCommand></mCommand>
+              <packageName></packageName>
+              <mFgColor>#ff0000</mFgColor>
+              <mBgColor>#ffff00</mBgColor>
+              <mSoundFile></mSoundFile>
+              <colorTriggerFgColor>#000000</colorTriggerFgColor>
+              <colorTriggerBgColor>#000000</colorTriggerBgColor>
+              <regexCodeList>
+                <string>^You viciously lacerate(?: the .* of)? (\S+) with .*\.$</string>
+              </regexCodeList>
+              <regexCodePropertyList>
+                <integer>1</integer>
+              </regexCodePropertyList>
+            </Trigger>
+            <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+              <name>gouge</name>
+              <script>-- sentinel: gouge
+local p = ar.lines.start("sentinel", matches[2])
+if not p then return end
+ar.hits.giving(p, getLineNumber and getLineNumber() or nil, function()
+  p:give("weariness")
+end, not true)
+</script>
+              <triggerType>0</triggerType>
+              <conditonLineDelta>0</conditonLineDelta>
+              <mStayOpen>0</mStayOpen>
+              <mCommand></mCommand>
+              <packageName></packageName>
+              <mFgColor>#ff0000</mFgColor>
+              <mBgColor>#ffff00</mBgColor>
+              <mSoundFile></mSoundFile>
+              <colorTriggerFgColor>#000000</colorTriggerFgColor>
+              <colorTriggerBgColor>#000000</colorTriggerBgColor>
+              <regexCodeList>
+                <string>^You savagely gouge(?: the .* of| into)? (\S+) with .*\.$</string>
+              </regexCodeList>
+              <regexCodePropertyList>
+                <integer>1</integer>
+              </regexCodePropertyList>
+            </Trigger>
+            <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+              <name>impale</name>
+              <script>-- sentinel: impale
+local p = ar.lines.start("sentinel", matches[2])
+if not p then return end
+ar.hits.giving(p, getLineNumber and getLineNumber() or nil, function()
+  p:give("impaled")
+end, not true)
+</script>
+              <triggerType>0</triggerType>
+              <conditonLineDelta>0</conditonLineDelta>
+              <mStayOpen>0</mStayOpen>
+              <mCommand></mCommand>
+              <packageName></packageName>
+              <mFgColor>#ff0000</mFgColor>
+              <mBgColor>#ffff00</mBgColor>
+              <mSoundFile></mSoundFile>
+              <colorTriggerFgColor>#000000</colorTriggerFgColor>
+              <colorTriggerBgColor>#000000</colorTriggerBgColor>
+              <regexCodeList>
+                <string>^You draw your blade back and plunge it deep into the body of (\S+) impaling .* to the hilt\.$</string>
+              </regexCodeList>
+              <regexCodePropertyList>
+                <integer>1</integer>
+              </regexCodePropertyList>
+            </Trigger>
           </TriggerGroup>
         </TriggerGroup>
         <TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
@@ -25717,7 +26020,8 @@ acs_items = {
   ["ss\0" .. [[^reb$]]] = true,
   ["ar\0" .. [[^ar(?:\s+(.*))?$]]] = true,
   ["ar\0" .. [[^(\S+)\s*eats (.*)\.$]]] = true,
-  ["ar\0" .. [[^(\S+) takes some salve from a vial and rubs it on \w+ (\S+)\.$]]] = true,
+  ["ar\0" .. [[^(\S+) takes some salve from a vial and rubs it on \w+ (?:(?:left|right) )?(\S+)\.$]]] = true,
+  ["ar\0" .. [[^(\S+) ceases to favour \w+ (left|right) (leg|arm)\.$]]] = true,
   ["ar\0" .. [[^(\S+) takes a long drag off .* pipe\.$]]] = true,
   ["ar\0" .. [[^A great gurgling sound is heard as (\S+) takes a long drag from an enamel bubble pipe\.]]] = true,
   ["ar\0" .. [[^(\S+) takes a few short puffs from \w+ pipe\.$]]] = true,
@@ -26272,6 +26576,16 @@ acs_items = {
   ["ar\0" .. [[^The .* surrounding (\S+) shatters under the flurry of strikes from \S+\.$]]] = true,
   ["ar\0" .. [[^As the gaze of (\S+) falls upon (\S+), \w+ stumbles but seems to recover without visible issue\.$]]] = true,
   ["ar\0" .. [[^A mighty, bestial roar from \S+ leaves (\S+) looking dazed\.$]]] = true,
+  ["ar\0" .. [[^You swiftly sweep (\S+)'s feet out from beneath.*$]]] = true,
+  ["ar\0" .. [[^You deftly hook .* behind (\S+)'s foot and send \w+ tumbling.*$]]] = true,
+  ["ar\0" .. [[^Planting your feet, you whip the haft of .* in a ferocious blow to the side of the head of (\S+)\.$]]] = true,
+  ["ar\0" .. [[^(\S+)'s legs collapse under \w+ as \w+ suddenly passes out\.$]]] = true,
+  ["ar\0" .. [[^You expertly flourish .* in front of the eyes of (\S+), mesmerising \w+ with your skill\.$]]] = true,
+  ["ar\0" .. [[^You quickly truss up the helpless form of (\S+)\.$]]] = true,
+  ["ar\0" .. [[^Reversing your grip on .*, you bring the end of the haft down in a skull-splitting blow upon (\S+)\.$]]] = true,
+  ["ar\0" .. [[^You viciously lacerate(?: the .* of)? (\S+) with .*\.$]]] = true,
+  ["ar\0" .. [[^You savagely gouge(?: the .* of| into)? (\S+) with .*\.$]]] = true,
+  ["ar\0" .. [[^You draw your blade back and plunge it deep into the body of (\S+) impaling .* to the hilt\.$]]] = true,
   ["ar\0" .. [[^Lacerations open all across \w+ form, as if slashed by an invisible blade\.$]]] = true,
   ["ar\0" .. [[^t\s+(\S+)$]]] = true,
   ["ar\0" .. [[^tc$]]] = true,
@@ -35020,6 +35334,37 @@ end
 -- Classes whose lines everyone sees: your own lines from these give affs
 -- without calling them on party (AW: Sentinel hits and enrages).
 D.quiet_classes = { sentinel = true }
+
+-- What a limb's damage means: 100% damaged, 200% mangled (old ar.limbAffs).
+D.limb_affs = {
+  ["left leg"] = { [100] = "damagedleftleg", [200] = "mangledleftleg" },
+  ["right leg"] = { [100] = "damagedrightleg", [200] = "mangledrightleg" },
+  ["left arm"] = { [100] = "damagedleftarm", [200] = "mangledleftarm" },
+  ["right arm"] = { [100] = "damagedrightarm", [200] = "mangledrightarm" },
+  head = { [100] = "damagedhead", [200] = "mangledhead" },
+  torso = { [100] = "mildtrauma", [200] = "serioustrauma" },
+}
+D.limb_of = {}
+for limb, t in pairs(D.limb_affs) do D.limb_of[t[100]] = limb D.limb_of[t[200]] = limb end
+
+-- Restoration on a limb (old newLimbCure): which damage it heals, in order,
+-- what's left after, and what else heals with it.
+D.restore = {
+  arms = { "mangledleftarm", "mangledrightarm", "damagedleftarm", "damagedrightarm" },
+  legs = { "mangledleftleg", "mangledrightleg", "damagedleftleg", "damagedrightleg" },
+  torso = { "serioustrauma", "mildtrauma", "heartseed", "internalbleeding" },
+  head = { "mangledhead", "damagedhead", "tonguetied", "laceratedthroat" },
+}
+D.restore_leaves = {
+  mangledleftarm = "damagedleftarm", mangledrightarm = "damagedrightarm",
+  mangledleftleg = "damagedleftleg", mangledrightleg = "damagedrightleg",
+  damagedleftarm = "brokenleftarm", damagedrightarm = "brokenrightarm",
+  damagedleftleg = "brokenleftleg", damagedrightleg = "brokenrightleg",
+  serioustrauma = "mildtrauma", mangledhead = "damagedhead",
+}
+D.restore_with = { head = { "concussion", "calcifiedskull" }, torso = { "calcifiedtorso" } }
+D.restore_time = 4
+D.limb_reset = 120   -- seconds after the last hit until a limb's damage is gone
 </script>
           <eventHandlerList />
         </Script>
@@ -35598,6 +35943,7 @@ function W.settle(p, a)
   if a.kind == "eat" then
     return p:cure_first(D.herb_cures[a.arg])
   elseif a.kind == "apply" then
+    if D.restore[a.arg] or a.arg == "arm" or a.arg == "leg" then return W.limb_apply(p, a.arg) end
     return p:cure_first(D.salve_cures[a.arg] or D.salve_cures.body)
   elseif a.kind == "focus" then
     return p:cure_split(D.focus_cures)
@@ -35631,6 +35977,47 @@ function W.ate(p, text)
   if not h then return end
   p:used_cure("eat")
   W.defer(p, "eat", h)
+end
+
+-- A salve on arms/legs/head/torso (AW's old newLimbCure): mending fixes a
+-- break (or crushed throat, stuttering) at once; otherwise it's restoration
+-- on a damaged limb, which takes 4s and steps it down one level.
+W.instant = {
+  arms = { "brokenleftarm", "brokenrightarm" }, legs = { "brokenleftleg", "brokenrightleg" },
+  head = { "crushedthroat", "stuttering" }, torso = {},
+}
+function W.limb_apply(p, where)
+  where = (where == "arm" and "arms") or (where == "leg" and "legs") or where
+  local damaged
+  for _, a in ipairs(D.restore[where]) do if p:has(a) then damaged = a break end end
+  -- legs: a damaged leg comes before a broken one; arms: the break first
+  if not (where == "legs" and damaged) then
+    for _, a in ipairs(W.instant[where]) do
+      if p:has(a) and not (a == "stuttering" and p:has("tonguetied")) then return p:cure(a) end
+    end
+  end
+  if where == "torso" and p:has("anorexia") then return p:cure("anorexia") end
+  if not damaged then return end
+  local lag = getNetworkLatency and getNetworkLatency() or 0
+  p.restoring = p.restoring or {}
+  if p.restoring[where] then killTimer(p.restoring[where]) end
+  p.restoring[where] = ar.M.timer(math.max(0.1, D.restore_time - lag), function()
+    p.restoring[where] = nil
+    W.restored(p, where)
+  end)
+end
+
+function W.restored(p, where)
+  local x
+  for _, a in ipairs(D.restore[where]) do if p:has(a) then x = a break end end
+  for _, a in ipairs(D.restore_with[where] or {}) do if p:has(a) then p:cure(a) break end end
+  if not x then return end
+  p:cure(x)
+  local left = D.restore_leaves[x]
+  if left then p:give(left) end
+  local limb = D.limb_of[x]
+  if limb and p.limbs then p.limbs[limb] = (x:find("^mangled") or x == "serioustrauma") and 100 or 0 end
+  if p:is_target() then ar.show_soon() end
 end
 
 function W.applied(p, loc)
@@ -35685,7 +36072,13 @@ W.stupid_procs = {
 W.patterns = {
   -- curing actions
   { [[^(\S+)\s*eats (.*)\.$]], W.A(function(p, m) W.ate(p, m[3]) end) },
-  { [[^(\S+) takes some salve from a vial and rubs it on \w+ (\S+)\.$]], W.A(function(p, m) W.applied(p, m[3]) end) },
+  { [[^(\S+) takes some salve from a vial and rubs it on \w+ (?:(?:left|right) )?(\S+)\.$]], W.A(function(p, m) W.applied(p, m[3]) end) },
+  -- a mended break
+  { [[^(\S+) ceases to favour \w+ (left|right) (leg|arm)\.$]], W.A(function(p, m)
+    W.cured(p, "broken" .. m[3] .. m[4])
+    local limb = m[3] .. " " .. m[4]
+    if p.limbs and (p.limbs[limb] or 0) &gt;= 100 then p.limbs[limb] = 0 end
+  end) },
   { [[^(\S+) takes a long drag off .* pipe\.$]], W.A(function(p) W.smoked(p) end) },
   { [[^A great gurgling sound is heard as (\S+) takes a long drag from an enamel bubble pipe\.]], W.A(function(p) W.smoked(p) end) },
   { [[^(\S+) takes a few short puffs from \w+ pipe\.$]], W.A(function(p) W.smoked(p) end) },
@@ -35943,6 +36336,10 @@ function H.resolve()
     end
     H.call_now = p.call_affs ~= false
     for _, a in ipairs(p.affs or {}) do who:give(a) end
+    -- affs whose own line gives them, unless that line couldn't be seen
+    if p.probed or not p.hit then
+      for _, a in ipairs(p.blind_affs or {}) do who:give(a) end
+    end
   end)
   H.record(p, p.probed and "hit (probe)" or p.hit and "hit" or "assumed hit")
   if p.on_hit then p.on_hit(p) end
@@ -36063,7 +36460,22 @@ function H.limb(name, limb, pct)
   if not p or not pct or not limb then return end
   limb = limb:lower()
   p.limbs = p.limbs or {}
-  p.limbs[limb] = (p.limbs[limb] or 0) + pct
+  local was = p.limbs[limb] or 0
+  -- crossing 100 stops at 100 (the break), as AW's old limbdamage did
+  p.limbs[limb] = (was &lt; 100 and was + pct &gt;= 100) and 100 or was + pct
+  local now = p.limbs[limb]
+  local la = D.limb_affs[limb]
+  if la then
+    if now &gt;= 200 then p:give(la[200])
+    elseif now &gt;= 100 then
+      p:give(la[100])
+      if limb == "head" and was &lt; 100 then p:give("stupidity") end
+    end
+  end
+  -- limb damage resets completely 120s after the last hit (AW)
+  p.limb_timers = p.limb_timers or {}
+  if p.limb_timers[limb] then killTimer(p.limb_timers[limb]) end
+  p.limb_timers[limb] = ar.M.timer(D.limb_reset, function() p.limbs[limb] = 0 p.limb_timers[limb] = nil end)
   -- damage per hit, for "one more hit breaks it" (attacks that hit softer,
   -- like trip, set no_pphit in their plan)
   if not (H.pending and H.pending.no_pphit) then p.pphit = pct end
@@ -37479,7 +37891,9 @@ S.hitlines = {
 function S.plan(key, venom, kind, extra)
   local plan = {
     key = key,
-    affs = S.AFFS[key],
+    -- the attack's own aff comes from its line (12_lines_hand.lua); these
+    -- are only for blackout, when the line can't be seen
+    blind_affs = S.AFFS[key],
     venoms = venom and { venom } or nil,
     weapons = kind and { S.weapon(kind) } or {},
     weapon = kind ~= nil,
@@ -37489,8 +37903,10 @@ function S.plan(key, venom, kind, extra)
   for k, v in pairs(extra or {}) do plan[k] = v end
   plan.on_hit = function(p)
     local who = p.who
-    for _, a in ipairs(p.affs or {}) do
-      if S.LASTS[a] and who then ar.lines.wears_off(who, a, S.LASTS[a]) end
+    if p.probed or not p.line then
+      for _, a in ipairs(p.blind_affs or {}) do
+        if S.LASTS[a] and who then ar.lines.wears_off(who, a, S.LASTS[a]) end
+      end
     end
     if p.axe_limb and who and who.name then H.limb(who.name, p.axe_limb, 14.7) end
   end
@@ -38607,6 +39023,14 @@ ar.lines.index = {
   { "bard" },
   { "depthswalker" },
   { "druid" },
+  { "sentinel" },
+  { "sentinel" },
+  { "sentinel" },
+  { "sentinel" },
+  { "sentinel" },
+  { "sentinel" },
+  { "sentinel" },
+  { "sentinel" },
   { "shaman" },
 }
 </script>
@@ -50554,7 +50978,7 @@ shelp.data = {
       {
         name = "ar.blacked_out",
         sig = "ar.blacked_out()",
-        file = "src/05_hits.lua:158",
+        file = "src/05_hits.lua:162",
         doc = {
           "Are you in blackout? Asks the curing side (SS) when it's loaded,",
           "otherwise GMCP's affliction list.",
@@ -50695,7 +51119,7 @@ shelp.data = {
       {
         name = "ar.hits.calling",
         sig = "ar.hits.calling(p, fn)",
-        file = "src/05_hits.lua:359",
+        file = "src/05_hits.lua:378",
         doc = {},
       },
       {
@@ -50710,13 +51134,13 @@ shelp.data = {
       {
         name = "ar.hits.flush_calls",
         sig = "ar.hits.flush_calls()",
-        file = "src/05_hits.lua:375",
+        file = "src/05_hits.lua:394",
         doc = {},
       },
       {
         name = "ar.hits.giving",
         sig = "ar.hits.giving(p, line, fn, call)",
-        file = "src/05_hits.lua:332",
+        file = "src/05_hits.lua:351",
         doc = {
           "Run fn(), which gives p afflictions. Every aff given gets a tag at the",
           "start of the game line it came from (line = its number; nil = no tag).",
@@ -50734,37 +51158,37 @@ shelp.data = {
       {
         name = "ar.hits.install",
         sig = "ar.hits.install()",
-        file = "src/05_hits.lua:390",
+        file = "src/05_hits.lua:409",
         doc = {},
       },
       {
         name = "ar.hits.install_afflines",
         sig = "ar.hits.install_afflines()",
-        file = "src/05_hits.lua:230",
+        file = "src/05_hits.lua:234",
         doc = {},
       },
       {
         name = "ar.hits.install_hitlines",
         sig = "ar.hits.install_hitlines()",
-        file = "src/05_hits.lua:209",
+        file = "src/05_hits.lua:213",
         doc = {},
       },
       {
         name = "ar.hits.learn",
         sig = "ar.hits.learn(key)",
-        file = "src/05_hits.lua:171",
+        file = "src/05_hits.lua:175",
         doc = {},
       },
       {
         name = "ar.hits.learn_line",
         sig = "ar.hits.learn_line(text)",
-        file = "src/05_hits.lua:185",
+        file = "src/05_hits.lua:189",
         doc = {},
       },
       {
         name = "ar.hits.limb",
         sig = "ar.hits.limb(name, limb, pct)",
-        file = "src/05_hits.lua:251",
+        file = "src/05_hits.lua:255",
         doc = { "Limb damage you dealt, as a running total per limb." },
       },
       {
@@ -50782,19 +51206,19 @@ shelp.data = {
       {
         name = "ar.hits.on_prompt",
         sig = "ar.hits.on_prompt()",
-        file = "src/05_hits.lua:383",
+        file = "src/05_hits.lua:402",
         doc = {},
       },
       {
         name = "ar.hits.on_vitals",
         sig = "ar.hits.on_vitals()",
-        file = "src/05_hits.lua:144",
+        file = "src/05_hits.lua:148",
         doc = { "Balance or equilibrium going away while an attack is pending means it fired." },
       },
       {
         name = "ar.hits.party_affs",
         sig = "ar.hits.party_affs(name, text)",
-        file = "src/05_hits.lua:269",
+        file = "src/05_hits.lua:288",
         doc = {
           "Afflictions named in a party call: affliction names or venom names.",
           "A call that names an aff we saw land on them in the last few seconds is",
@@ -50805,7 +51229,7 @@ shelp.data = {
       {
         name = "ar.hits.rec",
         sig = "ar.hits.rec(who, aff, def)",
-        file = "src/05_hits.lua:338",
+        file = "src/05_hits.lua:357",
         doc = {},
       },
       {
@@ -50823,13 +51247,13 @@ shelp.data = {
       {
         name = "ar.hits.set_hitline",
         sig = "ar.hits.set_hitline(key, pattern)",
-        file = "src/05_hits.lua:196",
+        file = "src/05_hits.lua:200",
         doc = {},
       },
       {
         name = "ar.hits.stop_learning",
         sig = "ar.hits.stop_learning()",
-        file = "src/05_hits.lua:180",
+        file = "src/05_hits.lua:184",
         doc = {},
       },
       {
@@ -50841,7 +51265,7 @@ shelp.data = {
       {
         name = "ar.hits.tag",
         sig = "ar.hits.tag(line, got, p)",
-        file = "src/05_hits.lua:362",
+        file = "src/05_hits.lua:381",
         doc = { "\"PAR AST |\" in the affs' colours, in front of that line." },
       },
       {
@@ -51370,7 +51794,7 @@ shelp.data = {
       {
         name = "ar.sentinel.add_aliases",
         sig = "ar.sentinel.add_aliases()",
-        file = "src/11b_sentinel.lua:492",
+        file = "src/11b_sentinel.lua:496",
         doc = {},
       },
       {
@@ -51388,19 +51812,19 @@ shelp.data = {
       {
         name = "ar.sentinel.dismember",
         sig = "ar.sentinel.dismember(tgt)",
-        file = "src/11b_sentinel.lua:379",
+        file = "src/11b_sentinel.lua:383",
         doc = {},
       },
       {
         name = "ar.sentinel.enrage",
         sig = "ar.sentinel.enrage(venom, arms_down)",
-        file = "src/11b_sentinel.lua:186",
+        file = "src/11b_sentinel.lua:190",
         doc = {},
       },
       {
         name = "ar.sentinel.group",
         sig = "ar.sentinel.group(tgt)",
-        file = "src/11b_sentinel.lua:324",
+        file = "src/11b_sentinel.lua:328",
         doc = {},
       },
       {
@@ -51655,7 +52079,7 @@ shelp.data = {
       {
         name = "ar.sentinel.prep",
         sig = "ar.sentinel.prep(mode, limb)",
-        file = "src/11b_sentinel.lua:486",
+        file = "src/11b_sentinel.lua:490",
         doc = { "Pick a limb and mode, then attack (the ah/arl/c&lt;limb&gt; aliases)." },
       },
       {
@@ -51667,7 +52091,7 @@ shelp.data = {
       {
         name = "ar.sentinel.ranged",
         sig = "ar.sentinel.ranged(tgt, limbkey, dir)",
-        file = "src/11b_sentinel.lua:460",
+        file = "src/11b_sentinel.lua:464",
         doc = {
           "s&lt;limb&gt; [dir]: axe at a limb, into the next room when there's a direction",
           "(every exit when there isn't, as the old alias did).",
@@ -51676,19 +52100,19 @@ shelp.data = {
       {
         name = "ar.sentinel.remove_aliases",
         sig = "ar.sentinel.remove_aliases()",
-        file = "src/11b_sentinel.lua:514",
+        file = "src/11b_sentinel.lua:518",
         doc = {},
       },
       {
         name = "ar.sentinel.ret",
         sig = "ar.sentinel.ret(tgt)",
-        file = "src/11b_sentinel.lua:356",
+        file = "src/11b_sentinel.lua:360",
         doc = {},
       },
       {
         name = "ar.sentinel.send",
         sig = "ar.sentinel.send(parts, plan, kind)",
-        file = "src/11b_sentinel.lua:174",
+        file = "src/11b_sentinel.lua:178",
         doc = { "Wield, wipe, then the rest; queued as one, and AR waits on the plan." },
       },
       {
@@ -51700,13 +52124,13 @@ shelp.data = {
       {
         name = "ar.sentinel.solo",
         sig = "ar.sentinel.solo(tgt)",
-        file = "src/11b_sentinel.lua:248",
+        file = "src/11b_sentinel.lua:252",
         doc = {},
       },
       {
         name = "ar.sentinel.solo_venom",
         sig = "ar.sentinel.solo_venom()",
-        file = "src/11b_sentinel.lua:227",
+        file = "src/11b_sentinel.lua:231",
         doc = {},
       },
       {
@@ -51817,19 +52241,19 @@ shelp.data = {
       {
         name = "ar.watch.A",
         sig = "ar.watch.A(fn)",
-        file = "src/04_watch.lua:120",
+        file = "src/04_watch.lua:162",
         doc = {},
       },
       {
         name = "ar.watch.applied",
         sig = "ar.watch.applied(p, loc)",
-        file = "src/04_watch.lua:85",
+        file = "src/04_watch.lua:127",
         doc = {},
       },
       {
         name = "ar.watch.ate",
         sig = "ar.watch.ate(p, text)",
-        file = "src/04_watch.lua:72",
+        file = "src/04_watch.lua:73",
         doc = {},
       },
       {
@@ -51841,7 +52265,7 @@ shelp.data = {
       {
         name = "ar.watch.def_later",
         sig = "ar.watch.def_later(p, def, delay)",
-        file = "src/04_watch.lua:112",
+        file = "src/04_watch.lua:154",
         doc = { "Some defences come up a moment after the action (deafness after hawthorn)." },
       },
       {
@@ -51853,20 +52277,26 @@ shelp.data = {
       {
         name = "ar.watch.focused",
         sig = "ar.watch.focused(p)",
-        file = "src/04_watch.lua:99",
+        file = "src/04_watch.lua:141",
         doc = {},
       },
       {
         name = "ar.watch.install",
         sig = "ar.watch.install()",
-        file = "src/04_watch.lua:248",
+        file = "src/04_watch.lua:296",
         doc = {},
       },
       {
         name = "ar.watch.install_class_cures",
         sig = "ar.watch.install_class_cures()",
-        file = "src/04_watch.lua:223",
+        file = "src/04_watch.lua:271",
         doc = { "Active and passive cure lines come from ar.data.class_cures (+ your overrides)." },
+      },
+      {
+        name = "ar.watch.limb_apply",
+        sig = "ar.watch.limb_apply(p, where)",
+        file = "src/04_watch.lua:93",
+        doc = {},
       },
       {
         name = "ar.watch.not_blocked",
@@ -51877,7 +52307,7 @@ shelp.data = {
       {
         name = "ar.watch.on_party_call",
         sig = "ar.watch.on_party_call(m)",
-        file = "src/04_watch.lua:240",
+        file = "src/04_watch.lua:288",
         doc = {
           "Party target calls: \"(Party): Dunn says, \"TARGET Bob.\"\" Follow with",
           "\"ar follow on\" (or \"ar follow &lt;leader&gt;\" to only take one person's calls).",
@@ -51886,7 +52316,13 @@ shelp.data = {
       {
         name = "ar.watch.on_prompt",
         sig = "ar.watch.on_prompt()",
-        file = "src/04_watch.lua:60",
+        file = "src/04_watch.lua:61",
+        doc = {},
+      },
+      {
+        name = "ar.watch.restored",
+        sig = "ar.watch.restored(p, where)",
+        file = "src/04_watch.lua:114",
         doc = {},
       },
       {
@@ -51898,13 +52334,13 @@ shelp.data = {
       {
         name = "ar.watch.smoked",
         sig = "ar.watch.smoked(p)",
-        file = "src/04_watch.lua:93",
+        file = "src/04_watch.lua:135",
         doc = {},
       },
       {
         name = "ar.watch.treed",
         sig = "ar.watch.treed(p)",
-        file = "src/04_watch.lua:105",
+        file = "src/04_watch.lua:147",
         doc = {},
       },
       {
