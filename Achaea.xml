@@ -6635,6 +6635,83 @@ p:def_up("fangbarrier")
           </Trigger>
         </TriggerGroup>
         <TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+          <name>install</name>
+          <script></script>
+          <triggerType>0</triggerType>
+          <conditonLineDelta>0</conditonLineDelta>
+          <mStayOpen>0</mStayOpen>
+          <mCommand></mCommand>
+          <packageName></packageName>
+          <mFgColor>#ff0000</mFgColor>
+          <mBgColor>#ffff00</mBgColor>
+          <mSoundFile></mSoundFile>
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+            <name>.+ has no venoms or magical effects on it.</name>
+            <script>ar.weapons.answered()
+</script>
+            <triggerType>0</triggerType>
+            <conditonLineDelta>0</conditonLineDelta>
+            <mStayOpen>0</mStayOpen>
+            <mCommand></mCommand>
+            <packageName></packageName>
+            <mFgColor>#ff0000</mFgColor>
+            <mBgColor>#ffff00</mBgColor>
+            <mSoundFile></mSoundFile>
+            <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            <colorTriggerBgColor>#000000</colorTriggerBgColor>
+            <regexCodeList>
+              <string>^.+ has no venoms or magical effects on it\.$</string>
+            </regexCodeList>
+            <regexCodePropertyList>
+              <integer>1</integer>
+            </regexCodePropertyList>
+          </Trigger>
+          <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+            <name>.+ has the following venoms or magical effects on it:</name>
+            <script>ar.weapons.answered()
+</script>
+            <triggerType>0</triggerType>
+            <conditonLineDelta>0</conditonLineDelta>
+            <mStayOpen>0</mStayOpen>
+            <mCommand></mCommand>
+            <packageName></packageName>
+            <mFgColor>#ff0000</mFgColor>
+            <mBgColor>#ffff00</mBgColor>
+            <mSoundFile></mSoundFile>
+            <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            <colorTriggerBgColor>#000000</colorTriggerBgColor>
+            <regexCodeList>
+              <string>^.+ has the following venoms or magical effects on it:$</string>
+            </regexCodeList>
+            <regexCodePropertyList>
+              <integer>1</integer>
+            </regexCodePropertyList>
+          </Trigger>
+          <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+            <name>\s*\d+) (\w+)</name>
+            <script>ar.weapons.venom_line(matches[2])
+</script>
+            <triggerType>0</triggerType>
+            <conditonLineDelta>0</conditonLineDelta>
+            <mStayOpen>0</mStayOpen>
+            <mCommand></mCommand>
+            <packageName></packageName>
+            <mFgColor>#ff0000</mFgColor>
+            <mBgColor>#ffff00</mBgColor>
+            <mSoundFile></mSoundFile>
+            <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            <colorTriggerBgColor>#000000</colorTriggerBgColor>
+            <regexCodeList>
+              <string>^\s*\d+\) (\w+)$</string>
+            </regexCodeList>
+            <regexCodePropertyList>
+              <integer>1</integer>
+            </regexCodePropertyList>
+          </Trigger>
+        </TriggerGroup>
+        <TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
           <name>attack lines</name>
           <script></script>
           <triggerType>0</triggerType>
@@ -18056,6 +18133,244 @@ p:give("weariness")
         </TriggerGroup>
       </TriggerGroup>
       <TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+        <name>WK</name>
+        <script></script>
+        <triggerType>0</triggerType>
+        <conditonLineDelta>0</conditonLineDelta>
+        <mStayOpen>0</mStayOpen>
+        <mCommand></mCommand>
+        <packageName></packageName>
+        <mFgColor>#ff0000</mFgColor>
+        <mBgColor>#ffff00</mBgColor>
+        <mSoundFile></mSoundFile>
+        <colorTriggerFgColor>#000000</colorTriggerFgColor>
+        <colorTriggerBgColor>#000000</colorTriggerBgColor>
+        <TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+          <name>block lines</name>
+          <script></script>
+          <triggerType>0</triggerType>
+          <conditonLineDelta>0</conditonLineDelta>
+          <mStayOpen>0</mStayOpen>
+          <mCommand></mCommand>
+          <packageName></packageName>
+          <mFgColor>#ff0000</mFgColor>
+          <mBgColor>#ffff00</mBgColor>
+          <mSoundFile></mSoundFile>
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+            <name>There is a door in the way</name>
+            <script>wk.on_block_line(matches[1])
+</script>
+            <triggerType>0</triggerType>
+            <conditonLineDelta>0</conditonLineDelta>
+            <mStayOpen>0</mStayOpen>
+            <mCommand></mCommand>
+            <packageName></packageName>
+            <mFgColor>#ff0000</mFgColor>
+            <mBgColor>#ffff00</mBgColor>
+            <mSoundFile></mSoundFile>
+            <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            <colorTriggerBgColor>#000000</colorTriggerBgColor>
+            <regexCodeList>
+              <string>^There is a door in the way</string>
+            </regexCodeList>
+            <regexCodePropertyList>
+              <integer>1</integer>
+            </regexCodePropertyList>
+          </Trigger>
+          <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+            <name>The door is locked</name>
+            <script>wk.on_block_line(matches[1])
+</script>
+            <triggerType>0</triggerType>
+            <conditonLineDelta>0</conditonLineDelta>
+            <mStayOpen>0</mStayOpen>
+            <mCommand></mCommand>
+            <packageName></packageName>
+            <mFgColor>#ff0000</mFgColor>
+            <mBgColor>#ffff00</mBgColor>
+            <mSoundFile></mSoundFile>
+            <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            <colorTriggerBgColor>#000000</colorTriggerBgColor>
+            <regexCodeList>
+              <string>^The door is locked</string>
+            </regexCodeList>
+            <regexCodePropertyList>
+              <integer>1</integer>
+            </regexCodePropertyList>
+          </Trigger>
+          <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+            <name>You cannot go that way</name>
+            <script>wk.on_block_line(matches[1])
+</script>
+            <triggerType>0</triggerType>
+            <conditonLineDelta>0</conditonLineDelta>
+            <mStayOpen>0</mStayOpen>
+            <mCommand></mCommand>
+            <packageName></packageName>
+            <mFgColor>#ff0000</mFgColor>
+            <mBgColor>#ffff00</mBgColor>
+            <mSoundFile></mSoundFile>
+            <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            <colorTriggerBgColor>#000000</colorTriggerBgColor>
+            <regexCodeList>
+              <string>^You cannot go that way</string>
+            </regexCodeList>
+            <regexCodePropertyList>
+              <integer>1</integer>
+            </regexCodePropertyList>
+          </Trigger>
+          <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+            <name>You can't go that way</name>
+            <script>wk.on_block_line(matches[1])
+</script>
+            <triggerType>0</triggerType>
+            <conditonLineDelta>0</conditonLineDelta>
+            <mStayOpen>0</mStayOpen>
+            <mCommand></mCommand>
+            <packageName></packageName>
+            <mFgColor>#ff0000</mFgColor>
+            <mBgColor>#ffff00</mBgColor>
+            <mSoundFile></mSoundFile>
+            <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            <colorTriggerBgColor>#000000</colorTriggerBgColor>
+            <regexCodeList>
+              <string>^You can't go that way</string>
+            </regexCodeList>
+            <regexCodePropertyList>
+              <integer>1</integer>
+            </regexCodePropertyList>
+          </Trigger>
+          <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+            <name>You may not (?:go|enter|pass)</name>
+            <script>wk.on_block_line(matches[1])
+</script>
+            <triggerType>0</triggerType>
+            <conditonLineDelta>0</conditonLineDelta>
+            <mStayOpen>0</mStayOpen>
+            <mCommand></mCommand>
+            <packageName></packageName>
+            <mFgColor>#ff0000</mFgColor>
+            <mBgColor>#ffff00</mBgColor>
+            <mSoundFile></mSoundFile>
+            <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            <colorTriggerBgColor>#000000</colorTriggerBgColor>
+            <regexCodeList>
+              <string>^You may not (?:go|enter|pass)</string>
+            </regexCodeList>
+            <regexCodePropertyList>
+              <integer>1</integer>
+            </regexCodePropertyList>
+          </Trigger>
+          <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+            <name>You are not permitted</name>
+            <script>wk.on_block_line(matches[1])
+</script>
+            <triggerType>0</triggerType>
+            <conditonLineDelta>0</conditonLineDelta>
+            <mStayOpen>0</mStayOpen>
+            <mCommand></mCommand>
+            <packageName></packageName>
+            <mFgColor>#ff0000</mFgColor>
+            <mBgColor>#ffff00</mBgColor>
+            <mSoundFile></mSoundFile>
+            <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            <colorTriggerBgColor>#000000</colorTriggerBgColor>
+            <regexCodeList>
+              <string>^You are not permitted</string>
+            </regexCodeList>
+            <regexCodePropertyList>
+              <integer>1</integer>
+            </regexCodePropertyList>
+          </Trigger>
+          <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+            <name>Some force prevents you</name>
+            <script>wk.on_block_line(matches[1])
+</script>
+            <triggerType>0</triggerType>
+            <conditonLineDelta>0</conditonLineDelta>
+            <mStayOpen>0</mStayOpen>
+            <mCommand></mCommand>
+            <packageName></packageName>
+            <mFgColor>#ff0000</mFgColor>
+            <mBgColor>#ffff00</mBgColor>
+            <mSoundFile></mSoundFile>
+            <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            <colorTriggerBgColor>#000000</colorTriggerBgColor>
+            <regexCodeList>
+              <string>^Some force prevents you</string>
+            </regexCodeList>
+            <regexCodePropertyList>
+              <integer>1</integer>
+            </regexCodePropertyList>
+          </Trigger>
+          <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+            <name>A strange force prevents you</name>
+            <script>wk.on_block_line(matches[1])
+</script>
+            <triggerType>0</triggerType>
+            <conditonLineDelta>0</conditonLineDelta>
+            <mStayOpen>0</mStayOpen>
+            <mCommand></mCommand>
+            <packageName></packageName>
+            <mFgColor>#ff0000</mFgColor>
+            <mBgColor>#ffff00</mBgColor>
+            <mSoundFile></mSoundFile>
+            <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            <colorTriggerBgColor>#000000</colorTriggerBgColor>
+            <regexCodeList>
+              <string>^A strange force prevents you</string>
+            </regexCodeList>
+            <regexCodePropertyList>
+              <integer>1</integer>
+            </regexCodePropertyList>
+          </Trigger>
+          <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+            <name>(?:You find )?your way is blocked</name>
+            <script>wk.on_block_line(matches[1])
+</script>
+            <triggerType>0</triggerType>
+            <conditonLineDelta>0</conditonLineDelta>
+            <mStayOpen>0</mStayOpen>
+            <mCommand></mCommand>
+            <packageName></packageName>
+            <mFgColor>#ff0000</mFgColor>
+            <mBgColor>#ffff00</mBgColor>
+            <mSoundFile></mSoundFile>
+            <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            <colorTriggerBgColor>#000000</colorTriggerBgColor>
+            <regexCodeList>
+              <string>^(?:You find )?your way is blocked</string>
+            </regexCodeList>
+            <regexCodePropertyList>
+              <integer>1</integer>
+            </regexCodePropertyList>
+          </Trigger>
+          <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+            <name>\S.* (?:blocks|bars) your (?:way|path)</name>
+            <script>wk.on_block_line(matches[1])
+</script>
+            <triggerType>0</triggerType>
+            <conditonLineDelta>0</conditonLineDelta>
+            <mStayOpen>0</mStayOpen>
+            <mCommand></mCommand>
+            <packageName></packageName>
+            <mFgColor>#ff0000</mFgColor>
+            <mBgColor>#ffff00</mBgColor>
+            <mSoundFile></mSoundFile>
+            <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            <colorTriggerBgColor>#000000</colorTriggerBgColor>
+            <regexCodeList>
+              <string>^\S.* (?:blocks|bars) your (?:way|path)</string>
+            </regexCodeList>
+            <regexCodePropertyList>
+              <integer>1</integer>
+            </regexCodePropertyList>
+          </Trigger>
+        </TriggerGroup>
+      </TriggerGroup>
+      <TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
         <name>IN</name>
         <script></script>
         <triggerType>0</triggerType>
@@ -18118,6 +18433,48 @@ p:give("weariness")
             <colorTriggerBgColor>#000000</colorTriggerBgColor>
             <regexCodeList>
               <string>^\s*Status\s+Pipe\s+Contents\s+Puffs</string>
+            </regexCodeList>
+            <regexCodePropertyList>
+              <integer>1</integer>
+            </regexCodePropertyList>
+          </Trigger>
+          <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+            <name>You are wielding:\s*</name>
+            <script>IN.start_capture("wielding", false)
+</script>
+            <triggerType>0</triggerType>
+            <conditonLineDelta>0</conditonLineDelta>
+            <mStayOpen>0</mStayOpen>
+            <mCommand></mCommand>
+            <packageName></packageName>
+            <mFgColor>#ff0000</mFgColor>
+            <mBgColor>#ffff00</mBgColor>
+            <mSoundFile></mSoundFile>
+            <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            <colorTriggerBgColor>#000000</colorTriggerBgColor>
+            <regexCodeList>
+              <string>^You are wielding:\s*$</string>
+            </regexCodeList>
+            <regexCodePropertyList>
+              <integer>1</integer>
+            </regexCodePropertyList>
+          </Trigger>
+          <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+            <name>You are wielding nothing</name>
+            <script>IN.set_wielding({})
+</script>
+            <triggerType>0</triggerType>
+            <conditonLineDelta>0</conditonLineDelta>
+            <mStayOpen>0</mStayOpen>
+            <mCommand></mCommand>
+            <packageName></packageName>
+            <mFgColor>#ff0000</mFgColor>
+            <mBgColor>#ffff00</mBgColor>
+            <mSoundFile></mSoundFile>
+            <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            <colorTriggerBgColor>#000000</colorTriggerBgColor>
+            <regexCodeList>
+              <string>^You are wielding nothing</string>
             </regexCodeList>
             <regexCodePropertyList>
               <integer>1</integer>
@@ -18244,6 +18601,84 @@ p:give("weariness")
             <colorTriggerBgColor>#000000</colorTriggerBgColor>
             <regexCodeList>
               <string>\b[A-Z][a-z]+\b</string>
+            </regexCodeList>
+            <regexCodePropertyList>
+              <integer>1</integer>
+            </regexCodePropertyList>
+          </Trigger>
+        </TriggerGroup>
+        <TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+          <name>install enemy sync</name>
+          <script></script>
+          <triggerType>0</triggerType>
+          <conditonLineDelta>0</conditonLineDelta>
+          <mStayOpen>0</mStayOpen>
+          <mCommand></mCommand>
+          <packageName></packageName>
+          <mFgColor>#ff0000</mFgColor>
+          <mBgColor>#ffff00</mBgColor>
+          <mSoundFile></mSoundFile>
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+            <name>(\w+) is now one of your enemies.</name>
+            <script>pt.list_add("enemies", matches[2])
+</script>
+            <triggerType>0</triggerType>
+            <conditonLineDelta>0</conditonLineDelta>
+            <mStayOpen>0</mStayOpen>
+            <mCommand></mCommand>
+            <packageName></packageName>
+            <mFgColor>#ff0000</mFgColor>
+            <mBgColor>#ffff00</mBgColor>
+            <mSoundFile></mSoundFile>
+            <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            <colorTriggerBgColor>#000000</colorTriggerBgColor>
+            <regexCodeList>
+              <string>^(\w+) is now one of your enemies\.$</string>
+            </regexCodeList>
+            <regexCodePropertyList>
+              <integer>1</integer>
+            </regexCodePropertyList>
+          </Trigger>
+          <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+            <name>You declare that (\w+) will no longer be one of your enemies.</name>
+            <script>pt.list_del("enemies", matches[2])
+</script>
+            <triggerType>0</triggerType>
+            <conditonLineDelta>0</conditonLineDelta>
+            <mStayOpen>0</mStayOpen>
+            <mCommand></mCommand>
+            <packageName></packageName>
+            <mFgColor>#ff0000</mFgColor>
+            <mBgColor>#ffff00</mBgColor>
+            <mSoundFile></mSoundFile>
+            <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            <colorTriggerBgColor>#000000</colorTriggerBgColor>
+            <regexCodeList>
+              <string>^You declare that (\w+) will no longer be one of your enemies\.$</string>
+            </regexCodeList>
+            <regexCodePropertyList>
+              <integer>1</integer>
+            </regexCodePropertyList>
+          </Trigger>
+          <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+            <name>In a moment of forgiveness, you declare that you have no enemies.</name>
+            <script>for _, n in ipairs(pt.list_names("enemies")) do pt.list_del("enemies", n) end
+pt.echo("enemies list cleared (hostile cities and houses still count)")
+</script>
+            <triggerType>0</triggerType>
+            <conditonLineDelta>0</conditonLineDelta>
+            <mStayOpen>0</mStayOpen>
+            <mCommand></mCommand>
+            <packageName></packageName>
+            <mFgColor>#ff0000</mFgColor>
+            <mBgColor>#ffff00</mBgColor>
+            <mSoundFile></mSoundFile>
+            <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            <colorTriggerBgColor>#000000</colorTriggerBgColor>
+            <regexCodeList>
+              <string>^In a moment of forgiveness, you declare that you have no enemies\.$</string>
             </regexCodeList>
             <regexCodePropertyList>
               <integer>1</integer>
@@ -21302,7 +21737,7 @@ ar.settings.enabled = true ar.save() ar.echo("offense on")
           </Alias>
           <Alias isActive="yes" isFolder="no">
             <name>ar optimistic</name>
-            <script>-- ar optimistic on|off      count unconfirmed attacks as hits unless they missed
+            <script>-- ar optimistic on|off      in blackout, count unconfirmed attacks as hits unless they missed
 local w = acs.words(matches[2] or "")
 local key = "optimistic"
 local label = "optimistic hits"
@@ -21952,6 +22387,371 @@ af.run(matches[2] or "")
         </AliasGroup>
       </AliasGroup>
       <AliasGroup isActive="yes" isFolder="yes">
+        <name>WK</name>
+        <script></script>
+        <command></command>
+        <packageName></packageName>
+        <regex></regex>
+        <AliasGroup isActive="yes" isFolder="yes">
+          <name>commands</name>
+          <script></script>
+          <command></command>
+          <packageName></packageName>
+          <regex></regex>
+          <Alias isActive="yes" isFolder="no">
+            <name>wk bash</name>
+            <script>-- wk bash on|off         stop in rooms with mobs BS would hunt (on)
+local w = acs.words(matches[2] or "")
+local key = "bash"
+local on = "stops in rooms with mobs BS would hunt"
+local off = "doesn't stop for mobs"
+wk.settings[key] = wk.onoff(w[1], wk.settings[key])
+wk.save_settings()
+wk.echo(wk.settings[key] and on or off)
+</script>
+            <command></command>
+            <packageName></packageName>
+            <regex>^wk\s+(?i)bash(?:\s+(.*))?$</regex>
+          </Alias>
+          <Alias isActive="yes" isFolder="no">
+            <name>wk detour</name>
+            <script>-- wk detour N            most rooms in a row outside the area on the way (6)
+local w = acs.words(matches[2] or "")
+local min = nil
+local word = "detour"
+local key = "detour"
+local unit = ""
+local n = tonumber(w[1])
+if not n or n &lt; (min or 0) then return wk.echo(word .. ": " .. tostring(wk.settings[key]) .. unit) end
+wk.settings[key] = n
+wk.save_settings()
+wk.echo(word .. " " .. n .. unit)
+</script>
+            <command></command>
+            <packageName></packageName>
+            <regex>^wk\s+(?i)detour(?:\s+(.*))?$</regex>
+          </Alias>
+          <Alias isActive="yes" isFolder="no">
+            <name>wk echo</name>
+            <script>-- wk echo on|off         a line for each new room
+local w = acs.words(matches[2] or "")
+local key = "echo"
+local on = "a line for each new room"
+local off = "quiet"
+wk.settings[key] = wk.onoff(w[1], wk.settings[key])
+wk.save_settings()
+wk.echo(wk.settings[key] and on or off)
+</script>
+            <command></command>
+            <packageName></packageName>
+            <regex>^wk\s+(?i)echo(?:\s+(.*))?$</regex>
+          </Alias>
+          <Alias isActive="yes" isFolder="no">
+            <name>wk enemies</name>
+            <script>-- wk enemies on|off      stop when an enemy (PT) is in the room (on)
+local w = acs.words(matches[2] or "")
+local key = "enemies"
+local on = "stops when an enemy is in the room"
+local off = "doesn't stop for enemies"
+wk.settings[key] = wk.onoff(w[1], wk.settings[key])
+wk.save_settings()
+wk.echo(wk.settings[key] and on or off)
+</script>
+            <command></command>
+            <packageName></packageName>
+            <regex>^wk\s+(?i)enemies(?:\s+(.*))?$</regex>
+          </Alias>
+          <Alias isActive="yes" isFolder="no">
+            <name>wk floor</name>
+            <script>-- wk floor               walk every room of this area on your level
+wk.start(nil, true)
+</script>
+            <command></command>
+            <packageName></packageName>
+            <regex>^wk\s+(?i)floor(?:\s+(.*))?$</regex>
+          </Alias>
+          <Alias isActive="yes" isFolder="no">
+            <name>wk go</name>
+            <script>wk.resume()
+</script>
+            <command></command>
+            <packageName></packageName>
+            <regex>^wk\s+(?i)go(?:\s+(.*))?$</regex>
+          </Alias>
+          <Alias isActive="yes" isFolder="no">
+            <name>wk left</name>
+            <script>-- wk left                the rooms still to go, closest first (-- = no way found)
+if not wk.w.scope then return wk.echo("not walking") end
+local here = wk.room().num
+local dist = wk.paths(here)
+local list = {}
+for id in pairs(wk.todo()) do list[#list + 1] = id end
+table.sort(list, function(a, b) return (dist[a] or 1e9) &lt; (dist[b] or 1e9) end)
+wk.echo(#list .. " room" .. (#list == 1 and "" or "s") .. " to go")
+for i = 1, math.min(#list, 20) do
+  local id = list[i]
+  cecho(("\n  %-7d %-5s %s"):format(id, dist[id] and tostring(dist[id]) or "--",
+    (type(getRoomName) == "function" and getRoomName(id)) or ""))
+end
+if #list &gt; 20 then cecho("\n  ...") end
+</script>
+            <command></command>
+            <packageName></packageName>
+            <regex>^wk\s+(?i)left(?:\s+(.*))?$</regex>
+          </Alias>
+          <Alias isActive="yes" isFolder="no">
+            <name>wk loop</name>
+            <script>-- wk loop on|off         start again when every room is done (patrol)
+local w = acs.words(matches[2] or "")
+local key = "loop"
+local on = "starts again when it's done (patrol)"
+local off = "stops when it's done"
+wk.settings[key] = wk.onoff(w[1], wk.settings[key])
+wk.save_settings()
+wk.echo(wk.settings[key] and on or off)
+</script>
+            <command></command>
+            <packageName></packageName>
+            <regex>^wk\s+(?i)loop(?:\s+(.*))?$</regex>
+          </Alias>
+          <Alias isActive="yes" isFolder="no">
+            <name>wk next</name>
+            <script>-- wk next (or just wk)   go on after a stop
+wk.resume()
+</script>
+            <command></command>
+            <packageName></packageName>
+            <regex>^wk\s+(?i)next(?:\s+(.*))?$</regex>
+          </Alias>
+          <Alias isActive="yes" isFolder="no">
+            <name>wk off</name>
+            <script>wk.stop()
+</script>
+            <command></command>
+            <packageName></packageName>
+            <regex>^wk\s+(?i)off(?:\s+(.*))?$</regex>
+          </Alias>
+          <Alias isActive="yes" isFolder="no">
+            <name>wk pause</name>
+            <script>-- wk pause               stop for now (wk goes on)
+wk.pause()
+</script>
+            <command></command>
+            <packageName></packageName>
+            <regex>^wk\s+(?i)pause(?:\s+(.*))?$</regex>
+          </Alias>
+          <Alias isActive="yes" isFolder="no">
+            <name>wk reset</name>
+            <script>-- wk reset               forget which rooms are done (and what was blocked)
+if not wk.w.scope then return wk.echo("not walking") end
+local here = wk.room().num
+wk.w.visited, wk.w.bad, wk.w.blocked, wk.w.skip_why, wk.w.skipped, wk.w.target = {}, {}, {}, nil, nil, nil
+wk.mark(here)
+wk.echo("every room is to do again. " .. wk.summary())
+</script>
+            <command></command>
+            <packageName></packageName>
+            <regex>^wk\s+(?i)reset(?:\s+(.*))?$</regex>
+          </Alias>
+          <Alias isActive="yes" isFolder="no">
+            <name>wk skip</name>
+            <script>-- wk skip [ROOM|here]    never walk to that room
+local w = acs.words(matches[2] or "")
+local id = wk.room_arg(w[1])
+if not id or id == 0 then return wk.err("skip which room? (a number or here)") end
+wk.settings.skip[id] = true
+wk.save_settings()
+wk.echo("never going to room " .. id .. " (&lt;white&gt;wk unskip " .. id .. "&lt;reset&gt; to undo)")
+if wk.w.target == id and wk.w.state == "walking" then wk.w.target = nil end
+</script>
+            <command></command>
+            <packageName></packageName>
+            <regex>^wk\s+(?i)skip(?:\s+(.*))?$</regex>
+          </Alias>
+          <Alias isActive="yes" isFolder="no">
+            <name>wk skipped</name>
+            <script>-- wk skipped             rooms the last walk couldn't get into, and why
+local list = acs.sorted_keys(wk.w.skipped or {})
+if #list == 0 then return wk.echo("nothing skipped" .. (wk.w.active and " yet" or "")) end
+wk.echo(#list .. " room" .. (#list == 1 and "" or "s") .. " skipped")
+for _, id in ipairs(list) do
+  cecho(("\n  %-7d %s &lt;dim_grey&gt;%s"):format(id, (type(getRoomName) == "function" and getRoomName(id)) or "",
+    tostring(wk.w.skipped[id])))
+end
+</script>
+            <command></command>
+            <packageName></packageName>
+            <regex>^wk\s+(?i)skipped(?:\s+(.*))?$</regex>
+          </Alias>
+          <Alias isActive="yes" isFolder="no">
+            <name>wk skips</name>
+            <script>-- wk skips               the rooms you skipped
+local list = acs.sorted_keys(wk.settings.skip)
+wk.echo(#list .. " room" .. (#list == 1 and "" or "s") .. " never walked to")
+for _, id in ipairs(list) do cecho(("\n  %-7d %s"):format(id, (type(getRoomName) == "function" and getRoomName(id)) or "")) end
+</script>
+            <command></command>
+            <packageName></packageName>
+            <regex>^wk\s+(?i)skips(?:\s+(.*))?$</regex>
+          </Alias>
+          <Alias isActive="yes" isFolder="no">
+            <name>wk start</name>
+            <script>-- wk start [AREA]        walk every room of this area (or AREA, part of its name)
+-- wk start floor [AREA]  only the rooms on your level
+local w = acs.words(matches[2] or "")
+local rest = matches[2] or ""
+local floor = w[1] and w[1]:lower() == "floor"
+local name = floor and rest:match("^%S+%s+(.+)$") or rest
+name = name and name:match("^%s*(.-)%s*$") or ""
+local area
+if name ~= "" and name:lower() ~= "here" then
+  local id, full = wk.find_area(name)
+  if not id then return wk.err("no area on the map called " .. name) end
+  area = id
+  if full then wk.debug("area " .. full) end
+end
+wk.start(area, floor)
+</script>
+            <command></command>
+            <packageName></packageName>
+            <regex>^wk\s+(?i)start(?:\s+(.*))?$</regex>
+          </Alias>
+          <Alias isActive="yes" isFolder="no">
+            <name>wk status</name>
+            <script>-- wk status              where the walk is up to and the settings
+local s = wk.settings
+if wk.w.scope then
+  local what = wk.w.active and (wk.w.state or "walking") or (wk.w.state or "stopped")
+  if wk.w.state == "held" and wk.w.hold_why then what = what .. ": " .. wk.w.hold_why end
+  wk.echo(("&lt;white&gt;%s&lt;reset&gt;%s, %s; %s"):format(wk.w.scope.name, wk.w.scope.z and (" floor " .. wk.w.scope.z) or "", what, wk.summary()))
+  if wk.w.target and wk.w.active then cecho(("\n  heading for %d%s"):format(wk.w.target,
+    (type(getRoomName) == "function" and getRoomName(wk.w.target)) and (" (" .. getRoomName(wk.w.target) .. ")") or "")) end
+else
+  wk.echo("not walking (&lt;white&gt;wk start&lt;reset&gt;)")
+end
+cecho(("\n  via %s, wait %ss, floor cost %s, loop %s, echo %s"):format(s.via, tostring(s.wait), tostring(s.zcost),
+  s.loop and "on" or "off", s.echo and "on" or "off"))
+cecho(("\n  stops for: %s%s%s"):format(s.bash and "mobs BS hunts, " or "", s.enemies and "enemies, " or "",
+  #s.stopfor &gt; 0 and table.concat(s.stopfor, ", ") or "nothing listed"))
+</script>
+            <command></command>
+            <packageName></packageName>
+            <regex>^wk\s+(?i)status(?:\s+(.*))?$</regex>
+          </Alias>
+          <Alias isActive="yes" isFolder="no">
+            <name>wk stop</name>
+            <script>-- wk stop                stop walking
+wk.stop()
+</script>
+            <command></command>
+            <packageName></packageName>
+            <regex>^wk\s+(?i)stop(?:\s+(.*))?$</regex>
+          </Alias>
+          <Alias isActive="yes" isFolder="no">
+            <name>wk stopfor</name>
+            <script>-- wk stopfor add TEXT    stop in rooms with a denizen or item called that (part of the name)
+-- wk stopfor remove TEXT take it off; stopfor clear: empty the list
+local w = acs.words(matches[2] or "")
+local rest = matches[2] or ""
+local s = wk.settings
+local sub = (w[1] or ""):lower()
+local text = rest:match("^%S+%s+(.+)$")
+if sub == "add" and text then
+  s.stopfor[#s.stopfor + 1] = text:lower()
+elseif (sub == "remove" or sub == "del") and text then
+  for i, v in ipairs(s.stopfor) do if v == text:lower() then table.remove(s.stopfor, i) break end end
+elseif sub == "clear" then
+  s.stopfor = {}
+elseif sub ~= "" then
+  return wk.err("wk stopfor add|remove TEXT, or wk stopfor clear")
+end
+wk.save_settings()
+wk.echo("stops for: " .. (#s.stopfor &gt; 0 and table.concat(s.stopfor, ", ") or "nothing listed"))
+</script>
+            <command></command>
+            <packageName></packageName>
+            <regex>^wk\s+(?i)stopfor(?:\s+(.*))?$</regex>
+          </Alias>
+          <Alias isActive="yes" isFolder="no">
+            <name>wk unskip</name>
+            <script>-- wk unskip ROOM|here    undo wk skip
+local w = acs.words(matches[2] or "")
+local id = wk.room_arg(w[1])
+if not (id and wk.settings.skip[id]) then return wk.err("not skipped: " .. tostring(w[1])) end
+wk.settings.skip[id] = nil
+wk.save_settings()
+wk.echo("room " .. id .. " is back in")
+</script>
+            <command></command>
+            <packageName></packageName>
+            <regex>^wk\s+(?i)unskip(?:\s+(.*))?$</regex>
+          </Alias>
+          <Alias isActive="yes" isFolder="no">
+            <name>wk via</name>
+            <script>-- wk via step|mapper     one exit at a time (step), or the mapper's goto for each leg
+local w = acs.words(matches[2] or "")
+local m = (w[1] or ""):lower()
+if m ~= "step" and m ~= "mapper" then return wk.echo("via " .. wk.settings.via .. " (wk via step|mapper)") end
+wk.settings.via = m
+wk.save_settings()
+wk.echo(m == "step" and "walks one exit at a time" or "the mapper's goto walks each leg")
+if m == "mapper" and not wk.mapper() then wk.echo("&lt;yellow&gt;the mapper isn't loaded&lt;reset&gt;; walking a step at a time until it is") end
+</script>
+            <command></command>
+            <packageName></packageName>
+            <regex>^wk\s+(?i)via(?:\s+(.*))?$</regex>
+          </Alias>
+          <Alias isActive="yes" isFolder="no">
+            <name>wk wait</name>
+            <script>-- wk wait SECONDS        stay that long in each new room (0)
+local w = acs.words(matches[2] or "")
+local min = nil
+local word = "wait"
+local key = "wait"
+local unit = "s"
+local n = tonumber(w[1])
+if not n or n &lt; (min or 0) then return wk.echo(word .. ": " .. tostring(wk.settings[key]) .. unit) end
+wk.settings[key] = n
+wk.save_settings()
+wk.echo(word .. " " .. n .. unit)
+</script>
+            <command></command>
+            <packageName></packageName>
+            <regex>^wk\s+(?i)wait(?:\s+(.*))?$</regex>
+          </Alias>
+          <Alias isActive="yes" isFolder="no">
+            <name>wk zcost</name>
+            <script>-- wk zcost N             how much a level change counts against a room (3; 0 = none)
+local w = acs.words(matches[2] or "")
+local min = nil
+local word = "zcost"
+local key = "zcost"
+local unit = ""
+local n = tonumber(w[1])
+if not n or n &lt; (min or 0) then return wk.echo(word .. ": " .. tostring(wk.settings[key]) .. unit) end
+wk.settings[key] = n
+wk.save_settings()
+wk.echo(word .. " " .. n .. unit)
+</script>
+            <command></command>
+            <packageName></packageName>
+            <regex>^wk\s+(?i)zcost(?:\s+(.*))?$</regex>
+          </Alias>
+          <Alias isActive="yes" isFolder="no">
+            <name>wk (help and the rest)</name>
+            <script>-- "wk" on its own or with a word that isn't a command here:
+-- help, or what the package does with it. Each command has its own alias.
+local word = (matches[2] or ""):match("^(%S+)")
+if word and acs_command_items["wk" .. " " .. word:lower()] then return end
+wk.run(matches[2] or "")
+</script>
+            <command></command>
+            <packageName></packageName>
+            <regex>^wk(?:\s+(.*))?$</regex>
+          </Alias>
+        </AliasGroup>
+      </AliasGroup>
+      <AliasGroup isActive="yes" isFolder="yes">
         <name>IN</name>
         <script></script>
         <command></command>
@@ -22202,6 +23002,15 @@ if w[1] == "show" then IN.show_weapons() else IN.request_weapons(true) end
             <command></command>
             <packageName></packageName>
             <regex>^in\s+(?i)weapons(?:\s+(.*))?$</regex>
+          </Alias>
+          <Alias isActive="yes" isFolder="no">
+            <name>in wielding</name>
+            <script>-- in wielding            WIELDING: what's in each hand
+IN.request_wielding(true)
+</script>
+            <command></command>
+            <packageName></packageName>
+            <regex>^in\s+(?i)wielding(?:\s+(.*))?$</regex>
           </Alias>
           <Alias isActive="yes" isFolder="no">
             <name>in (help and the rest)</name>
@@ -23699,6 +24508,9 @@ acs_items = {
   ["ar\0" .. [[^(\w+)'s? fangbarrier]]] = true,
   ["ar\0" .. [[fails? to penetrate (\w+)'s]]] = true,
   ["ar\0" .. [[^Your venom is (?:repelled|blocked)]]] = true,
+  ["ar\0" .. [[^.+ has no venoms or magical effects on it\.$]]] = true,
+  ["ar\0" .. [[^.+ has the following venoms or magical effects on it:$]]] = true,
+  ["ar\0" .. [[^\s*\d+\) (\w+)$]]] = true,
   ["ar\0" .. [[^You command your slime to envelop (\S+)\.$]]] = true,
   ["ar\0" .. [[^You unleash a flurry of vicious strikes with your blades at the (.*) of (\S+)\.$]]] = true,
   ["ar\0" .. [[^You reach out to the swarm within (\S+), directing your arcane might through their myriad bodies to ravage \w+ weakened body\.$]]] = true,
@@ -24122,14 +24934,30 @@ acs_items = {
   ["ar\0" .. [[^k(?:\s+(.*))?$]]] = true,
   ["rm\0" .. [[^room(?:\s+(.*))?$]]] = true,
   ["af\0" .. [[^afol(?:\s+(.*))?$]]] = true,
+  ["wk\0" .. [[^wk(?:\s+(.*))?$]]] = true,
+  ["wk\0" .. [[^There is a door in the way]]] = true,
+  ["wk\0" .. [[^The door is locked]]] = true,
+  ["wk\0" .. [[^You cannot go that way]]] = true,
+  ["wk\0" .. [[^You can't go that way]]] = true,
+  ["wk\0" .. [[^You may not (?:go|enter|pass)]]] = true,
+  ["wk\0" .. [[^You are not permitted]]] = true,
+  ["wk\0" .. [[^Some force prevents you]]] = true,
+  ["wk\0" .. [[^A strange force prevents you]]] = true,
+  ["wk\0" .. [[^(?:You find )?your way is blocked]]] = true,
+  ["wk\0" .. [[^\S.* (?:blocks|bars) your (?:way|path)]]] = true,
   ["in\0" .. [[^in\s+(\S.*)$]]] = true,
   ["in\0" .. [[^\s*(?:Vial|Container)s?\s.*Sips]]] = true,
   ["in\0" .. [[^\s*Status\s+Pipe\s+Contents\s+Puffs]]] = true,
+  ["in\0" .. [[^You are wielding:\s*$]]] = true,
+  ["in\0" .. [[^You are wielding nothing]]] = true,
   ["in\0" .. [[^\s*Weapon\s+Dmg\s+To-hit\s+Speed]]] = true,
   ["in\0" .. [[^\s*Armour\s+Cutting\s+Blunt\s+Magical]]] = true,
   ["pt\0" .. [[^ptr(?:\s+(.*))?$]]] = true,
   ["pt\0" .. [[^\S]]] = true,
   ["pt\0" .. [[\b[A-Z][a-z]+\b]]] = true,
+  ["pt\0" .. [[^(\w+) is now one of your enemies\.$]]] = true,
+  ["pt\0" .. [[^You declare that (\w+) will no longer be one of your enemies\.$]]] = true,
+  ["pt\0" .. [[^In a moment of forgiveness, you declare that you have no enemies\.$]]] = true,
   ["bs\0" .. [[^bs(?:\s+(.*))?$]]] = true,
   ["bs\0" .. [[^\[System\]: Running queued \S+ command: BSBASH]]] = true,
   ["bs\0" .. [[^bstart$]]] = true,
@@ -24314,6 +25142,29 @@ acs_command_items = {
   ["af squint"] = true,
   ["af status"] = true,
   ["af stop"] = true,
+  ["wk bash"] = true,
+  ["wk detour"] = true,
+  ["wk echo"] = true,
+  ["wk enemies"] = true,
+  ["wk floor"] = true,
+  ["wk go"] = true,
+  ["wk left"] = true,
+  ["wk loop"] = true,
+  ["wk next"] = true,
+  ["wk off"] = true,
+  ["wk pause"] = true,
+  ["wk reset"] = true,
+  ["wk skip"] = true,
+  ["wk skipped"] = true,
+  ["wk skips"] = true,
+  ["wk start"] = true,
+  ["wk status"] = true,
+  ["wk stop"] = true,
+  ["wk stopfor"] = true,
+  ["wk unskip"] = true,
+  ["wk via"] = true,
+  ["wk wait"] = true,
+  ["wk zcost"] = true,
   ["in armour"] = true,
   ["in autogold"] = true,
   ["in count"] = true,
@@ -24333,6 +25184,7 @@ acs_command_items = {
   ["in vials"] = true,
   ["in want"] = true,
   ["in weapons"] = true,
+  ["in wielding"] = true,
   ["pt allies"] = true,
   ["pt ally"] = true,
   ["pt arrivals"] = true,
@@ -32306,7 +33158,7 @@ ss.init()
 -- through ar.M, so reloading the package cleans up after itself.
 
 ar = ar or {}
-ar.version = "0.5.0"
+ar.version = "0.6.0"
 
 ar.M = acs.module("ar", { prefix = "ar" })
 ar.M.title = "AR offense"
@@ -32315,7 +33167,7 @@ local M = ar.M
 ar.default_settings = {
   target = nil,
   enabled = true,        -- master switch for automatic offense (hit tracking still runs)
-  optimistic = true,     -- an attack with no learned hit line counts as a hit unless a miss is seen
+  optimistic = true,     -- in blackout, an unconfirmed attack counts as a hit unless a miss is seen
   show = true,           -- echo the target's afflictions when they change
   queue = "eqbal",       -- default queue type for attacks
   enemy_bal = {},        -- overrides for ar.data.enemy_bal
@@ -32600,6 +33452,29 @@ function D.herb_from_text(text)
     if D.herb_words[word] then return D.herb_words[word] end
   end
 end
+
+---------------------------------------------------------------------------
+-- From AW's old system, for any class's routine.
+
+-- Affs a class needs to lock you down, so worth stacking on them first
+-- ("" = class unknown).
+D.lock_affs = {
+  alchemist = { "stupidity" }, blademaster = { "prone", "weariness" },
+  depthswalker = { "recklessness" }, druid = { "weariness" }, paladin = { "weariness" },
+  runewarden = { "weariness" }, infernal = { "weariness" }, unnamable = { "weariness" },
+  jester = { "paralysis" }, magi = { "haemophilia" }, monk = { "weariness" },
+  occultist = { "paralysis" }, psion = { "confusion" }, sentinel = { "weariness" },
+  serpent = { "weariness" }, shaman = { "selarnia" }, dragon = { "weariness", "recklessness" },
+  earthlord = { "weariness" }, [""] = { "weariness" },
+}
+
+-- Classes whose attacks clumsiness makes miss.
+D.clumsy_classes = {
+  bard = true, dragon = true, magi = true, pariah = true, druid = true, sentinel = true,
+  runewarden = true, paladin = true, infernal = true, unnamable = true, occultist = true,
+  jester = true, sylvan = true, depthswalker = true, monk = true, serpent = true,
+  blademaster = true, psion = true, apostate = true, [""] = true,
+}
 </script>
           <eventHandlerList />
         </Script>
@@ -33374,8 +34249,11 @@ end
 --     by the module) confirms it,
 --   * a parry/dodge/miss/rebound/shield line cancels it,
 --   * a fangbarrier line keeps the hit but drops the venoms.
--- With no hit line known yet, "optimistic" mode counts the attack as a hit
--- once it fires (you lose balance/eq) and nothing said it missed.
+-- Nothing confirmed means no affs, except in blackout, when you can't see
+-- the hit line: then the weapons the attack used are probed (see
+-- 14_weapons.lua), and with nothing to probe an attack that fired (you lost
+-- balance/eq) and wasn't cancelled counts as a hit ("ar optimistic off"
+-- stops that last part).
 --
 -- Also: "afflines", your own lines that afflict or cure the target, for any
 -- class ability: "ar affline add &lt;regex with %t&gt; = aff1 aff2 -curedaff".
@@ -33426,6 +34304,8 @@ end
 -- plan = { key = "dstab", venoms = {...}, affs = {...}, strip = "shield",
 --          weapon = true (rebounding stops it), on_hit = fn(plan), on_miss = fn(plan, why) }
 function H.expect(plan)
+  -- an earlier attack that fired but never reached a prompt (blackout)
+  if H.pending and H.pending.fired then H.resolve() end
   plan.at = acs.now()
   plan.who = ar.current_person() -- the target when the attack was sent
   plan.key = plan.key or "attack"
@@ -33464,6 +34344,7 @@ end
 function H.resolve()
   local p = H.pending
   if not p then return end
+  if p.probe and not p.probe.done then return end -- waiting on weaponprobe
   if not (p.hit or p.missed or p.fired) then
     if acs.now() - p.at &gt; 10 then H.pending = nil H.record(p, "expired") end
     return
@@ -33475,7 +34356,7 @@ function H.resolve()
     return
   end
   if not p.hit then
-    if H.hitline(p.key) or not ar.settings.optimistic then
+    if not (ar.settings.optimistic and ar.blacked_out()) then
       H.record(p, "no hit line seen")
       if p.on_miss then p.on_miss(p, "unseen") end
       return
@@ -33489,7 +34370,7 @@ function H.resolve()
     end
     for _, a in ipairs(p.affs or {}) do who:give(a) end
   end)
-  H.record(p, p.hit and "hit" or "assumed hit")
+  H.record(p, p.probed and "hit (probe)" or p.hit and "hit" or "assumed hit")
   if p.on_hit then p.on_hit(p) end
   raiseEvent("ar.hit", p.key, p)
 end
@@ -33498,7 +34379,24 @@ end
 function H.on_vitals()
   local v = gmcp.Char and gmcp.Char.Vitals
   local p = H.pending
-  if v and p and (tostring(v.bal) == "0" or tostring(v.eq) == "0") then p.fired = true end
+  if v and p and (tostring(v.bal) == "0" or tostring(v.eq) == "0") then
+    if p.fired then return end
+    p.fired = true
+    -- blackout hides the hit line and the prompt: probe, or settle now
+    if not p.hit and not p.missed and ar.blacked_out() and ar.weapons.probe(p) then return end
+    if ar.blacked_out() then H.resolve() end
+  end
+end
+
+-- Are you in blackout? Asks the curing side (SS) when it's loaded,
+-- otherwise GMCP's affliction list.
+function ar.blacked_out()
+  if ss and ss.has then return ss.has("blackout") and true or false end
+  local list = gmcp and gmcp.Char and gmcp.Char.Afflictions and gmcp.Char.Afflictions.List
+  for _, a in ipairs(list or {}) do
+    if (type(a) == "table" and a.name or a) == "blackout" then return true end
+  end
+  return false
 end
 
 ---------------------------------------------------------------------------
@@ -33547,12 +34445,15 @@ function H.install_hitlines()
   for _, id in ipairs(H._hit_ids) do killTrigger(id) end
   H._hit_ids = {}
   local seen = {}
+  -- a module's hit line can be a list of patterns
   local function add(key, pattern)
     if seen[key] then return end
     seen[key] = true
-    H._hit_ids[#H._hit_ids + 1] = ar.M.trigger(ar.tpat(pattern), function(m)
-      if H.pending and H.pending.key == key and ar.is_target(m[2]) then H.mark_hit() end
-    end)
+    for _, pat in ipairs(type(pattern) == "table" and pattern or { pattern }) do
+      H._hit_ids[#H._hit_ids + 1] = ar.M.trigger(ar.tpat(pat), function(m)
+        if H.pending and H.pending.key == key and ar.is_target(m[2]) then H.mark_hit() end
+      end)
+    end
   end
   local cls = ar.class() or "none"
   for key, pat in pairs(ar.settings.hitlines[cls] or {}) do add(key, pat) end
@@ -33587,6 +34488,9 @@ function H.limb(name, limb, pct)
   limb = limb:lower()
   p.limbs = p.limbs or {}
   p.limbs[limb] = (p.limbs[limb] or 0) + pct
+  -- damage per hit, for "one more hit breaks it" (attacks that hit softer,
+  -- like trip, set no_pphit in their plan)
+  if not (H.pending and H.pending.no_pphit) then p.pphit = pct end
   raiseEvent("ar.enemy.limb", limb, p.limbs[limb], p.name)
   if p:is_target() then ar.show_soon() end
 end
@@ -33960,7 +34864,7 @@ function ar.install_commands()
   M.command("on", function() ar.settings.enabled = true ar.save() ar.echo("offense on") end,
     "on | off               allow or stop attacks from 'k'")
   M.command("off", function() ar.settings.enabled = false ar.save() ar.echo("offense off") end)
-  onoff_cmd("optimistic", "optimistic hits", "optimistic on|off      count unconfirmed attacks as hits unless they missed")
+  onoff_cmd("optimistic", "optimistic hits", "optimistic on|off      in blackout, count unconfirmed attacks as hits unless they missed")
   onoff_cmd("show", "status line", "show on|off            echo the target status when it changes")
   M.command("treeguess", function(w)
     ar.settings.tree_guess = ar.onoff(w[1], ar.settings.tree_guess ~= false) ar.save()
@@ -34247,7 +35151,9 @@ function ar._send(spec, tgt, m, extra, plan)
   plan.key = plan.key or m.key or "attack"
   local cmd = ar.fill(m.cmd or m[1], tgt, extra)
   if spec.pre then spec.pre(tgt, plan, m) end
-  ar.queue(cmd, m.q or m[2] or spec.q)
+  -- weapon attacks wipe the weapons first (see 14_weapons.lua)
+  local wipe = { venoms = plan.venoms, wipe = plan.weapon or m.weapon or spec.weapon }
+  ar.queue(ar.weapons.prep(cmd, wipe), m.q or m[2] or spec.q)
   if not ar._expect_set then
     ar.hits.expect(plan)
     ar._expect_set = true
@@ -34374,7 +35280,7 @@ end
 -- bite when they're locked. Use it as the pattern for other classes.
 --
 -- Hit lines: run "ar learn dstab" once and doublestab your target; AR saves
--- the line it sees. Until then hits are assumed unless a miss is seen.
+-- the line it sees. Until then dstab only counts in blackout.
 
 ar.serpent = {}
 local O = ar.offense
@@ -34389,20 +35295,21 @@ function ar.serpent.attack(tgt)
   local s = O.mod_settings("serpent")
   local blocker = O.blocker(true)
   if blocker then
-    ar.queue("flay " .. tgt .. " " .. blocker)
+    ar.queue(ar.weapons.prep("flay " .. tgt .. " " .. blocker, { wipe = true }))
     ar.hits.expect { key = "flay", strip = blocker, weapon = false }
     return
   end
   if EN.lock() == "true" then
     ar.queue("bite " .. tgt .. " " .. s.kill_venom)
-    ar.hits.expect { key = "bite", venoms = { s.kill_venom } }
+    ar.hits.expect { key = "bite", venoms = { s.kill_venom }, weapons = {} } -- fangs, not a weapon
     return
   end
   local v = O.next_venoms(O.lock_order, 2)
   v[1], v[2] = v[1] or "curare", v[2] or "kalmia"
   if v[1] == v[2] then v[2] = "kalmia" end
-  ar.queue(("dstab %s %s %s"):format(tgt, v[1], v[2]))
-  ar.hits.expect { key = "dstab", venoms = { v[1], v[2] }, weapon = true }
+  local plan = { key = "dstab", venoms = { v[1], v[2] }, weapon = true }
+  ar.queue(ar.weapons.prep(("dstab %s %s %s"):format(tgt, v[1], v[2]), plan))
+  ar.hits.expect(plan)
 end
 
 O.register("serpent", ar.serpent)
@@ -34718,20 +35625,7 @@ O.simple("depthswalker", {
   manual = { dictate = { cmd = "shadow dictate %t" }, doom = { cmd = "chrono doom %t" } },
 })
 
----------------------------------------------------------------------------
--- Sentinel: Skirmishing spear/trident with venoms.
-
-O.simple("sentinel", {
-  order = LOCK,
-  moves = {
-    impatience = { cmd = "doublestrike %t torso", q = "bal", key = "doublestrike" },
-    weariness = { cmd = "gouge %t torso", q = "bal", key = "gouge" },
-    haemophilia = { cmd = "lacerate %t torso", q = "bal", key = "lacerate", affs = { "haemophilia", "bleeding" } },
-  },
-  venom = { cmd = "thrust %t torso %v1", q = "bal", key = "thrust", n = 1, weapon = true },
-  strip = { shield = { cmd = "rive %t", q = "bal", key = "rive" } },
-  manual = { trip = { cmd = "trip %t left" }, impale = { cmd = "impale %t" } },
-})
+-- Sentinel: its own file, 11b_sentinel.lua.
 
 ---------------------------------------------------------------------------
 -- Blademaster: Striking. Effects named from the skill descriptions.
@@ -34806,6 +35700,552 @@ O.simple("dragon", {
   manual = { devour = { cmd = "devour %t" }, enmesh = { cmd = "enmesh %t", q = "eq" },
              gust = { cmd = "breathgust %t", q = "eq" } },
 })
+</script>
+          <eventHandlerList />
+        </Script>
+        <Script isActive="yes" isFolder="no">
+          <name>sentinel</name>
+          <packageName></packageName>
+          <script>-- AR attack module: Sentinel, rebuilt from AW's old Sentinel offense
+-- (ar.sentinel.selection, group, ret and the skirmishing aliases).
+--
+-- What changed from the old one:
+--   * aff guesses are AR's chances (EN.chance), so "below 50%" means the
+--     same thing everywhere, and the enemy's random cures lower them;
+--   * a hit only counts when its line shows (the lines below), except in
+--     blackout, where the spear or axe is probed for its venom;
+--   * every weapon is wiped before it's envenomed (one venom at a time);
+--   * limb prep uses the damage per hit AR reads from "As you carve into";
+--   * bound, skullbash and petrified wear off on their own.
+--
+-- "k" runs the routine for the mode you last picked. Your old aliases are
+-- back while you're a Sentinel:
+--   ah arl all ara ala at att   spear routine, prepping that limb (att: none)
+--   c&lt;limb&gt;  (crl cll cra cla ct ch ctt)   axe routine, that limb
+--   s&lt;limb&gt; [dir]  throw the axe at that limb (every exit when no dir)
+--   ag  group routine     arr  retaliate     ds  dismember chain
+--   sb en rt trs im wr     skullbash, ensnare, rattle, truss, impale, wrench
+--   bc ssp ssc  brace, spin, scythe      bax &lt;limb&gt;  bthrow the axe
+--   snp pd sm gz tp y [who] am   snap, pound, stampede, gaze, trumpet, yank, ambush
+--   mg ft  might, fitness (prepended)    ns [dir]  noose    dt [venom] [dir]  darts
+-- The same moves work as "k &lt;word&gt;", for example "k ds" or "k group".
+-- "ar sent" shows the settings; "ar sent &lt;setting&gt; &lt;value&gt;" changes one.
+
+ar.sentinel = ar.sentinel or {}
+local S = ar.sentinel
+local O = ar.offense
+local EN = ar.enemy
+local D = ar.data
+local H = ar.hits
+
+S.defaults = {
+  spear = "spear",      -- weapon words or ids
+  axe = "handaxe",
+  shield = "shield",
+  rope = "rope",
+  morph = "jaguar",     -- form the routines start from
+  pphit = 16,           -- limb damage per hit until AR has seen one
+  aliases = true,       -- your old short aliases
+}
+
+function S.set() return O.mod_settings("sentinel", S.defaults) end
+
+S.limb = S.limb       -- limb being prepped; nil = no limb
+S.mode = S.mode or "spear"
+
+---------------------------------------------------------------------------
+-- What the target has
+
+S.MENTAL = { "impatience", "epilepsy", "hallucinations", "dizziness", "recklessness", "confusion", "paranoia" }
+S.ARMS = { "damagedrightarm", "damagedleftarm", "brokenrightarm", "brokenleftarm" }
+
+function S.count(list)
+  local n = 0
+  for _, a in ipairs(list) do if EN.has(a) then n = n + 1 end end
+  return n
+end
+
+function S.class()
+  return EN.class or (EN.name and ar.classes.of(EN.name)) or ""
+end
+
+-- The old lockCheck: true unless their class needs this aff for its lock
+-- and it isn't (75%) on yet.
+function S.locked(aff)
+  local need = D.lock_affs[S.class()] or D.lock_affs[""]
+  for _, a in ipairs(need) do
+    if a == aff then return EN.chance(aff) &gt; 75 end
+  end
+  return true
+end
+
+function S.pphit() return EN.pphit or S.set().pphit end
+
+-- One more hit breaks it.
+function S.prepped(limb)
+  local dmg = (EN.limbs or {})[limb] or 0
+  return dmg &lt; 100 and dmg + S.pphit() &gt;= 100
+end
+
+-- First aff in the list under its threshold, as a venom.
+function S.venom(list, thr)
+  for _, aff in ipairs(list) do
+    local v = D.aff_to_venom[aff]
+    if v and EN.chance(aff) &lt; (thr[aff] or 100) then return v end
+  end
+  return "curare"
+end
+
+local function insert(list, pos, aff) table.insert(list, pos, aff) return list end
+
+---------------------------------------------------------------------------
+-- Weapons
+
+S.WORD = { spear = "spear", axe = "axe" }
+
+-- The id of that weapon if you're holding it (from the inventory package).
+function S.held(kind)
+  if not (IN and IN.hand) then return nil end
+  local want = tostring(S.set()[kind]):lower()
+  for _, side in ipairs({ "right", "left" }) do
+    local it = IN.hand(side)
+    if it and (tostring(it.id) == want or tostring(it.name):lower():find(S.WORD[kind], 1, true)) then
+      return tostring(it.id)
+    end
+  end
+end
+
+function S.weapon(kind) return S.held(kind) or S.set()[kind] end
+
+-- "wield shield spear" unless it's already in hand.
+function S.wield(kind)
+  if S.held(kind) then return nil end
+  local s = S.set()
+  return ("wield %s %s"):format(s.shield, s[kind])
+end
+
+---------------------------------------------------------------------------
+-- Attacks: what each gives when it lands, and the line that says it did.
+
+S.AFFS = {
+  trip = { "prone" }, rattle = { "unconsciousness" }, ensnare = { "transfixation" },
+  truss = { "bound" }, skullbash = { "skullbash" }, lacerate = { "haemophilia" },
+  gouge = { "weariness" }, impale = { "impaled" }, trumpet = { "prone" },
+}
+S.LASTS = { bound = 20, skullbash = 20, petrified = 5 }
+
+S.hitlines = {
+  trip = { [[^You swiftly sweep %t's feet out from beneath.*$]],
+           [[^You deftly hook .* behind %t's foot and send \w+ tumbling off.*$]] },
+  rattle = { [[^Planting your feet, you whip the haft of .* in a ferocious blow to the side of the head of %t\.$]],
+             [[^%t's legs collapse under \w+ as \w+ suddenly passes out\.$]] },
+  ensnare = [[^You expertly flourish .* in front of the eyes of %t, mesmerising \w+ with your skill\.$]],
+  truss = [[^You quickly truss up the helpless form of %t\.$]],
+  skullbash = [[^Reversing your grip on .*, you bring the end of the haft down in a skull-splitting blow upon %t\.$]],
+  rivestrike = [[^You thrust .* towards %t\.$]],
+  lacerate = [[^You viciously lacerate(?: the .* of)? %t with .*\.$]],
+  gouge = [[^You savagely gouge(?: the .* of| into)? %t with .*\.$]],
+  doublestrike = { [[^You lay open the flesh of %t with an expert lateral slice with .*\.$]],
+                   [[^You draw the blade of .* in an expert lateral slice across the .* of %t\.$]] },
+  axe = { [[^You cock back your arm and throw an Axe of Gaian Fury at %t\.$]],
+          [[^You cock back your arm and throw an Axe of Gaian Fury at %t's .*\.$]],
+          [[^You cock back your arm and throw an Axe of Gaian Fury \S+ at %t\.$]],
+          [[^You cock back your arm and throw an Axe of Gaian Fury \S+ at %t's .*\.$]] },
+  impale = [[^You draw your blade back and plunge it deep into the body of %t impaling .* to the hilt\.$]],
+  wrench = [[^You violently jerk .*, ravaging the internal organs of %t\.$]],
+  trumpet = [[^You raise your trunk into the air before %t and trumpet mightily, knocking \w+ to the ground\.$]],
+}
+
+-- The plan AR waits on for this attack.
+function S.plan(key, venom, kind, extra)
+  local plan = {
+    key = key,
+    affs = S.AFFS[key],
+    venoms = venom and { venom } or nil,
+    weapons = kind and { S.weapon(kind) } or {},
+    weapon = kind ~= nil,
+    no_pphit = key == "trip",
+  }
+  for k, v in pairs(extra or {}) do plan[k] = v end
+  plan.on_hit = function(p)
+    local who = p.who
+    for _, a in ipairs(p.affs or {}) do
+      if S.LASTS[a] and who then ar.lines.wears_off(who, a, S.LASTS[a]) end
+    end
+    if p.axe_limb and who and who.name then H.limb(who.name, p.axe_limb, 14.7) end
+  end
+  return plan
+end
+
+-- Wield, wipe, then the rest; queued as one, and AR waits on the plan.
+function S.send(parts, plan, kind)
+  local cmds = {}
+  local w = kind and S.wield(kind)
+  if w then cmds[1] = w end
+  for _, c in ipairs(parts) do cmds[#cmds + 1] = c end
+  ar.queue(ar.weapons.prep(cmds, plan or {}))
+  if plan then H.expect(plan) end
+end
+
+---------------------------------------------------------------------------
+-- Which animal to enrage
+
+function S.enrage(venom, arms_down)
+  if EN.has_def("shield") or (EN.has_def("rebounding") and (arms_down or S._spear)) then return "lemming" end
+  local badger = (EN.chance("addiction") &lt; 25 and venom ~= "vardrax")
+    or (EN.chance("nausea") &lt; 25 and venom ~= "euphorbia")
+  local fox = EN.chance("healthleech") &lt; 25
+  local raven = EN.chance("sensitivity") &lt; 25 and (EN.has_def("deafness") or venom ~= "prefarar")
+  local wolf = EN.chance("hallucinations") &lt; 25 and EN.has("impatience")
+  local order = arms_down and { { badger, "badger" }, { fox, "fox" } } or { { fox, "fox" }, { badger, "badger" } }
+  for _, o in ipairs(order) do if o[1] then return o[2] end end
+  if raven then return "raven" end
+  if wolf then return "wolf" end
+  if EN.has_def("blindness") then return "butterfly" end
+  return "lemming"
+end
+
+---------------------------------------------------------------------------
+-- Solo routine (the old "selection"): k after ah/arl/... or c&lt;limb&gt;
+
+S.SOLO = { "paralysis", "asthma", "slickness", "sensitivity", "nausea", "darkshade", "addiction",
+  "dizziness", "recklessness", "stupidity", "shyness", "anorexia", "selarnia", "voyria",
+  "brokenleftarm", "brokenrightarm", "brokenleftleg", "brokenrightleg" }
+S.SOLO_SLICK = { "anorexia", "slickness", "asthma", "paralysis", "sensitivity", "nausea", "darkshade",
+  "addiction", "dizziness", "recklessness", "stupidity", "shyness", "selarnia", "voyria",
+  "brokenleftarm", "brokenrightarm", "brokenleftleg", "brokenrightleg" }
+S.SOLO_MENTAL = { "dizziness", "recklessness", "anorexia", "paralysis", "asthma", "sensitivity", "nausea",
+  "darkshade", "addiction", "stupidity", "shyness", "slickness", "selarnia", "voyria",
+  "brokenleftarm", "brokenrightarm", "brokenleftleg", "brokenrightleg" }
+S.SOLO_ARMS = { "asthma", "slickness", "paralysis", "stupidity", "dizziness", "recklessness", "shyness",
+  "anorexia", "nausea", "darkshade", "addiction", "sensitivity", "selarnia", "voyria",
+  "brokenleftarm", "brokenrightarm", "brokenleftleg", "brokenrightleg" }
+-- reapply an aff while its chance is under this
+S.SOLO_UNDER = {
+  paralysis = 100, asthma = 50, slickness = 50, voyria = 100,
+  weariness = 15, clumsiness = 15, sensitivity = 15, darkshade = 15, nausea = 15,
+  addiction = 15, disloyalty = 15,
+  anorexia = 1, dizziness = 1, stupidity = 1, recklessness = 1, shyness = 1, selarnia = 1,
+  brokenleftarm = 1, brokenrightarm = 1, brokenleftleg = 1, brokenrightleg = 1,
+}
+
+local function copy(t) local r = {} for i, v in ipairs(t) do r[i] = v end return r end
+
+function S.solo_venom()
+  local cls = S.class()
+  local list = copy(S.SOLO)
+  if (cls == "occultist" or cls == "sentinel") and EN.chance("asthma") &gt;= 50 then insert(list, 2, "disloyalty") end
+  if D.clumsy_classes[cls] then insert(list, 2, "clumsiness") end
+  if EN.has("slickness") and EN.has("asthma") then
+    list = copy(S.SOLO_SLICK)
+    if not S.locked("weariness") then insert(list, 2, "weariness") end
+    if not S.locked("recklessness") and EN.has("impatience") then insert(list, 2, "recklessness") end
+  end
+  if S.count(S.MENTAL) &gt;= 4 then list = copy(S.SOLO_MENTAL) end
+  if S.count(S.ARMS) &gt;= 2 then
+    list = copy(S.SOLO_ARMS)
+    if not S.locked("weariness") then insert(list, 2, "weariness") end
+  end
+  return S.venom(list, S.SOLO_UNDER)
+end
+
+local function side(limb) return limb:match("^(%a+) leg$") end
+local function on(limb) return limb and (" " .. limb) or "" end
+
+function S.solo(tgt)
+  local limb = S.limb
+  local venom = S.solo_venom()
+  local mode = S.mode
+  local key, cmd, kind, extra
+  local leg_break = limb and side(limb) and S.prepped(limb) and not EN.has("prone")
+
+  if mode == "axe" then
+    if leg_break then mode = "spear"
+    else key, kind, cmd = "axe", "axe", ("throw %s at %s%s %s"):format(S.weapon("axe"), tgt, on(limb), venom) end
+  end
+  if mode == "spear" then
+    kind = "spear"
+    if EN.has_def("shield") and EN.has_def("rebounding") then
+      key, cmd = "rivestrike", ("rivestrike %s%s %s"):format(tgt, on(limb), venom)
+      extra = { both_defs = true }
+    elseif leg_break then
+      key, cmd = "trip", ("trip %s %s %s"):format(tgt, side(limb), venom)
+    elseif limb and S.prepped(limb) then
+      key, kind, cmd = "axe", "axe", ("throw %s at %s%s %s"):format(S.weapon("axe"), tgt, on(limb), venom)
+    elseif EN.chance("slickness") &gt;= 75 and EN.chance("anorexia") &lt; 1 then
+      venom = "slike"
+      key, cmd = "doublestrike", ("doublestrike %s slike"):format(tgt)
+    elseif not EN.has("haemophilia") then
+      key, cmd = "lacerate", ("lacerate %s%s %s"):format(tgt, on(limb), venom)
+    elseif not EN.has("epilepsy") then
+      key, cmd = "doublestrike", ("doublestrike %s%s %s"):format(tgt, on(limb), venom)
+    elseif not EN.has("weariness") and venom ~= "vernalius" then
+      key, cmd = "gouge", ("gouge %s%s %s"):format(tgt, on(limb), venom)
+    else
+      key, cmd = "lacerate", ("lacerate %s%s %s"):format(tgt, on(limb), venom)
+    end
+  end
+
+  S._spear = kind == "spear"
+  local arms = S.count(S.ARMS) &gt;= 2
+  local animal = (key == "rivestrike") and "lemming" or S.enrage(venom, false)
+  if arms then
+    animal = S.enrage(venom, true)
+    if EN.has("asthma") and EN.has("slickness") then
+      venom, key, kind, cmd = "slike", "doublestrike", "spear", ("doublestrike %s slike"):format(tgt)
+    else
+      key, kind, cmd = "axe", "axe", ("throw %s at %s %s"):format(S.weapon("axe"), tgt, venom)
+    end
+  end
+
+  local parts = { "morph " .. S.set().morph }
+  local mental = S.count(S.MENTAL)
+  if EN.has("petrified") then
+    key, kind, venom, cmd = "extirpate", "spear", nil, "extirpate " .. tgt
+  elseif mental &gt;= 5 then
+    animal, key, kind, venom = "butterfly", "petrify", nil, nil
+    cmd = "morph basilisk/petrify " .. tgt
+  end
+  parts[#parts + 1] = ("enrage %s %s"):format(animal, tgt)
+  for c in cmd:gmatch("[^/]+") do parts[#parts + 1] = c end
+  if mental &gt;= 3 and mental &lt; 5 then
+    parts[#parts + 1] = "dismiss wolf"
+    parts[#parts + 1] = "summon raven"
+  end
+  parts[#parts + 1] = "assess " .. tgt
+  -- rivestrike through both defences doesn't deliver its venom
+  if extra and extra.both_defs then venom = nil end
+  S.send(parts, S.plan(key, venom, kind, extra), kind)
+end
+
+---------------------------------------------------------------------------
+-- Group routine (the old "group"): ag / k group
+
+S.GROUP = { "paralysis", "asthma", "slickness", "anorexia", "sensitivity", "darkshade", "addiction",
+  "dizziness", "recklessness", "stupidity", "shyness", "nausea", "selarnia", "voyria",
+  "brokenleftarm", "brokenrightarm", "brokenleftleg", "brokenrightleg" }
+S.GROUP_UNDER = {}
+for k, v in pairs(S.SOLO_UNDER) do S.GROUP_UNDER[k] = v end
+S.GROUP_UNDER.asthma = 66
+
+function S.group(tgt)
+  S.limb = nil
+  local list = copy(S.GROUP)
+  if EN.has("aeon") then list[1], list[2] = "asthma", "paralysis" end
+  if not S.locked("weariness") then insert(list, 2, "weariness") end
+  local venom = S.venom(list, S.GROUP_UNDER)
+  local key, kind, cmd = "axe", "axe", nil
+  local locked = EN.has("impatience") and EN.has("anorexia") and EN.has("slickness")
+    and EN.has("asthma") and EN.has("paralysis") and S.locked("weariness")
+  if EN.has("prone") then
+    key, kind, venom, cmd = "skullbash", "spear", nil, "skullbash " .. tgt
+  elseif not (EN.has("impatience") and EN.has("sandfever")) and EN.has("slickness") then
+    key, kind, venom, cmd = "doublestrike", "spear", "slike", "doublestrike " .. tgt .. " slike"
+  elseif locked then
+    key, kind, venom, cmd = "trumpet", nil, nil, "morph elephant/trumpet " .. tgt
+  else
+    cmd = ("throw %s at %s %s"):format(S.weapon("axe"), tgt, venom)
+  end
+  local animal
+  if EN.has_def("shield") or EN.has_def("rebounding") then animal = "lemming"
+  elseif EN.chance("sensitivity") &lt; 25 and (EN.has_def("deafness") or venom ~= "prefarar") then animal = "raven"
+  else S._spear = false animal = S.enrage(venom, false) end
+  if locked then animal = "raven" end
+  local parts = { ("enrage %s %s"):format(animal, tgt) }
+  for c in cmd:gmatch("[^/]+") do parts[#parts + 1] = c end
+  parts[#parts + 1] = "assess " .. tgt
+  S.send(parts, S.plan(key, venom, kind), kind)
+end
+
+---------------------------------------------------------------------------
+-- Retaliate (the old "ret"): one quick spear attack, no animal
+
+function S.ret(tgt)
+  S.limb = nil
+  local venom = "curare"
+  if not EN.has("paralysis") then venom = "curare"
+  else
+    for _, a in ipairs({ "stupidity", "shyness", "asthma", "slickness", "anorexia", "addiction" }) do
+      if EN.chance(a) &lt; 100 then venom = D.aff_to_venom[a] break end
+    end
+  end
+  local key
+  if EN.has_def("shield") or EN.has_def("rebounding") then key = "rivestrike"
+  elseif not EN.has("prone") then key = "trip"
+  elseif EN.chance("epilepsy") &lt; 100 then key = "doublestrike"
+  elseif EN.chance("haemophilia") &lt; 100 then key = "lacerate"
+  elseif EN.chance("weariness") &lt; 100 then key = "gouge"
+  else key = "lacerate" end
+  local cmd = key == "trip" and ("trip %s left %s"):format(tgt, venom) or ("%s %s %s"):format(key, tgt, venom)
+  S.send({ cmd }, S.plan(key, venom, "spear"), "spear")
+end
+
+---------------------------------------------------------------------------
+-- Dismember chain (ds): trumpet/skullbash &gt; ensnare &gt; rattle &gt; truss &gt; impale &gt; dismember
+
+function S.dismember(tgt)
+  local function go(animal, key, cmds)
+    local parts = {}
+    if animal then parts[1] = ("enrage %s %s"):format(animal, tgt) end
+    for _, c in ipairs(cmds) do parts[#parts + 1] = c end
+    S.send(parts, S.plan(key, nil, key ~= "trumpet" and "spear" or nil), "spear")
+  end
+  local bound, impaled = EN.has("bound"), EN.has("impaled")
+  if bound and impaled then go(nil, "dismember", { "morph jaguar", "dismember " .. tgt })
+  elseif bound then go("badger", "impale", { "morph jaguar", "impale " .. tgt })
+  elseif EN.has("unconsciousness") then go("badger", "truss", { "outr " .. S.set().rope, "truss " .. tgt })
+  elseif EN.has("transfixation") then go("badger", "rattle", { "rattle " .. tgt, "assess " .. tgt })
+  elseif EN.has("prone") then go("butterfly", "ensnare", { "ensnare " .. tgt, "assess " .. tgt })
+  else go("raven", "trumpet", { "morph elephant", "trumpet " .. tgt }) end
+end
+
+---------------------------------------------------------------------------
+-- Single moves: "k &lt;word&gt;" and the short aliases
+
+local LIMBS = { ra = "right arm", la = "left arm", h = "head", t = "torso", ll = "left leg", rl = "right leg" }
+
+local function exits()
+  local r = {}
+  local info = gmcp and gmcp.Room and gmcp.Room.Info
+  for dir in pairs(info and info.exits or {}) do r[#r + 1] = dir end
+  table.sort(r)
+  return r
+end
+
+S.moves = {
+  sb = function(t)
+    if EN.has("prone") then S.send({ "enrage raven " .. t, "skullbash " .. t, "assess " .. t }, S.plan("skullbash", nil, "spear"), "spear")
+    else S.send({ "enrage raven " .. t, "morph elephant", "trumpet " .. t, "assess " .. t }, S.plan("trumpet"), "spear") end
+  end,
+  en = function(t) S.send({ "enrage butterfly " .. t, "ensnare " .. t, "assess " .. t }, S.plan("ensnare", nil, "spear"), "spear") end,
+  rt = function(t) S.send({ "enrage badger " .. t, "rattle " .. t, "assess " .. t }, S.plan("rattle", nil, "spear"), "spear") end,
+  trs = function(t) S.send({ "enrage lemming " .. t, "outr " .. S.set().rope, "truss " .. t, "assess " .. t }, S.plan("truss", nil, "spear"), "spear") end,
+  im = function(t) S.send({ "enrage badger " .. t, "impale " .. t, "assess " .. t }, S.plan("impale", nil, "spear"), "spear") end,
+  wr = function(t)
+    if EN.has("impaled") then S.send({ "enrage raven " .. t, "wrench " .. t .. " curare", "assess " .. t }, S.plan("wrench", "curare", "spear"), "spear")
+    else S.send({ "enrage raven " .. t, "impale " .. t, "assess " .. t }, S.plan("impale", nil, "spear"), "spear") end
+  end,
+  ds = function(t) S.dismember(t) end,
+  group = function(t) S.group(t) end, ag = function(t) S.group(t) end,
+  ret = function(t) S.ret(t) end, arr = function(t) S.ret(t) end,
+  bc = function() S.send({ "set spear" }, nil, "spear") end,
+  ssp = function() S.send({ "envenom " .. S.weapon("spear") .. " with curare", "spin spear" }, { wipe = true, weapons = { S.weapon("spear") } }, "spear") end,
+  ssc = function(t) S.send({ "envenom " .. S.weapon("spear") .. " with curare", "scythe " .. t }, S.plan("scythe", "curare", "spear"), "spear") end,
+  snp = function(t) S.send({ "morph turtle", "enrage raven " .. t, "invoke thornspray", "snap " .. t }) end,
+  pd = function(t) S.send({ "dismount", "morph gorilla", "enrage raven " .. t, "pound " .. t, "assess " .. t }) end,
+  sm = function(t) S.send({ "morph elephant", "dismount", "enrage raven " .. t, "stampede " .. t }) end,
+  gz = function(t) S.send({ "morph basilisk", "enrage butterfly " .. t, "gaze " .. t .. " confusion" }, { key = "gaze", affs = { "confusion" }, weapons = {} }) end,
+  tp = function(t) S.send({ "morph elephant", "dismount", "enrage raven " .. t, "trumpet " .. t }, S.plan("trumpet")) end,
+  am = function(t) S.send({ "morph jaguar", "dismount", "enrage raven " .. t, "ambush " .. t }) end,
+  y = function(t, arg) S.send({ "morph elephant", "dismount", "yank " .. (arg or t) }) end,
+  mg = function() ar.send("queue prepend eqbal stand|morph jaguar|might") end,
+  ft = function() ar.send("queue prepend eqbal stand|morph jaguar|fitness") end,
+  bax = function(t, arg)
+    local limb = LIMBS[arg or ""] or arg or ""
+    S.send({ ("bthrow %s at %s %s"):format(S.weapon("axe"), t, limb) }, S.plan("axe", nil, "axe"), "axe")
+  end,
+  ns = function(_, arg)
+    local dir = arg or exits()[1]
+    if dir then S.send({ "dismount", "lay noose " .. dir }) end
+  end,
+  dt = function(_, arg)
+    local ven, dir = (arg or ""):match("^(%S*)%s*(%S*)$")
+    ven = ven ~= "" and (D.venoms[ven] and ven or D.aff_to_venom[D.canon(ven)]) or "curare"
+    dir = dir ~= "" and dir or exits()[1]
+    if not dir then ar.err("no exit to lay darts in") return end
+    local parts = { "dismount", "lay darts " .. dir }
+    for _ = 1, 5 do parts[#parts + 1] = ("envenom darts %s with %s"):format(dir, ven) end
+    S.send(parts)
+  end,
+}
+S.moves.trumpet, S.moves.skullbash, S.moves.ensnare = S.moves.tp, S.moves.sb, S.moves.en
+S.moves.rattle, S.moves.truss, S.moves.impale, S.moves.wrench = S.moves.rt, S.moves.trs, S.moves.im, S.moves.wr
+S.moves.dismember = S.moves.ds
+
+-- s&lt;limb&gt; [dir]: axe at a limb, into the next room when there's a direction
+-- (every exit when there isn't, as the old alias did).
+function S.ranged(tgt, limbkey, dir)
+  local limb = LIMBS[limbkey] or ""
+  local axe = S.weapon("axe")
+  local parts = {}
+  local dirs = dir and { dir } or exits()
+  for _, d in ipairs(dirs) do
+    parts[#parts + 1] = ("throw %s %s at %s %s curare"):format(axe, d, tgt, limb):gsub("%s+", " ")
+  end
+  if #parts == 0 then ar.err("no exits to throw into") return end
+  S.send(parts, S.plan("axe", "curare", "axe", { axe_limb = limb ~= "" and limb or nil }), "axe")
+end
+
+---------------------------------------------------------------------------
+-- The module
+
+local M = { hitlines = S.hitlines }
+
+function M.attack(tgt, args)
+  local word, rest = (args or ""):match("^(%S*)%s*(.-)$")
+  if word == "" then return S.solo(tgt) end
+  local mv = S.moves[word:lower()]
+  if not mv then ar.err("no sentinel move '" .. word .. "'") return end
+  mv(tgt, rest ~= "" and rest or nil)
+end
+
+-- Pick a limb and mode, then attack (the ah/arl/c&lt;limb&gt; aliases).
+function S.prep(mode, limb)
+  S.mode, S.limb = mode, limb
+  O.attack()
+end
+
+S._aliases = {}
+function S.add_aliases()
+  local A = function(pat, fn) S._aliases[#S._aliases + 1] = ar.M.alias(pat, fn) end
+  local spear = { ah = "head", arl = "right leg", all = "left leg", ara = "right arm", ala = "left arm", at = "torso" }
+  for word, limb in pairs(spear) do A("^" .. word .. "$", function() S.prep("spear", limb) end) end
+  A([[^att$]], function() S.prep("spear", nil) end)
+  A([[^c(rl|ll|ra|la|t|h|tt)$]], function(m) S.prep("axe", LIMBS[m[2]]) end)
+  A([[^s(ra|la|h|t|rl|ll|tt)(?: (\S+))?$]], function(m)
+    if ar.enemy.name then S.ranged(ar.enemy.name, m[2], m[3] ~= "" and m[3] or nil) end
+  end)
+  local function kmove(word) return function(m) O.attack(word .. (m[2] and m[2] ~= "" and (" " .. m[2]) or "")) end end
+  for _, w in ipairs({ "sb", "en", "rt", "trs", "im", "ds", "wr", "arr", "ag", "bc", "ssp", "ssc",
+                       "snp", "pd", "sm", "gz", "tp", "am" }) do
+    A("^" .. w .. "$", kmove(w))
+  end
+  A([[^mg$]], function() S.moves.mg() end)
+  A([[^ft$]], function() S.moves.ft() end)
+  A([[^bax (\S+)$]], kmove("bax"))
+  A([[^y(?: (\S+))?$]], kmove("y"))
+  A([[^ns(?: (\S+))?$]], function(m) S.moves.ns(nil, m[2] ~= "" and m[2] or nil) end)
+  A([[^dt(?: (.+))?$]], function(m) S.moves.dt(nil, m[2] ~= "" and m[2] or nil) end)
+end
+
+function S.remove_aliases()
+  for _, id in ipairs(S._aliases) do if type(id) == "number" then killAlias(id) end end
+  S._aliases = {}
+end
+
+function M.on_load()
+  S.remove_aliases()
+  if S.set().aliases then S.add_aliases() end
+  ar.M.command("sent", function(w)
+    local s = S.set()
+    if w[1] and w[2] then
+      local v = w[2]
+      if type(S.defaults[w[1]]) == "number" then v = tonumber(v) end
+      if type(S.defaults[w[1]]) == "boolean" then v = ar.onoff(v, s[w[1]]) end
+      if S.defaults[w[1]] == nil then ar.err("no sentinel setting '" .. w[1] .. "'") return end
+      s[w[1]] = v
+      ar.save()
+      if w[1] == "aliases" then M.on_load() end
+    end
+    for _, k in ipairs(acs.sorted_keys(S.defaults)) do ar.echo(("  %-8s %s"):format(k, tostring(s[k]))) end
+    ar.echo(("  mode %s, limb %s, damage per hit %s"):format(S.mode, tostring(S.limb), tostring(S.pphit())))
+  end, "sent [setting value]   sentinel settings (spear, axe, shield, rope, morph, pphit, aliases)")
+end
+
+function M.on_unload() S.remove_aliases() end
+
+O.register("sentinel", M)
+ar.sentinel.module = M
 </script>
           <eventHandlerList />
         </Script>
@@ -34974,6 +36414,137 @@ end
           <eventHandlerList />
         </Script>
         <Script isActive="yes" isFolder="no">
+          <name>weapons</name>
+          <packageName></packageName>
+          <script>-- AR weapons: wipe before every weapon attack, and weaponprobe in blackout.
+--
+-- A weapon only ever carries the one venom we just put on it: every attack
+-- with a weapon (plan.weapon or plan.venoms) first wipes each wielded
+-- weapon that's on your WEAPONLIST. Blunt weapons (flails, maces,
+-- morningstars) can't be envenomed and are left alone. What's in your
+-- hands comes from the inventory package (IN); without it, nothing is
+-- wiped unless the attack names its weapons (plan.weapons = { id, ... }).
+--
+-- In blackout you can't see the hit line, so AR probes the weapons the
+-- attack used instead: venom still on means it missed, gone means it hit.
+--   A Stormspear has no venoms or magical effects on it.
+--   A Stormspear has the following venoms or magical effects on it:
+--   1) curare
+
+ar.weapons = ar.weapons or {}
+local WP = ar.weapons
+local H = ar.hits
+local D = ar.data
+
+WP.blunt = { "flail", "mace", "morningstar" }
+
+function WP.is_blunt(it)
+  local n = tostring(it.name or "") .. " " .. tostring(it.id or "")
+  n = n:lower()
+  for _, w in ipairs(WP.blunt) do if n:find(w, 1, true) then return true end end
+  return false
+end
+
+-- Wielded weapons that take venom: on WEAPONLIST (once IN has read it) and
+-- not blunt. Ids, right hand first. IN.venom_weapons() does this when the
+-- inventory package has it.
+function WP.wielded()
+  local r = {}
+  if IN and IN.venom_weapons then return IN.venom_weapons() end
+  if not (IN and IN.weapons_wielded) then return r end
+  local listed = IN.weapons and #IN.weapons &gt; 0
+  for _, it in ipairs(IN.weapons_wielded()) do
+    if not WP.is_blunt(it) and (not listed or IN.weapon(it.id)) then r[#r + 1] = it.id end
+  end
+  return r
+end
+
+-- The weapons an attack uses: the ones it names, else what you're wielding.
+function WP.for_plan(plan)
+  if plan.weapons then return plan.weapons end
+  if plan.weapon or plan.venoms or plan.wipe then return WP.wielded() end
+  return {}
+end
+
+-- cmds with a wipe for each weapon in front. Returns a list.
+function WP.prep(cmds, plan)
+  if type(cmds) == "string" then cmds = { cmds } end
+  local out = {}
+  for _, id in ipairs(WP.for_plan(plan or {})) do out[#out + 1] = "wipe " .. id end
+  for _, c in ipairs(cmds) do out[#out + 1] = c end
+  return out
+end
+
+---------------------------------------------------------------------------
+-- Probing (blackout only)
+
+-- Called when a pending attack fires in blackout. True if a probe went out
+-- and the attack now waits for its answer.
+function WP.probe(p)
+  if p.hit or p.missed or not p.venoms or #p.venoms == 0 then return false end
+  local ids = WP.for_plan(p)
+  if #ids == 0 then return false end
+  p.probe = { want = #ids, got = 0, still = {} }
+  for _, id in ipairs(ids) do ar.send("weaponprobe " .. id) end
+  -- no answer in time: fall back to the plain blackout rule
+  ar.M.timer(2, function()
+    if H.pending == p and p.probe and not p.probe.done then
+      p.probe = nil
+      H.resolve()
+    end
+  end)
+  return true
+end
+
+function WP.probing()
+  local p = H.pending
+  return p and p.probe and not p.probe.done and p or nil
+end
+
+-- One weapon answered. Once all have, settle shortly after (the venom
+-- list follows the header line in the same packet).
+function WP.answered()
+  local p = WP.probing()
+  if not p then return end
+  p.probe.got = p.probe.got + 1
+  WP._reading = true
+  if p.probe.got &gt;= p.probe.want then
+    ar.M.timer(0.2, function() WP.settle(p) end)
+  end
+end
+
+function WP.venom_line(v)
+  local p = WP.probing()
+  if p and WP._reading and D.venoms[v:lower()] then p.probe.still[v:lower()] = true end
+end
+
+function WP.settle(p)
+  WP._reading = false
+  if H.pending ~= p or not p.probe or p.probe.done then return end
+  p.probe.done = true
+  local landed = {}
+  for _, v in ipairs(p.venoms) do
+    if not p.probe.still[v] then landed[#landed + 1] = v end
+  end
+  if #landed == 0 then
+    p.missed = "probe: venom still on"
+  else
+    p.venoms = landed
+    p.hit = true
+    p.probed = true
+  end
+  H.resolve()
+end
+
+function WP.install()
+  ar.M.trigger([[^.+ has no venoms or magical effects on it\.$]], function() WP.answered() end)
+  ar.M.trigger([[^.+ has the following venoms or magical effects on it:$]], function() WP.answered() end)
+  ar.M.trigger([[^\s*\d+\) (\w+)$]], function(m) WP.venom_line(m[2]) end)
+end
+</script>
+          <eventHandlerList />
+        </Script>
+        <Script isActive="yes" isFolder="no">
           <name>startup</name>
           <packageName></packageName>
           <script>-- AR startup: (re)registers everything. Safe to run again.
@@ -34991,6 +36562,7 @@ function ar.init()
   ar.install_style_command()
   ar.watch.install()
   ar.hits.install()
+  ar.weapons.install()
   ar.lines.install()
   ar.lines.install_commands()
 
@@ -37131,6 +38703,1017 @@ af.init()
         </Script>
       </ScriptGroup>
       <ScriptGroup isActive="yes" isFolder="yes">
+        <name>WK</name>
+        <packageName></packageName>
+        <script>-- WK</script>
+        <eventHandlerList />
+        <Script isActive="yes" isFolder="no">
+          <name>area walker</name>
+          <packageName></packageName>
+          <script>-- WK: area walker for Achaea (Mudlet). Built on the shared ACS core
+-- (00_acs_core.lua), so it installs side by side with the other packages.
+--
+-- Walks every room of an area (or one floor of it) using the Mudlet map:
+-- always to the closest room it hasn't been in yet, finishing dead ends
+-- and the floor it's on before moving on, and using the map's special
+-- exits as well as the ordinary ones. Rooms it can't get into (locked on
+-- the map, a locked door, an exit that doesn't work) are skipped.
+--
+-- It can stop in rooms worth stopping in: mobs BS would hunt, an enemy
+-- (PT), or anything you list. You carry on with "wk".
+--
+-- The global `wk` is this package's acs.module registry. Commands start
+-- with "wk".
+
+wk = acs.module("wk", { prefix = "wk", tag = "wk" })
+wk.title = "WK area walker"
+wk.version = "0.1.0"
+
+wk.default_settings = {
+  zcost = 3,            -- extra cost of a level change when picking the next room (finish a floor first)
+  wait = 0,             -- seconds to stay in each new room before moving on
+  bash = true,          -- stop in rooms with mobs BS would hunt
+  enemies = true,       -- stop when someone PT counts as an enemy is in the room
+  stopfor = {},         -- stop in rooms with a denizen or item whose name has one of these in it
+  loop = false,         -- start again when every room is done (patrolling)
+  via = "step",         -- "step": one exit at a time; "mapper": the mapper's goto walks each leg
+  detour = 6,           -- most rooms in a row a path may spend outside the area
+  tries = 3,            -- times a step is sent before that way counts as blocked
+  step_timeout = 3,     -- seconds to wait for a step to land
+  settle = 1,           -- seconds to wait for the room's items after arriving (for stop checks)
+  echo = true,          -- a line for each room reached
+  skip = {},            -- room number -&gt; true: never go there
+}
+wk.settings = acs.store("wk", wk.default_settings)
+
+function wk.save_settings() acs.save("wk") end
+function wk.echo(msg) acs.echo(msg, "wk") end
+function wk.err(msg) acs.err(msg, "wk") end
+function wk.debug(msg) acs.debug(msg, "wk") end
+function wk.say(msg) if wk.settings.echo then wk.echo(msg) end end
+
+function wk.raise(event, ...)
+  wk.debug("event " .. event)
+  raiseEvent(event, ...)
+end
+
+function wk.onoff(v, cur)
+  if v == "on" then return true elseif v == "off" then return false end
+  return not cur
+end
+
+wk.dir_long = {
+  n = "north", ne = "northeast", e = "east", se = "southeast", s = "south",
+  sw = "southwest", w = "west", nw = "northwest", u = "up", d = "down",
+  ["in"] = "in", out = "out",
+}
+wk.dir_short = {}
+for k, v in pairs(wk.dir_long) do wk.dir_short[v] = k wk.dir_short[k] = k end
+
+-- The room you're in: straight from GMCP (always current, whichever
+-- package's handler runs first), else RM's copy. { num, area, exits = dir -&gt; num }
+function wk.room()
+  local info = gmcp and gmcp.Room and gmcp.Room.Info
+  if not info then
+    if rm and rm.room and (rm.room.num or 0) ~= 0 then return rm.room end
+    return { num = 0, area = "", exits = {} }
+  end
+  local exits = {}
+  for dir, to in pairs(info.exits or {}) do exits[dir] = tonumber(to) or to end
+  return { num = tonumber(info.num) or 0, area = info.area or "", exits = exits }
+end
+
+-- Players in the room with you (not you).
+function wk.players()
+  local r = {}
+  if rm and rm.players then
+    for name in pairs(rm.players) do r[#r + 1] = name end
+    return r
+  end
+  local me = (acs.me and acs.me.name or ""):lower()
+  for _, p in ipairs((gmcp and gmcp.Room and gmcp.Room.Players) or {}) do
+    if p.name and p.name:lower() ~= me then r[#r + 1] = p.name end
+  end
+  return r
+end
+
+-- The walk's state (03_walk.lua fills it in). One table for good, so the
+-- other files can keep a local for it.
+wk.w = wk.w or {}
+
+-- Items and denizens on the ground: { id -&gt; name }, kept from GMCP Char.Items.
+wk.items = wk.items or {}
+wk.items_at = wk.items_at or 0
+
+function wk.on_items(kind)
+  local t = gmcp.Char and gmcp.Char.Items and gmcp.Char.Items[kind]
+  if type(t) ~= "table" or t.location ~= "room" then return end
+  if kind == "List" then
+    wk.items = {}
+    for _, it in ipairs(t.items or {}) do wk.items[tostring(it.id)] = tostring(it.name or "") end
+    wk.items_at = acs.now()
+    wk.items_listed()
+  elseif kind == "Add" and t.item then
+    wk.items[tostring(t.item.id)] = tostring(t.item.name or "")
+  elseif kind == "Remove" and t.item then
+    wk.items[tostring(t.item.id)] = nil
+  end
+end
+</script>
+          <eventHandlerList />
+        </Script>
+        <Script isActive="yes" isFolder="no">
+          <name>map</name>
+          <packageName></packageName>
+          <script>-- WK map: the area's rooms from the Mudlet map, their exits (special exits
+-- too), and picking the next room to go to.
+--
+-- The walk covers a scope: one area, or one floor (z level) of it. Rooms
+-- the map has locked, rooms you skip ("wk skip"), and ways that turned out
+-- not to work this walk are left out. A room with no way in is skipped.
+
+local W = wk.w -- the walk state (03_walk.lua)
+
+local function map_ok() return type(getRoomExits) == "function" and type(roomExists) == "function" end
+wk.map_ok = map_ok
+
+local function exists(id) return id and map_ok() and roomExists(id) and true or false end
+
+function wk.area_of(id)
+  if not exists(id) or type(getRoomArea) ~= "function" then return nil end
+  return getRoomArea(id)
+end
+
+function wk.area_name(area)
+  if area and type(getRoomAreaName) == "function" then return getRoomAreaName(area) end
+end
+
+function wk.z_of(id)
+  if not exists(id) or type(getRoomCoordinates) ~= "function" then return nil end
+  local _, _, z = getRoomCoordinates(id)
+  return z
+end
+
+-- Area id for a name (whole or part of it), from the map.
+function wk.find_area(name)
+  if type(getAreaTable) ~= "function" then return nil end
+  name = tostring(name or ""):lower()
+  local part
+  for n, id in pairs(getAreaTable() or {}) do
+    local l = tostring(n):lower()
+    if l == name then return id, n end
+    if l:find(name, 1, true) and (not part or #n &lt; #part[2]) then part = { id, n } end
+  end
+  if part then return part[1], part[2] end
+end
+
+local function locked(id)
+  return type(roomLocked) == "function" and exists(id) and roomLocked(id) or false
+end
+
+local function exit_locked(id, dir)
+  if type(hasExitLock) ~= "function" then return false end
+  local ok, r = pcall(hasExitLock, id, dir)
+  return ok and r == true
+end
+
+-- Door on an exit: nil/0 none, 1 open, 2 closed, 3 locked.
+function wk.door(id, dir)
+  if type(getDoors) ~= "function" or not exists(id) then return nil end
+  local d = getDoors(id) or {}
+  return tonumber(d[wk.dir_short[dir] or dir] or d[wk.dir_long[dir] or dir])
+end
+
+-- Ways out of a room: { { to, cmd, special } }. Ordinary exits, then the
+-- map's special exits ("enter portal", "climb rope" ...). Locked exits,
+-- locked doors and locked rooms aren't ways out. For the room you're in,
+-- GMCP's exits count too (they know rooms the map doesn't yet).
+function wk.neighbours(id)
+  local out, seen = {}, {}
+  local function add(to, cmd, special)
+    to = tonumber(to)
+    if not to or seen[to .. "\0" .. cmd] or locked(to) then return end
+    if W.blocked[id .. "&gt;" .. to] or wk.settings.skip[to] then return end
+    seen[to .. "\0" .. cmd] = true
+    out[#out + 1] = { to = to, cmd = cmd, special = special }
+  end
+  if exists(id) then
+    for dir, to in pairs(getRoomExits(id) or {}) do
+      if not exit_locked(id, dir) and wk.door(id, dir) ~= 3 then add(to, wk.dir_long[dir] or dir) end
+    end
+    if type(getSpecialExits) == "function" then
+      for to, cmds in pairs(getSpecialExits(id) or {}) do
+        if type(cmds) == "table" then
+          for cmd, lock in pairs(cmds) do
+            -- "script:" exits run Lua in the mapper; only its own walking can take them
+            local scripted = tostring(cmd):find("^script:")
+            if tostring(lock) ~= "1" and (not scripted or wk.settings.via == "mapper") then add(to, cmd, true) end
+          end
+        else
+          add(cmds, tostring(to), true) -- old Mudlet: command -&gt; room
+        end
+      end
+    end
+  end
+  local here = wk.room()
+  if here.num == id then
+    for dir, to in pairs(here.exits or {}) do
+      if wk.door(id, dir) ~= 3 and not exit_locked(id, dir) then add(to, wk.dir_long[dir] or dir) end
+    end
+  end
+  table.sort(out, function(a, b) if a.to ~= b.to then return a.to &lt; b.to end return a.cmd &lt; b.cmd end)
+  return out
+end
+
+-- Is a room part of the walk?
+function wk.in_scope(id)
+  local s = W.scope
+  if not s or not id or wk.settings.skip[id] then return false end
+  if W.extra[id] then return true end
+  if wk.area_of(id) ~= s.area or locked(id) then return false end
+  return not s.z or wk.z_of(id) == s.z
+end
+
+-- Rooms of the walk still to go to: id -&gt; true.
+function wk.todo()
+  local r = {}
+  local s = W.scope
+  if not s then return r end
+  if type(getAreaRooms) == "function" then
+    for _, id in pairs(getAreaRooms(s.area) or {}) do
+      id = tonumber(id)
+      if id and not W.visited[id] and not W.bad[id] and wk.in_scope(id) then r[id] = true end
+    end
+  end
+  for id in pairs(W.extra) do
+    if not W.visited[id] and not W.bad[id] then r[id] = true end
+  end
+  return r
+end
+
+-- A tiny binary heap for Dijkstra.
+local function push(h, d, id)
+  h[#h + 1] = { d, id }
+  local i = #h
+  while i &gt; 1 do
+    local p = math.floor(i / 2)
+    if h[p][1] &lt;= h[i][1] then break end
+    h[p], h[i] = h[i], h[p]
+    i = p
+  end
+end
+local function pop(h)
+  local top = h[1]
+  local last = table.remove(h)
+  if #h &gt; 0 then
+    h[1] = last
+    local i = 1
+    while true do
+      local l, r, m = 2 * i, 2 * i + 1, i
+      if h[l] and h[l][1] &lt; h[m][1] then m = l end
+      if h[r] and h[r][1] &lt; h[m][1] then m = r end
+      if m == i then break end
+      h[m], h[i] = h[i], h[m]
+      i = m
+    end
+  end
+  return top
+end
+
+-- Shortest ways from a room to everything near the walk. A level change
+-- costs zcost extra, so a floor gets finished before the next; the map's
+-- room weights count. A path may leave the area for at most `detour`
+-- rooms in a row. Returns dist (id -&gt; cost), prev (id -&gt; { from, cmd }).
+function wk.paths(from)
+  local dist, prev, outside, done = { [from] = 0 }, {}, { [from] = 0 }, {}
+  local h = {}
+  push(h, 0, from)
+  local zcost, detour = tonumber(wk.settings.zcost) or 0, tonumber(wk.settings.detour) or 6
+  while #h &gt; 0 do
+    local it = pop(h)
+    local d, id = it[1], it[2]
+    if not done[id] then
+      done[id] = true
+      local z = wk.z_of(id)
+      for _, e in ipairs(wk.neighbours(id)) do
+        local to = e.to
+        local inside = W.extra[to] or wk.area_of(to) == W.scope.area
+        local out = inside and 0 or (outside[id] + 1)
+        if out &lt;= detour and not done[to] then
+          local cost = 1
+          if type(getRoomWeight) == "function" and exists(to) then cost = math.max(1, tonumber(getRoomWeight(to)) or 1) end
+          local tz = wk.z_of(to)
+          if z and tz and tz ~= z then cost = cost + zcost end
+          local nd = d + cost
+          if not dist[to] or nd &lt; dist[to] then
+            dist[to], prev[to], outside[to] = nd, { from = id, cmd = e.cmd, special = e.special }, out
+            push(h, nd, to)
+          end
+        end
+      end
+    end
+  end
+  return dist, prev
+end
+
+-- The steps from `from` to `to` along prev: { { to, cmd, special } }.
+function wk.steps(prev, from, to)
+  local steps = {}
+  local at = to
+  while at ~= from do
+    local p = prev[at]
+    if not p then return nil end
+    table.insert(steps, 1, { to = at, cmd = p.cmd, special = p.special })
+    at = p.from
+  end
+  return steps
+end
+
+-- How many ways out of a room lead to rooms still to do.
+local function open_ends(id, todo)
+  local n = 0
+  for _, e in ipairs(wk.neighbours(id)) do if todo[e.to] then n = n + 1 end end
+  return n
+end
+
+-- The next room: the closest one still to do. Ties go to the room you were
+-- already heading for, then to the one with fewest unvisited rooms around
+-- it (dead ends and corners first, so none get left behind), then to the
+-- one straight ahead. Returns id, steps, todo, unreachable (id -&gt; true);
+-- id is nil when nothing reachable is left.
+function wk.pick(from)
+  local todo = wk.todo()
+  local dist, prev = wk.paths(from)
+  local unreachable, best, bestd = {}, {}, nil
+  for id in pairs(todo) do
+    local d = dist[id]
+    if not d then unreachable[id] = true
+    elseif not bestd or d &lt; bestd then best, bestd = { id }, d
+    elseif d == bestd then best[#best + 1] = id end
+  end
+  if not bestd then return nil, nil, todo, unreachable end
+  local last = W.last_cmd
+  local function key(id)
+    local steps = wk.steps(prev, from, id)
+    return { id == W.target and 0 or 1, open_ends(id, todo), (steps[1] and steps[1].cmd == last) and 0 or 1, id }, steps
+  end
+  local pick, pkey, psteps
+  for _, id in ipairs(best) do
+    local k, steps = key(id)
+    local better = not pkey
+    if pkey then
+      for i = 1, #k do
+        if k[i] ~= pkey[i] then better = k[i] &lt; pkey[i] break end
+      end
+    end
+    if better then pick, pkey, psteps = id, k, steps end
+  end
+  return pick, psteps, todo, unreachable
+end
+</script>
+          <eventHandlerList />
+        </Script>
+        <Script isActive="yes" isFolder="no">
+          <name>walking</name>
+          <packageName></packageName>
+          <script>-- WK walking: go room to room until every room of the walk is done.
+--
+-- Each time you land in a room, the next room is picked again (wk.pick),
+-- so a room passed on the way counts, and a way that didn't work is
+-- routed around. In "step" mode WK sends one exit at a time and waits for
+-- the room to change; in "mapper" mode the mapper's goto walks each leg.
+--
+-- A step that doesn't land (the game says you can't, the exit isn't
+-- there, a locked door, nothing happens after a few tries) marks that way
+-- as blocked for this walk; rooms with no other way in are skipped.
+--
+-- States: walking, waiting (staying a moment in a new room), held (a stop
+-- check fired; "wk" goes on), paused, done.
+--
+-- Events: wk.start(area), wk.target(num), wk.arrived(num),
+-- wk.held(num, why), wk.skipped(num, why), wk.done(visited, skipped),
+-- wk.stop(reason)
+
+local W = wk.w
+
+function wk.clear_state()
+  W.active, W.state, W.scope, W.target, W.steps, W.step = false, nil, nil, nil, nil, nil
+  W.visited, W.bad, W.blocked, W.extra = {}, {}, {}, {}
+  W.at, W.last_cmd, W.hold_why, W.settling, W.loops = nil, nil, nil, nil, 0
+end
+if not W.visited then wk.clear_state() end
+
+local function kill(name)
+  if W[name] then killTimer(W[name]) W[name] = nil end
+end
+
+local function count(t) local n = 0 for _ in pairs(t or {}) do n = n + 1 end return n end
+wk.count = count
+
+function wk.mapper()
+  return type(mmp) == "table" and type(mmp.gotoRoom) == "function"
+end
+
+function wk.mapper_walking()
+  return wk.mapper() and mmp.autowalking and true or false
+end
+
+local function stop_mapper()
+  if not wk.mapper_walking() then return end
+  W.stopping_mapper = true
+  if rm and rm.stop then rm.stop() elseif type(mmp.stop) == "function" then mmp.stop() end
+  W.stopping_mapper = nil
+end
+
+function wk.active() return W.active end
+function wk.state() return W.state end
+
+---------------------------------------------------------------------------
+-- Start and stop
+
+-- Start walking an area (id from the map; default the one you're in).
+-- floor: only rooms on your level (or that z).
+function wk.start(area, floor)
+  local here = wk.room()
+  if not wk.map_ok() then return wk.err("no Mudlet map loaded") end
+  area = area or wk.area_of(here.num)
+  if not area then return wk.err("this room isn't on the map; walk somewhere mapped or name an area") end
+  local z
+  if floor then
+    z = type(floor) == "number" and floor or wk.z_of(here.num)
+    if not z then return wk.err("can't tell which floor you're on") end
+  end
+  wk.stop(nil, true)
+  wk.clear_state()
+  W.active, W.state = true, "walking"
+  W.scope = { area = area, name = wk.area_name(area) or ("area " .. tostring(area)), z = z }
+  W.started = acs.now()
+  W.at = here.num
+  wk.mark(here.num)
+  local n = count(wk.todo()) + count(W.visited)
+  wk.echo(("walking &lt;white&gt;%s&lt;reset&gt;%s: %d room%s"):format(W.scope.name, z and (" (floor " .. z .. ")") or "",
+    n, n == 1 and "" or "s"))
+  wk.raise("wk.start", W.scope.name)
+  wk.next()
+end
+
+function wk.stop(reason, quiet)
+  if not W.active then return end
+  kill("step_timer") kill("wait_timer") kill("settle_timer") kill("bal_timer")
+  if W.via_mapper then stop_mapper() end
+  W.active, W.step, W.steps, W.settling = false, nil, nil, nil
+  W.state = W.state == "done" and "done" or "stopped"
+  if not quiet then
+    wk.echo("&lt;red&gt;stopped&lt;reset&gt;" .. (reason and (": " .. reason) or "") .. ". " .. wk.summary())
+  end
+  wk.raise("wk.stop", reason or "stopped")
+end
+
+function wk.pause()
+  if not W.active then return wk.echo("not walking") end
+  kill("step_timer") kill("wait_timer") kill("settle_timer") kill("bal_timer")
+  if W.via_mapper then stop_mapper() end
+  W.state, W.step, W.settling = "paused", nil, nil
+  wk.echo("paused (&lt;white&gt;wk&lt;reset&gt; goes on)")
+end
+
+-- Carry on after a hold or a pause.
+function wk.resume()
+  if not W.active then return wk.echo("not walking (&lt;white&gt;wk start&lt;reset&gt;)") end
+  if W.state == "walking" or W.state == "waiting" then return wk.echo("already walking") end
+  W.state, W.hold_why = "walking", nil
+  W.at = wk.room().num
+  wk.next()
+end
+
+function wk.summary()
+  if not W.scope then return "" end
+  local done = count(W.visited)
+  return ("%d room%s done, %d to go"):format(done, done == 1 and "" or "s", count(wk.todo()))
+end
+
+---------------------------------------------------------------------------
+-- Rooms
+
+-- You're in num: it's done (if it's part of the walk), and unmapped
+-- rooms next to it join the walk.
+function wk.mark(num)
+  if not W.scope or not num or num == 0 then return false end
+  local here = wk.room()
+  local inside = wk.in_scope(num)
+  if not inside and here.num == num and not (type(roomExists) == "function" and roomExists(num)) then
+    inside = here.area == W.scope.name -- an unmapped room: GMCP's area name
+    if inside then W.extra[num] = true end
+  end
+  if not inside then return false end
+  local new = not W.visited[num]
+  W.visited[num] = true
+  if here.num == num then
+    for _, to in pairs(here.exits or {}) do
+      to = tonumber(to)
+      if to and not (type(roomExists) == "function" and roomExists(to)) and not wk.settings.skip[to] then
+        W.extra[to] = true
+      end
+    end
+  end
+  return new
+end
+
+-- Why to stop in this room, or nil.
+wk.checks = wk.checks or {}
+function wk.add_check(name, fn) wk.checks[name] = fn end
+function wk.remove_check(name) wk.checks[name] = nil end
+
+function wk.item_names()
+  local r = {}
+  if rm and rm.item_list then
+    for _, it in ipairs(rm.item_list()) do r[#r + 1] = tostring(it.name or "") end
+  else
+    for _, name in pairs(wk.items) do r[#r + 1] = name end
+  end
+  return r
+end
+
+function wk.hold_reason(num)
+  local s = wk.settings
+  if s.enemies and pt and pt.is_enemy then
+    for _, p in ipairs(wk.players()) do
+      if pt.is_enemy(p) then return "enemy " .. p .. " here" end
+    end
+  end
+  if s.bash and bs and bs.listed_here and bs.listed_here() then return "something to hunt here" end
+  if #s.stopfor &gt; 0 then
+    for _, name in ipairs(wk.item_names()) do
+      local l = name:lower()
+      for _, want in ipairs(s.stopfor) do
+        if l:find(want:lower(), 1, true) then return name .. " here" end
+      end
+    end
+  end
+  for _, name in ipairs(acs.sorted_keys(wk.checks)) do
+    local ok, why = pcall(wk.checks[name], num)
+    if ok and why then return type(why) == "string" and why or name end
+  end
+end
+
+-- The stop checks need the room's items (a moment after the room).
+function wk.needs_items()
+  local s = wk.settings
+  return (s.bash and bs ~= nil) or #s.stopfor &gt; 0 or next(wk.checks) ~= nil
+end
+
+---------------------------------------------------------------------------
+-- Moving
+
+-- Go on to the next room (or finish).
+function wk.next()
+  if not W.active or W.state ~= "walking" then return end
+  if W.via_mapper and wk.mapper_walking() then return end
+  local from = wk.room().num
+  if from == 0 then return wk.err("where are you? (no room from GMCP yet)") end
+  local id, steps, todo, unreach = wk.pick(from)
+  if not id and next(unreach) then id, steps = wk.approach(from, unreach) end
+  if not id then return wk.finish(todo, unreach) end
+  if id ~= W.target then
+    W.target = id
+    wk.debug(("next room %d (%d step%s)"):format(id, #steps, #steps == 1 and "" or "s"))
+    wk.raise("wk.target", id)
+  end
+  W.steps = steps
+  local s = wk.settings
+  if s.via == "mapper" and wk.mapper() then
+    W.via_mapper = true
+    if rm and rm.go_to then rm.go_to(id) else mmp.gotoRoom(id) end
+  else
+    W.via_mapper = false
+    wk.take_step()
+  end
+end
+
+-- Rooms the short search didn't reach (the way in goes through another
+-- area, or you're outside the area): ask the map for a path, nearest first.
+function wk.approach(from, rooms)
+  if type(getPath) ~= "function" then return nil end
+  local best, bestn, bdirs, bpath
+  for id in pairs(rooms) do
+    if not W.bad[id] and getPath(from, id) then
+      local dirs, path = speedWalkDir or {}, speedWalkPath or {}
+      -- not through a way that already failed this walk
+      local ok, at = true, from
+      for i = 1, #dirs do
+        local to = tonumber(path[i])
+        if W.blocked[at .. "&gt;" .. tostring(to)] or wk.door(at, dirs[i]) == 3 or wk.settings.skip[to] then ok = false break end
+        at = to
+      end
+      if ok and (not bestn or #dirs &lt; bestn) then
+        best, bestn = id, #dirs
+        bdirs, bpath = {}, {}
+        for i, d in ipairs(dirs) do bdirs[i] = d bpath[i] = (speedWalkPath or {})[i] end
+      end
+    end
+  end
+  if not best then return nil end
+  local steps = {}
+  for i, d in ipairs(bdirs) do
+    steps[i] = { to = tonumber(bpath[i]), cmd = wk.dir_long[d] or d, special = not wk.dir_long[d] }
+  end
+  W.approach = best
+  return best, steps
+end
+
+local function balanced()
+  local v = gmcp and gmcp.Char and gmcp.Char.Vitals
+  if not v then return true end
+  return tostring(v.bal) ~= "0" and tostring(v.eq) ~= "0"
+end
+
+-- Send the first step of W.steps and wait for it to land.
+function wk.take_step()
+  local st = W.steps and W.steps[1]
+  if not st then return wk.next() end
+  if not balanced() then
+    -- off balance: wait for it, without counting a try
+    W.bal_wait = (W.bal_wait or 0) + 1
+    if W.bal_wait &lt;= 40 then
+      kill("bal_timer")
+      W.bal_timer = tempTimer(0.25, function() W.bal_timer = nil if W.state == "walking" then wk.take_step() end end)
+      return
+    end
+  end
+  W.bal_wait = 0
+  local from = wk.room().num
+  local same = W.step and W.step.to == st.to and W.step.from == from
+  W.step = { to = st.to, cmd = st.cmd, from = from, tries = same and W.step.tries or 0, door = same and W.step.door }
+  local step = W.step
+  step.tries = step.tries + 1
+  if not st.special and not step.door and wk.door(from, st.cmd) == 2 then
+    step.door = true
+    acs.send("open door " .. st.cmd)
+  end
+  W.last_cmd = st.cmd
+  acs.send(st.cmd)
+  kill("step_timer")
+  W.step_timer = tempTimer(wk.settings.step_timeout, function()
+    W.step_timer = nil
+    if W.step ~= step or W.state ~= "walking" then return end
+    if step.tries &gt;= wk.settings.tries then return wk.blocked_step("nothing happened") end
+    wk.take_step()
+  end)
+end
+
+-- The step can't be taken: that way is out for this walk; route around it.
+function wk.blocked_step(why)
+  local step = W.step
+  if not step then return end
+  kill("step_timer")
+  W.step, W.steps = nil, nil
+  W.blocked[step.from .. "&gt;" .. step.to] = true
+  wk.debug(("can't go %s from %d: %s"):format(step.cmd, step.from, why))
+  if W.approach and W.target == W.approach then W.bad[W.target] = why end
+  if wk.in_scope(step.to) and not W.visited[step.to] then
+    -- skipped for good only once there's no other way in; wk.pick decides
+    W.skip_why = W.skip_why or {}
+    W.skip_why[step.to] = why
+  end
+  if W.state == "walking" then wk.next() end
+end
+
+-- Every Room.Info.
+function wk.on_room()
+  if not W.active then return end
+  local num = wk.room().num
+  if num == 0 or num == W.at then return end
+  W.at = num
+  kill("step_timer")
+  local step = W.step
+  W.step = nil
+  if step and num == step.to and W.steps then table.remove(W.steps, 1) end
+  local new = wk.mark(num)
+  if num == W.approach then W.approach = nil end
+  if W.state ~= "walking" then return end -- held or paused: you're walking yourself
+  if new then wk.say(("room %d/%d: %s"):format(count(W.visited), count(W.visited) + count(wk.todo()),
+    (type(getRoomName) == "function" and getRoomName(num)) or tostring(num))) end
+  wk.raise("wk.arrived", num)
+  -- the room's items come with (or just before) the room
+  W.settling = { num = num, new = new }
+  if not wk.needs_items() or acs.now() - (wk.items_at or 0) &lt; 0.3 then
+    W.settle_timer = tempTimer(0, function() W.settle_timer = nil wk.settled() end)
+  else
+    kill("settle_timer")
+    W.settle_timer = tempTimer(wk.settings.settle, function() W.settle_timer = nil wk.settled() end)
+  end
+end
+
+-- The room's item list arrived: the stop checks can run.
+function wk.items_listed()
+  if not W.settling then return end
+  kill("settle_timer")
+  W.settle_timer = tempTimer(0, function() W.settle_timer = nil wk.settled() end)
+end
+
+function wk.settled()
+  local s = W.settling
+  W.settling = nil
+  if not s or not W.active or W.state ~= "walking" or W.at ~= s.num then return end
+  local why = wk.hold_reason(s.num)
+  if why then
+    if W.via_mapper then stop_mapper() end
+    W.state, W.hold_why = "held", why
+    wk.echo(("&lt;yellow&gt;stopped&lt;reset&gt;: %s. &lt;white&gt;wk&lt;reset&gt; goes on."):format(why))
+    wk.raise("wk.held", s.num, why)
+    return
+  end
+  if W.via_mapper and wk.mapper_walking() then return end
+  local wait = tonumber(wk.settings.wait) or 0
+  if s.new and wait &gt; 0 then
+    W.state = "waiting"
+    W.wait_timer = tempTimer(wait, function()
+      W.wait_timer = nil
+      if W.state == "waiting" then W.state = "walking" wk.next() end
+    end)
+    return
+  end
+  wk.next()
+end
+
+function wk.on_wrongdir()
+  if W.active and W.step then wk.blocked_step("no exit that way") end
+end
+
+-- Game lines that mean the step didn't happen.
+wk.block_lines = {
+  [[^There is a door in the way]],
+  [[^The door is locked]],
+  [[^You cannot go that way]],
+  [[^You can't go that way]],
+  [[^You may not (?:go|enter|pass)]],
+  [[^You are not permitted]],
+  [[^Some force prevents you]],
+  [[^A strange force prevents you]],
+  [[^(?:You find )?your way is blocked]],
+  [[^\S.* (?:blocks|bars) your (?:way|path)]],
+}
+
+function wk.on_block_line(text)
+  local step = W.step
+  if not (W.active and step) then return end
+  text = tostring(text or "")
+  if text:find("^There is a door in the way") and not step.door and not step.special then
+    step.door = true
+    acs.send("open door " .. step.cmd)
+    acs.send(step.cmd)
+    return
+  end
+  wk.blocked_step(text)
+end
+
+-- Mapper legs ("mapper" mode).
+function wk.on_mapper(event)
+  if not (W.active and W.via_mapper) or W.stopping_mapper then return end
+  if event == "mmapper arrived" then
+    if W.state == "walking" and not W.settling then wk.next() end
+  elseif event == "mmapper failed path" then
+    if W.target then W.bad[W.target] = "the mapper has no path" end
+    if W.state == "walking" then wk.next() end
+  elseif event == "mmapper stopped" and W.state == "walking" then
+    W.state = "paused"
+    wk.echo("the mapper stopped; paused (&lt;white&gt;wk&lt;reset&gt; goes on)")
+  end
+end
+
+-- Nothing reachable left.
+function wk.finish(todo, unreach)
+  local skipped = {}
+  for id in pairs(todo or {}) do skipped[id] = (W.skip_why or {})[id] or "no way in" end
+  for id, why in pairs(W.bad) do if not W.visited[id] then skipped[id] = why end end
+  W.skipped = skipped
+  local nv, ns = count(W.visited), count(skipped)
+  wk.echo(("&lt;green&gt;done&lt;reset&gt; with &lt;white&gt;%s&lt;reset&gt;: %d room%s%s"):format(W.scope.name, nv, nv == 1 and "" or "s",
+    ns &gt; 0 and (", " .. ns .. " skipped (&lt;white&gt;wk skipped&lt;reset&gt;)") or ""))
+  for id, why in pairs(skipped) do wk.raise("wk.skipped", id, why) end
+  wk.raise("wk.done", nv, ns)
+  if wk.settings.loop and nv &gt; 1 then
+    W.loops = W.loops + 1
+    local here = wk.room().num
+    W.visited, W.bad, W.target, W.skip_why = {}, {}, nil, nil
+    wk.mark(here)
+    wk.echo("round " .. (W.loops + 1))
+    W.wait_timer = tempTimer(1, function() W.wait_timer = nil if W.state == "walking" then wk.next() end end)
+    return
+  end
+  W.state = "done"
+  wk.stop(nil, true)
+end
+</script>
+          <eventHandlerList />
+        </Script>
+        <Script isActive="yes" isFolder="no">
+          <name>commands</name>
+          <packageName></packageName>
+          <script>-- WK commands: "wk &lt;command&gt;". "wk" on its own goes on after a stop (or
+-- shows the status when not walking); "wk help" lists the commands.
+
+local W = wk.w
+
+local run = wk.run
+function wk.run(text)
+  local first = (acs.words(text)[1] or ""):lower()
+  if first == "" then
+    if W.active and (W.state == "held" or W.state == "paused") then return wk.resume() end
+    return wk.commands.status.fn({}, "")
+  end
+  return run(text)
+end
+
+wk.command("start", function(w, rest)
+  local floor = w[1] and w[1]:lower() == "floor"
+  local name = floor and rest:match("^%S+%s+(.+)$") or rest
+  name = name and name:match("^%s*(.-)%s*$") or ""
+  local area
+  if name ~= "" and name:lower() ~= "here" then
+    local id, full = wk.find_area(name)
+    if not id then return wk.err("no area on the map called " .. name) end
+    area = id
+    if full then wk.debug("area " .. full) end
+  end
+  wk.start(area, floor)
+end, { "start [AREA]        walk every room of this area (or AREA, part of its name)",
+       "start floor [AREA]  only the rooms on your level" })
+
+wk.command("floor", function() wk.start(nil, true) end, "floor               walk every room of this area on your level")
+
+wk.command("stop", function() wk.stop() end, "stop                stop walking")
+wk.command("off", function() wk.stop() end)
+wk.command("pause", function() wk.pause() end, "pause               stop for now (wk goes on)")
+wk.command("next", function() wk.resume() end, "next (or just wk)   go on after a stop")
+wk.command("go", function() wk.resume() end)
+
+wk.command("status", function()
+  local s = wk.settings
+  if W.scope then
+    local what = W.active and (W.state or "walking") or (W.state or "stopped")
+    if W.state == "held" and W.hold_why then what = what .. ": " .. W.hold_why end
+    wk.echo(("&lt;white&gt;%s&lt;reset&gt;%s, %s; %s"):format(W.scope.name, W.scope.z and (" floor " .. W.scope.z) or "", what, wk.summary()))
+    if W.target and W.active then cecho(("\n  heading for %d%s"):format(W.target,
+      (type(getRoomName) == "function" and getRoomName(W.target)) and (" (" .. getRoomName(W.target) .. ")") or "")) end
+  else
+    wk.echo("not walking (&lt;white&gt;wk start&lt;reset&gt;)")
+  end
+  cecho(("\n  via %s, wait %ss, floor cost %s, loop %s, echo %s"):format(s.via, tostring(s.wait), tostring(s.zcost),
+    s.loop and "on" or "off", s.echo and "on" or "off"))
+  cecho(("\n  stops for: %s%s%s"):format(s.bash and "mobs BS hunts, " or "", s.enemies and "enemies, " or "",
+    #s.stopfor &gt; 0 and table.concat(s.stopfor, ", ") or "nothing listed"))
+end, "status              where the walk is up to and the settings")
+
+wk.command("left", function()
+  if not W.scope then return wk.echo("not walking") end
+  local here = wk.room().num
+  local dist = wk.paths(here)
+  local list = {}
+  for id in pairs(wk.todo()) do list[#list + 1] = id end
+  table.sort(list, function(a, b) return (dist[a] or 1e9) &lt; (dist[b] or 1e9) end)
+  wk.echo(#list .. " room" .. (#list == 1 and "" or "s") .. " to go")
+  for i = 1, math.min(#list, 20) do
+    local id = list[i]
+    cecho(("\n  %-7d %-5s %s"):format(id, dist[id] and tostring(dist[id]) or "--",
+      (type(getRoomName) == "function" and getRoomName(id)) or ""))
+  end
+  if #list &gt; 20 then cecho("\n  ...") end
+end, "left                the rooms still to go, closest first (-- = no way found)")
+
+wk.command("skipped", function()
+  local list = acs.sorted_keys(W.skipped or {})
+  if #list == 0 then return wk.echo("nothing skipped" .. (W.active and " yet" or "")) end
+  wk.echo(#list .. " room" .. (#list == 1 and "" or "s") .. " skipped")
+  for _, id in ipairs(list) do
+    cecho(("\n  %-7d %s &lt;dim_grey&gt;%s"):format(id, (type(getRoomName) == "function" and getRoomName(id)) or "",
+      tostring(W.skipped[id])))
+  end
+end, "skipped             rooms the last walk couldn't get into, and why")
+
+function wk.room_arg(a)
+  if not a or a == "here" then return wk.room().num end
+  return tonumber(a)
+end
+
+wk.command("skip", function(w)
+  local id = wk.room_arg(w[1])
+  if not id or id == 0 then return wk.err("skip which room? (a number or here)") end
+  wk.settings.skip[id] = true
+  wk.save_settings()
+  wk.echo("never going to room " .. id .. " (&lt;white&gt;wk unskip " .. id .. "&lt;reset&gt; to undo)")
+  if W.target == id and W.state == "walking" then W.target = nil end
+end, "skip [ROOM|here]    never walk to that room")
+
+wk.command("unskip", function(w)
+  local id = wk.room_arg(w[1])
+  if not (id and wk.settings.skip[id]) then return wk.err("not skipped: " .. tostring(w[1])) end
+  wk.settings.skip[id] = nil
+  wk.save_settings()
+  wk.echo("room " .. id .. " is back in")
+end, "unskip ROOM|here    undo wk skip")
+
+wk.command("skips", function()
+  local list = acs.sorted_keys(wk.settings.skip)
+  wk.echo(#list .. " room" .. (#list == 1 and "" or "s") .. " never walked to")
+  for _, id in ipairs(list) do cecho(("\n  %-7d %s"):format(id, (type(getRoomName) == "function" and getRoomName(id)) or "")) end
+end, "skips               the rooms you skipped")
+
+wk.command("reset", function()
+  if not W.scope then return wk.echo("not walking") end
+  local here = wk.room().num
+  W.visited, W.bad, W.blocked, W.skip_why, W.skipped, W.target = {}, {}, {}, nil, nil, nil
+  wk.mark(here)
+  wk.echo("every room is to do again. " .. wk.summary())
+end, "reset               forget which rooms are done (and what was blocked)")
+
+wk.command("stopfor", function(w, rest)
+  local s = wk.settings
+  local sub = (w[1] or ""):lower()
+  local text = rest:match("^%S+%s+(.+)$")
+  if sub == "add" and text then
+    s.stopfor[#s.stopfor + 1] = text:lower()
+  elseif (sub == "remove" or sub == "del") and text then
+    for i, v in ipairs(s.stopfor) do if v == text:lower() then table.remove(s.stopfor, i) break end end
+  elseif sub == "clear" then
+    s.stopfor = {}
+  elseif sub ~= "" then
+    return wk.err("wk stopfor add|remove TEXT, or wk stopfor clear")
+  end
+  wk.save_settings()
+  wk.echo("stops for: " .. (#s.stopfor &gt; 0 and table.concat(s.stopfor, ", ") or "nothing listed"))
+end, { "stopfor add TEXT    stop in rooms with a denizen or item called that (part of the name)",
+       "stopfor remove TEXT take it off; stopfor clear: empty the list" })
+
+local function toggle(word, key, help, on, off)
+  wk.command(word, function(w)
+    wk.settings[key] = wk.onoff(w[1], wk.settings[key])
+    wk.save_settings()
+    wk.echo(wk.settings[key] and on or off)
+  end, help)
+end
+toggle("bash", "bash", "bash on|off         stop in rooms with mobs BS would hunt (on)",
+  "stops in rooms with mobs BS would hunt", "doesn't stop for mobs")
+toggle("enemies", "enemies", "enemies on|off      stop when an enemy (PT) is in the room (on)",
+  "stops when an enemy is in the room", "doesn't stop for enemies")
+toggle("loop", "loop", "loop on|off         start again when every room is done (patrol)",
+  "starts again when it's done (patrol)", "stops when it's done")
+toggle("echo", "echo", "echo on|off         a line for each new room", "a line for each new room", "quiet")
+
+local function number(word, key, help, unit, min)
+  wk.command(word, function(w)
+    local n = tonumber(w[1])
+    if not n or n &lt; (min or 0) then return wk.echo(word .. ": " .. tostring(wk.settings[key]) .. unit) end
+    wk.settings[key] = n
+    wk.save_settings()
+    wk.echo(word .. " " .. n .. unit)
+  end, help)
+end
+number("wait", "wait", "wait SECONDS        stay that long in each new room (0)", "s")
+number("zcost", "zcost", "zcost N             how much a level change counts against a room (3; 0 = none)", "")
+number("detour", "detour", "detour N            most rooms in a row outside the area on the way (6)", "")
+
+wk.command("via", function(w)
+  local m = (w[1] or ""):lower()
+  if m ~= "step" and m ~= "mapper" then return wk.echo("via " .. wk.settings.via .. " (wk via step|mapper)") end
+  wk.settings.via = m
+  wk.save_settings()
+  wk.echo(m == "step" and "walks one exit at a time" or "the mapper's goto walks each leg")
+  if m == "mapper" and not wk.mapper() then wk.echo("&lt;yellow&gt;the mapper isn't loaded&lt;reset&gt;; walking a step at a time until it is") end
+end, "via step|mapper     one exit at a time (step), or the mapper's goto for each leg")
+</script>
+          <eventHandlerList />
+        </Script>
+        <Script isActive="yes" isFolder="no">
+          <name>startup</name>
+          <packageName></packageName>
+          <script>-- WK startup. Re-importing is safe: acs.module in 01_wk.lua removes the old
+-- handlers first. Nothing is sent until you start a walk, and acs.send
+-- holds everything until you're logged in.
+
+function wk.init()
+  acs.gmcp_support({ "Room 1", "Char.Items 1" })
+  wk.on("gmcp.Room.Info", wk.on_room)
+  wk.on("gmcp.Room.WrongDir", wk.on_wrongdir)
+  wk.on("gmcp.Char.Items.List", function() wk.on_items("List") end)
+  wk.on("gmcp.Char.Items.Add", function() wk.on_items("Add") end)
+  wk.on("gmcp.Char.Items.Remove", function() wk.on_items("Remove") end)
+  for _, ev in ipairs({ "mmapper arrived", "mmapper failed path", "mmapper stopped" }) do
+    wk.on(ev, function(e) wk.on_mapper(e) end)
+  end
+  for _, pat in ipairs(wk.block_lines) do
+    wk.trigger(pat, function(m) wk.on_block_line(m[1]) end)
+  end
+  wk.on("acs.logout", function() wk.stop("logged out", true) end)
+  wk.echo(("loaded v%s. Type &lt;white&gt;wk help&lt;reset&gt;."):format(wk.version))
+end
+
+wk.init()
+</script>
+          <eventHandlerList />
+        </Script>
+      </ScriptGroup>
+      <ScriptGroup isActive="yes" isFolder="yes">
         <name>IN</name>
         <packageName></packageName>
         <script>-- IN</script>
@@ -37334,7 +39917,9 @@ function IN.refresh_gear()
   local left, right = nil, nil
   for k in pairs(IN.worn) do IN.worn[k] = nil end
   for id, it in pairs(IN.inv) do
-    if it.wielded == "left" then left = it elseif it.wielded == "right" then right = it end
+    if it.wielded == "left" then left = it
+    elseif it.wielded == "right" then right = it
+    elseif it.wielded == "both" then left, right = it, it end
     if it.worn then IN.worn[id] = it end
   end
   IN.wielded.left, IN.wielded.right = left, right
@@ -37972,9 +40557,18 @@ end
 
 function IN.show_gear()
   IN.echo("&lt;white&gt;gear")
-  local l, r = IN.wielded.left, IN.wielded.right
-  cecho("\n  &lt;grey&gt;left hand   &lt;reset&gt;" .. (l and (l.name .. " &lt;grey&gt;" .. l.id) or "-"))
-  cecho("\n  &lt;grey&gt;right hand  &lt;reset&gt;" .. (r and (r.name .. " &lt;grey&gt;" .. r.id) or "-"))
+  local main = IN.main_weapon()
+  for _, side in ipairs({ "left", "right" }) do
+    local it = IN.wielded[side]
+    local txt = "-"
+    if it then
+      local w = IN.weapon(it.id)
+      txt = it.name .. " &lt;grey&gt;" .. it.id
+      if w then txt = txt .. ("  dmg %s speed %s"):format(w.dmg or "-", w.speed or "-") end
+      if IN.is_shield(it) then txt = txt .. "  &lt;cyan&gt;shield" elseif main and main.id == it.id then txt = txt .. "  &lt;yellow&gt;main" end
+    end
+    cecho(("\n  &lt;grey&gt;%-11s &lt;reset&gt;%s"):format(side .. " hand", txt))
+  end
   local worn = {}
   for _, it in pairs(IN.worn) do worn[#worn + 1] = it end
   table.sort(worn, function(a, b) return a.name &lt; b.name end)
@@ -38083,6 +40677,8 @@ function IN.register_commands(M)
   M.command("armour", function(w)
     if w[1] == "show" then IN.show_armour() else IN.request_armour(true) end
   end, "armour [show]       ARMOURLIST: cutting, blunt, magical, decay")
+  M.command("wielding", function() IN.request_wielding(true) end,
+    "wielding            WIELDING: what's in each hand")
 end
 </script>
           <eventHandlerList />
@@ -38182,6 +40778,115 @@ end
           <eventHandlerList />
         </Script>
         <Script isActive="yes" isFolder="no">
+          <name>wielding</name>
+          <packageName></packageName>
+          <script>-- IN wielding: what's in each hand, for Offense (wipe, envenom, probe).
+--
+-- GMCP keeps it current: Char.Items attrib "l"/"L" mark the left/right hand,
+-- and every wield or unwield sends a Char.Items.Update. WIELDING output is
+-- also read, which fills in anything GMCP missed:
+--   You are wielding:
+--         shield457012: a Shield of Absorption in your left hand.
+--         spear117409: a Stormspear in your right hand.
+--
+--   IN.hand("left"|"right")  item in that hand, or nil
+--   IN.is_shield(item)       true for shields
+--   IN.weapons_wielded()     wielded weapons, right hand first: items on your
+--                            WEAPONLIST (before one is read: anything but a shield)
+--   IN.venom_weapons()       ids of those you can envenom: all of them except
+--                            blunt ones (flails, maces, morningstars)
+--   IN.main_weapon()         first wielded weapon;  IN.weapon_id() its id
+-- Event: "IN.wield.changed"(left, right)
+
+function IN.hand(side) return IN.wielded[side] end
+
+function IN.is_shield(it)
+  if not it then return false end
+  local a = IN.armour_piece and IN.armour_piece(it.id)
+  if a and a.slot == "shield" then return true end
+  local _, slot = IN.armour_type(it.name)
+  return slot == "shield" or tostring(it.name):lower():find("shield") ~= nil
+end
+
+function IN.weapons_wielded()
+  local r = {}
+  for _, side in ipairs({ "right", "left" }) do
+    local it = IN.wielded[side]
+    local is_weapon
+    if #IN.weapons &gt; 0 then is_weapon = IN.weapon(it and it.id) ~= nil
+    else is_weapon = it and not IN.is_shield(it) end
+    if it and is_weapon then
+      local dup = false
+      for _, x in ipairs(r) do if x.id == it.id then dup = true end end
+      if not dup then r[#r + 1] = it end
+    end
+  end
+  return r
+end
+
+IN.blunt_weapons = { "flail", "mace", "morningstar" }
+
+function IN.is_blunt(it)
+  local n = tostring(it.name or ""):lower()
+  local w = IN.weapon(it.id)
+  if w then n = n .. " " .. tostring(w.name):lower() end
+  for _, b in ipairs(IN.blunt_weapons) do
+    if n:find(b, 1, true) then return true end
+  end
+  return false
+end
+
+function IN.venom_weapons()
+  local r = {}
+  for _, it in ipairs(IN.weapons_wielded()) do
+    if not IN.is_blunt(it) then r[#r + 1] = it.id end
+  end
+  return r
+end
+
+function IN.main_weapon() return IN.weapons_wielded()[1] end
+function IN.weapon_id() local w = IN.main_weapon() return w and w.id end
+
+-- One WIELDING row -&gt; { id, name, hand }.
+function IN.parse_wielding(l)
+  local id, name, hand = l:match("^%s*%a*(%d%d%d+):%s*(.-) in your (%a+) hands?%.?%s*$")
+  if not id then return nil end
+  hand = hand:lower()
+  if hand ~= "left" and hand ~= "right" and hand ~= "both" then return nil end
+  return { id = id, name = name, hand = hand }
+end
+
+-- Apply a WIELDING list: those items are wielded, nothing else is.
+function IN.set_wielding(rows)
+  local held = {}
+  for _, r in ipairs(rows) do held[r.id] = r end
+  for id, it in pairs(IN.inv) do
+    if not held[id] then it.wielded = nil end
+  end
+  for id, r in pairs(held) do
+    local it = IN.inv[id]
+    if not it then
+      it = IN.make_item({ id = id, name = r.name, icon = "weapon", attrib = "" }, "inv")
+      IN.inv[id] = it
+    end
+    it.wielded = r.hand
+  end
+  IN.refresh_gear()
+end
+
+IN.capture_kinds.wielding = {
+  parse = function(l) return IN.parse_wielding(l) end,
+  done = function(rows, loud)
+    IN.set_wielding(rows)
+    if loud then IN.show_gear() end
+  end,
+}
+
+function IN.request_wielding(loud) IN.start_capture("wielding", loud) IN.send("wielding") end
+</script>
+          <eventHandlerList />
+        </Script>
+        <Script isActive="yes" isFolder="no">
           <name>startup</name>
           <packageName></packageName>
           <script>-- IN startup: GMCP handlers, ELIXLIST header trigger, commands. Safe to run
@@ -38217,6 +40922,8 @@ function IN.init()
   -- Typing ELIXLIST yourself also updates the vial list.
   M.trigger([[^\s*(?:Vial|Container)s?\s.*Sips]], function() IN.start_capture("vials", false) end)
   M.trigger([[^\s*Status\s+Pipe\s+Contents\s+Puffs]], function() IN.start_capture("pipes", false) end)
+  M.trigger([[^You are wielding:\s*$]], function() IN.start_capture("wielding", false) end)
+  M.trigger([[^You are wielding nothing]], function() IN.set_wielding({}) end)
   M.trigger([[^\s*Weapon\s+Dmg\s+To-hit\s+Speed]], function() IN.start_capture("weapons", false) end)
   M.trigger([[^\s*Armour\s+Cutting\s+Blunt\s+Magical]], function() IN.start_capture("armour", false) end)
 
@@ -39413,6 +42120,22 @@ end
           <packageName></packageName>
           <script>-- PT startup: GMCP room events, API replies, honours reading, highlighting.
 
+-- Keep the enemies list in step with the game's own ENEMY command.
+pt.enemy_lines = {
+  added = [[^(\w+) is now one of your enemies\.$]],
+  removed = [[^You declare that (\w+) will no longer be one of your enemies\.$]],
+  cleared = [[^In a moment of forgiveness, you declare that you have no enemies\.$]],
+}
+
+function pt.install_enemy_sync()
+  pt.trigger(pt.enemy_lines.added, function(m) pt.list_add("enemies", m[2]) end)
+  pt.trigger(pt.enemy_lines.removed, function(m) pt.list_del("enemies", m[2]) end)
+  pt.trigger(pt.enemy_lines.cleared, function()
+    for _, n in ipairs(pt.list_names("enemies")) do pt.list_del("enemies", n) end
+    pt.echo("enemies list cleared (hostile cities and houses still count)")
+  end)
+end
+
 function pt.init()
   pt.load()
   pt.room.reset()
@@ -39442,6 +42165,7 @@ function pt.init()
 
   pt.trigger([[^\S]], function() pt.honours.parse(line) end)
   pt.hl.install()
+  pt.install_enemy_sync()
   pt.install_signs()
 
   pt.api.start_recheck()
@@ -41580,7 +44304,9 @@ function U.draw_vitals()
     local s = k .. x.cur .. "/" .. x.max
     if U.last["g" .. k] ~= s then
       U.last["g" .. k] = s
-      U.g[k]:setValue(math.max(0, x.cur), math.max(1, x.max), text)
+      -- above max (health boosts) the bar stays full; the text shows the real number
+      local max = math.max(1, x.max)
+      U.g[k]:setValue(math.min(max, math.max(0, x.cur)), max, text)
     end
   end
   local html = R.balance_html(v, gui.data.balances())
@@ -41873,7 +44599,7 @@ shelp.data = shelp.data or {}
 shelp.names = {
   curing = "ss", offense = "ar", offence = "ar", bashing = "bs", hunting = "bs",
   inventory = "in", inv = "in", room = "rm", rooms = "rm", map = "rm",
-  follow = "af", autofollow = "af",
+  follow = "af", autofollow = "af", walker = "wk", walk = "wk", explore = "wk", patrol = "wk",
   people = "pt", tracker = "pt", heartbeat = "hb", panel = "gui",
   core = "acs", legacy = "system", old = "system",
 }
@@ -45550,6 +48276,7 @@ shelp.data = {
         see = nil,
         readme = {
           "* A **hit line** confirms it. Teach one per attack: `ar learn dstab`, then attack. The next line naming your target is saved for that class. `ar hitlines` shows them, `ar log` shows recent results.",
+          "* An attack only counts once its hit line is seen. Teach AR each one with `ar learn &lt;attack&gt;`. The exception is blackout, where you can't see the line: AR weaponprobes the weapons it used, and venom still on means it missed. With nothing to probe, an attack that fired (you lost balance) and wasn't cancelled counts as a hit. Turn that off with `ar optimistic off`.",
         },
       },
       lines = {
@@ -45580,10 +48307,10 @@ shelp.data = {
         readme = {},
       },
       optimistic = {
-        help = { "optimistic on|off      count unconfirmed attacks as hits unless they missed" },
+        help = { "optimistic on|off      in blackout, count unconfirmed attacks as hits unless they missed" },
         see = nil,
         readme = {
-          "* With no hit line yet, an attack that fired (you lost balance) and wasn't cancelled counts as a hit. Turn this off with `ar optimistic off`.",
+          "* An attack only counts once its hit line is seen. Teach AR each one with `ar learn &lt;attack&gt;`. The exception is blackout, where you can't see the line: AR weaponprobes the weapons it used, and venom still on means it missed. With nothing to probe, an attack that fired (you lost balance) and wasn't cancelled counts as a hit. Turn that off with `ar optimistic off`.",
         },
       },
       people = {
@@ -45662,6 +48389,15 @@ shelp.data = {
       },
     },
     functions = {
+      {
+        name = "ar.blacked_out",
+        sig = "ar.blacked_out()",
+        file = "src/05_hits.lua:149",
+        doc = {
+          "Are you in blackout? Asks the curing side (SS) when it's loaded,",
+          "otherwise GMCP's affliction list.",
+        },
+      },
       {
         name = "ar.build_knight",
         sig = "ar.build_knight(...)",
@@ -45785,13 +48521,13 @@ shelp.data = {
       {
         name = "ar.hits.calling",
         sig = "ar.hits.calling(p, fn)",
-        file = "src/05_hits.lua:288",
+        file = "src/05_hits.lua:317",
         doc = { "Run fn(); any aff p didn't surely have before and does after gets called." },
       },
       {
         name = "ar.hits.expect",
         sig = "ar.hits.expect(plan)",
-        file = "src/05_hits.lua:59",
+        file = "src/05_hits.lua:62",
         doc = {
           "plan = { key = \"dstab\", venoms = {...}, affs = {...}, strip = \"shield\",",
           "         weapon = true (rebounding stops it), on_hit = fn(plan), on_miss = fn(plan, why) }",
@@ -45800,79 +48536,79 @@ shelp.data = {
       {
         name = "ar.hits.flush_calls",
         sig = "ar.hits.flush_calls()",
-        file = "src/05_hits.lua:303",
+        file = "src/05_hits.lua:332",
         doc = {},
       },
       {
         name = "ar.hits.hitline",
         sig = "ar.hits.hitline(key)",
-        file = "src/05_hits.lua:49",
+        file = "src/05_hits.lua:52",
         doc = {},
       },
       {
         name = "ar.hits.install",
         sig = "ar.hits.install()",
-        file = "src/05_hits.lua:318",
+        file = "src/05_hits.lua:347",
         doc = {},
       },
       {
         name = "ar.hits.install_afflines",
         sig = "ar.hits.install_afflines()",
-        file = "src/05_hits.lua:195",
+        file = "src/05_hits.lua:221",
         doc = {},
       },
       {
         name = "ar.hits.install_hitlines",
         sig = "ar.hits.install_hitlines()",
-        file = "src/05_hits.lua:177",
+        file = "src/05_hits.lua:200",
         doc = {},
       },
       {
         name = "ar.hits.learn",
         sig = "ar.hits.learn(key)",
-        file = "src/05_hits.lua:139",
+        file = "src/05_hits.lua:162",
         doc = {},
       },
       {
         name = "ar.hits.learn_line",
         sig = "ar.hits.learn_line(text)",
-        file = "src/05_hits.lua:153",
+        file = "src/05_hits.lua:176",
         doc = {},
       },
       {
         name = "ar.hits.limb",
         sig = "ar.hits.limb(name, limb, pct)",
-        file = "src/05_hits.lua:214",
+        file = "src/05_hits.lua:240",
         doc = { "Limb damage you dealt, as a running total per limb." },
       },
       {
         name = "ar.hits.mark_hit",
         sig = "ar.hits.mark_hit()",
-        file = "src/05_hits.lua:66",
+        file = "src/05_hits.lua:71",
         doc = {},
       },
       {
         name = "ar.hits.mark_miss",
         sig = "ar.hits.mark_miss(why, name)",
-        file = "src/05_hits.lua:70",
+        file = "src/05_hits.lua:75",
         doc = {},
       },
       {
         name = "ar.hits.on_prompt",
         sig = "ar.hits.on_prompt()",
-        file = "src/05_hits.lua:311",
+        file = "src/05_hits.lua:340",
         doc = {},
       },
       {
         name = "ar.hits.on_vitals",
         sig = "ar.hits.on_vitals()",
-        file = "src/05_hits.lua:129",
+        file = "src/05_hits.lua:135",
         doc = { "Balance or equilibrium going away while an attack is pending means it fired." },
       },
       {
         name = "ar.hits.party_affs",
         sig = "ar.hits.party_affs(name, text)",
-        file = "src/05_hits.lua:229",
+        file = "src/05_hits.lua:258",
         doc = {
           "Afflictions named in a party call: affliction names or venom names.",
           "A call that names an aff we saw land on them in the last few seconds is",
@@ -45883,31 +48619,31 @@ shelp.data = {
       {
         name = "ar.hits.record",
         sig = "ar.hits.record(p, result)",
-        file = "src/05_hits.lua:88",
+        file = "src/05_hits.lua:93",
         doc = {},
       },
       {
         name = "ar.hits.resolve",
         sig = "ar.hits.resolve()",
-        file = "src/05_hits.lua:95",
+        file = "src/05_hits.lua:100",
         doc = {},
       },
       {
         name = "ar.hits.set_hitline",
         sig = "ar.hits.set_hitline(key, pattern)",
-        file = "src/05_hits.lua:164",
+        file = "src/05_hits.lua:187",
         doc = {},
       },
       {
         name = "ar.hits.stop_learning",
         sig = "ar.hits.stop_learning()",
-        file = "src/05_hits.lua:148",
+        file = "src/05_hits.lua:171",
         doc = {},
       },
       {
         name = "ar.hits.T",
         sig = "ar.hits.T(m)",
-        file = "src/05_hits.lua:21",
+        file = "src/05_hits.lua:24",
         doc = {},
       },
       {
@@ -45919,7 +48655,7 @@ shelp.data = {
       {
         name = "ar.in_channel",
         sig = "ar.in_channel(m, spec, ch)",
-        file = "src/09_builder.lua:60",
+        file = "src/09_builder.lua:62",
         doc = {},
       },
       {
@@ -46087,7 +48823,7 @@ shelp.data = {
       {
         name = "ar.offense.merge",
         sig = "ar.offense.merge(...)",
-        file = "src/09_builder.lua:158",
+        file = "src/09_builder.lua:160",
         doc = {},
       },
       {
@@ -46134,13 +48870,13 @@ shelp.data = {
       {
         name = "ar.offense.simple",
         sig = "ar.offense.simple(class, spec)",
-        file = "src/09_builder.lua:83",
+        file = "src/09_builder.lua:85",
         doc = { "AR module builder: most class modules are data. ar.offense.simple(class, spec)" },
       },
       {
         name = "ar.offense.words",
         sig = "ar.offense.words(cmd, q, map, plain)",
-        file = "src/09_builder.lua:151",
+        file = "src/09_builder.lua:153",
         doc = {
           "Shorthand: a move table where the game word differs from AR's aff name.",
           "  O.words(\"stare %t %a\", \"bal\", { deafness = \"deaf\", clumsiness = \"clumsy\" }, { \"fear\", ... })",
@@ -46393,7 +49129,7 @@ shelp.data = {
       {
         name = "ar.pick",
         sig = "ar.pick(spec, ch, skip)",
-        file = "src/09_builder.lua:67",
+        file = "src/09_builder.lua:69",
         doc = { "Pick the move for the first missing aff on this channel." },
       },
       {
@@ -46425,6 +49161,366 @@ shelp.data = {
         sig = "ar.send(cmd)",
         file = "src/00_core.lua:40",
         doc = {},
+      },
+      {
+        name = "ar.sentinel.add_aliases",
+        sig = "ar.sentinel.add_aliases()",
+        file = "src/11b_sentinel.lua:491",
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.class",
+        sig = "ar.sentinel.class()",
+        file = "src/11b_sentinel.lua:60",
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.count",
+        sig = "ar.sentinel.count(list)",
+        file = "src/11b_sentinel.lua:54",
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.dismember",
+        sig = "ar.sentinel.dismember(tgt)",
+        file = "src/11b_sentinel.lua:378",
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.enrage",
+        sig = "ar.sentinel.enrage(venom, arms_down)",
+        file = "src/11b_sentinel.lua:185",
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.group",
+        sig = "ar.sentinel.group(tgt)",
+        file = "src/11b_sentinel.lua:323",
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.held",
+        sig = "ar.sentinel.held(kind)",
+        file = "src/11b_sentinel.lua:99",
+        doc = { "The id of that weapon if you're holding it (from the inventory package)." },
+      },
+      {
+        name = "ar.sentinel.locked",
+        sig = "ar.sentinel.locked(aff)",
+        file = "src/11b_sentinel.lua:66",
+        doc = {
+          "The old lockCheck: true unless their class needs this aff for its lock",
+          "and it isn't (75%) on yet.",
+        },
+      },
+      {
+        name = "ar.sentinel.module.attack",
+        sig = "ar.sentinel.module.attack(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.module.on_load",
+        sig = "ar.sentinel.module.on_load(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.module.on_unload",
+        sig = "ar.sentinel.module.on_unload(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.moves.ag",
+        sig = "ar.sentinel.moves.ag(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.moves.am",
+        sig = "ar.sentinel.moves.am(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.moves.arr",
+        sig = "ar.sentinel.moves.arr(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.moves.bax",
+        sig = "ar.sentinel.moves.bax(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.moves.bc",
+        sig = "ar.sentinel.moves.bc(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.moves.dismember",
+        sig = "ar.sentinel.moves.dismember(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.moves.ds",
+        sig = "ar.sentinel.moves.ds(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.moves.dt",
+        sig = "ar.sentinel.moves.dt(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.moves.en",
+        sig = "ar.sentinel.moves.en(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.moves.ensnare",
+        sig = "ar.sentinel.moves.ensnare(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.moves.ft",
+        sig = "ar.sentinel.moves.ft(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.moves.group",
+        sig = "ar.sentinel.moves.group(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.moves.gz",
+        sig = "ar.sentinel.moves.gz(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.moves.im",
+        sig = "ar.sentinel.moves.im(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.moves.impale",
+        sig = "ar.sentinel.moves.impale(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.moves.mg",
+        sig = "ar.sentinel.moves.mg(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.moves.ns",
+        sig = "ar.sentinel.moves.ns(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.moves.pd",
+        sig = "ar.sentinel.moves.pd(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.moves.rattle",
+        sig = "ar.sentinel.moves.rattle(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.moves.ret",
+        sig = "ar.sentinel.moves.ret(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.moves.rt",
+        sig = "ar.sentinel.moves.rt(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.moves.sb",
+        sig = "ar.sentinel.moves.sb(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.moves.skullbash",
+        sig = "ar.sentinel.moves.skullbash(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.moves.sm",
+        sig = "ar.sentinel.moves.sm(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.moves.snp",
+        sig = "ar.sentinel.moves.snp(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.moves.ssc",
+        sig = "ar.sentinel.moves.ssc(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.moves.ssp",
+        sig = "ar.sentinel.moves.ssp(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.moves.tp",
+        sig = "ar.sentinel.moves.tp(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.moves.trs",
+        sig = "ar.sentinel.moves.trs(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.moves.trumpet",
+        sig = "ar.sentinel.moves.trumpet(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.moves.truss",
+        sig = "ar.sentinel.moves.truss(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.moves.wr",
+        sig = "ar.sentinel.moves.wr(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.moves.wrench",
+        sig = "ar.sentinel.moves.wrench(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.moves.y",
+        sig = "ar.sentinel.moves.y(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.plan",
+        sig = "ar.sentinel.plan(key, venom, kind, extra)",
+        file = "src/11b_sentinel.lua:152",
+        doc = { "The plan AR waits on for this attack." },
+      },
+      {
+        name = "ar.sentinel.pphit",
+        sig = "ar.sentinel.pphit()",
+        file = "src/11b_sentinel.lua:74",
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.prep",
+        sig = "ar.sentinel.prep(mode, limb)",
+        file = "src/11b_sentinel.lua:485",
+        doc = { "Pick a limb and mode, then attack (the ah/arl/c&lt;limb&gt; aliases)." },
+      },
+      {
+        name = "ar.sentinel.prepped",
+        sig = "ar.sentinel.prepped(limb)",
+        file = "src/11b_sentinel.lua:77",
+        doc = { "One more hit breaks it." },
+      },
+      {
+        name = "ar.sentinel.ranged",
+        sig = "ar.sentinel.ranged(tgt, limbkey, dir)",
+        file = "src/11b_sentinel.lua:459",
+        doc = {
+          "s&lt;limb&gt; [dir]: axe at a limb, into the next room when there's a direction",
+          "(every exit when there isn't, as the old alias did).",
+        },
+      },
+      {
+        name = "ar.sentinel.remove_aliases",
+        sig = "ar.sentinel.remove_aliases()",
+        file = "src/11b_sentinel.lua:513",
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.ret",
+        sig = "ar.sentinel.ret(tgt)",
+        file = "src/11b_sentinel.lua:355",
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.send",
+        sig = "ar.sentinel.send(parts, plan, kind)",
+        file = "src/11b_sentinel.lua:173",
+        doc = { "Wield, wipe, then the rest; queued as one, and AR waits on the plan." },
+      },
+      {
+        name = "ar.sentinel.set",
+        sig = "ar.sentinel.set()",
+        file = "src/11b_sentinel.lua:43",
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.solo",
+        sig = "ar.sentinel.solo(tgt)",
+        file = "src/11b_sentinel.lua:247",
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.solo_venom",
+        sig = "ar.sentinel.solo_venom()",
+        file = "src/11b_sentinel.lua:226",
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.venom",
+        sig = "ar.sentinel.venom(list, thr)",
+        file = "src/11b_sentinel.lua:83",
+        doc = { "First aff in the list under its threshold, as a venom." },
+      },
+      {
+        name = "ar.sentinel.weapon",
+        sig = "ar.sentinel.weapon(kind)",
+        file = "src/11b_sentinel.lua:110",
+        doc = {},
+      },
+      {
+        name = "ar.sentinel.wield",
+        sig = "ar.sentinel.wield(kind)",
+        file = "src/11b_sentinel.lua:113",
+        doc = { "\"wield shield spear\" unless it's already in hand." },
       },
       {
         name = "ar.serpent.attack",
@@ -46618,6 +49714,76 @@ shelp.data = {
         file = "src/04_watch.lua:25",
         doc = {},
       },
+      {
+        name = "ar.weapons.answered",
+        sig = "ar.weapons.answered()",
+        file = "src/14_weapons.lua:88",
+        doc = {
+          "One weapon answered. Once all have, settle shortly after (the venom",
+          "list follows the header line in the same packet).",
+        },
+      },
+      {
+        name = "ar.weapons.for_plan",
+        sig = "ar.weapons.for_plan(plan)",
+        file = "src/14_weapons.lua:45",
+        doc = { "The weapons an attack uses: the ones it names, else what you're wielding." },
+      },
+      {
+        name = "ar.weapons.install",
+        sig = "ar.weapons.install()",
+        file = "src/14_weapons.lua:121",
+        doc = {},
+      },
+      {
+        name = "ar.weapons.is_blunt",
+        sig = "ar.weapons.is_blunt(it)",
+        file = "src/14_weapons.lua:23",
+        doc = {},
+      },
+      {
+        name = "ar.weapons.prep",
+        sig = "ar.weapons.prep(cmds, plan)",
+        file = "src/14_weapons.lua:52",
+        doc = { "cmds with a wipe for each weapon in front. Returns a list." },
+      },
+      {
+        name = "ar.weapons.probe",
+        sig = "ar.weapons.probe(p)",
+        file = "src/14_weapons.lua:65",
+        doc = {
+          "Called when a pending attack fires in blackout. True if a probe went out",
+          "and the attack now waits for its answer.",
+        },
+      },
+      {
+        name = "ar.weapons.probing",
+        sig = "ar.weapons.probing()",
+        file = "src/14_weapons.lua:81",
+        doc = {},
+      },
+      {
+        name = "ar.weapons.settle",
+        sig = "ar.weapons.settle(p)",
+        file = "src/14_weapons.lua:103",
+        doc = {},
+      },
+      {
+        name = "ar.weapons.venom_line",
+        sig = "ar.weapons.venom_line(v)",
+        file = "src/14_weapons.lua:98",
+        doc = {},
+      },
+      {
+        name = "ar.weapons.wielded",
+        sig = "ar.weapons.wielded()",
+        file = "src/14_weapons.lua:33",
+        doc = {
+          "Wielded weapons that take venom: on WEAPONLIST (once IN has read it) and",
+          "not blunt. Ids, right hand first. IN.venom_weapons() does this when the",
+          "inventory package has it.",
+        },
+      },
     },
     events = {
       "acs.target",
@@ -46716,8 +49882,15 @@ shelp.data = {
       "* A **hit line** confirms it. Teach one per attack: `ar learn dstab`, then",
       "  attack. The next line naming your target is saved for that class.",
       "  `ar hitlines` shows them, `ar log` shows recent results.",
-      "* With no hit line yet, an attack that fired (you lost balance) and wasn't",
-      "  cancelled counts as a hit. Turn this off with `ar optimistic off`.",
+      "* Every weapon attack wipes each wielded weapon first, so a weapon only",
+      "  carries the venom it's about to deliver. Blunt weapons (flails, maces,",
+      "  morningstars) are skipped. What you're wielding comes from the inventory",
+      "  package.",
+      "* An attack only counts once its hit line is seen. Teach AR each one with",
+      "  `ar learn &lt;attack&gt;`. The exception is blackout, where you can't see the",
+      "  line: AR weaponprobes the weapons it used, and venom still on means it",
+      "  missed. With nothing to probe, an attack that fired (you lost balance) and",
+      "  wasn't cancelled counts as a hit. Turn that off with `ar optimistic off`.",
       "",
       "## Any class, any ability",
       "",
@@ -46749,7 +49922,7 @@ shelp.data = {
       "| Pariah | logographs: serpent, jackal, skein, scales, nest, sun, bear, scarab; fissure strips |",
       "| Priest | zeal verses on prayer balance plus angel sear/shine on eq; angel strip, hunt heresy |",
       "| Depthswalker | aeon, then shadow reap venoms; shadow strike breaks shields |",
-      "| Sentinel | spear thrust venoms, doublestrike, gouge, lacerate; rive strips |",
+      "| Sentinel | AW's own routine rebuilt (`src/11b_sentinel.lua`): limb prep with `ah arl all ara ala at att` (spear) or `c&lt;limb&gt;` (axe), `ag` group, `arr` retaliate, `ds` dismember chain, and the old short aliases. `ar sent` for settings |",
       "| Blademaster | strike to neck/throat/stomach/ears/shoulder/temple/eyes/knees; flamefist strips rebounding |",
       "| Monk | tekura combos with palmstrike/bladehand; roundhouse strips |",
       "| Druid | basilisk gaze and glare; negate strips |",
@@ -47864,7 +51037,7 @@ shelp.data = {
       gear = {
         help = { "gear                wielded and worn" },
         see = nil,
-        readme = { "`in gear` : wielded (left/right) and worn" },
+        readme = { "`in gear` : each hand (with weapon stats, shield, main weapon) and worn" },
       },
       get = {
         help = { "get &lt;text&gt;|gold     pick up matching room items" },
@@ -47946,6 +51119,11 @@ shelp.data = {
         see = nil,
         readme = { "`in weapons [show]` : sends WEAPONLIST: damage, to-hit, speed, decay, and which hand" },
       },
+      wielding = {
+        help = { "wielding            WIELDING: what's in each hand" },
+        see = nil,
+        readme = { "`in wielding` : sends WIELDING and updates both hands (typing it yourself does too)" },
+      },
     },
     aliases = {},
     functions = {
@@ -48026,9 +51204,21 @@ shelp.data = {
         doc = {},
       },
       {
+        name = "IN.capture_kinds.wielding.done",
+        sig = "IN.capture_kinds.wielding.done(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "IN.capture_kinds.wielding.parse",
+        sig = "IN.capture_kinds.wielding.parse(...)",
+        file = nil,
+        doc = {},
+      },
+      {
         name = "IN.changed",
         sig = "IN.changed(kind, cid, action, it)",
-        file = "src/02_items.lua:63",
+        file = "src/02_items.lua:65",
         doc = {},
       },
       {
@@ -48079,13 +51269,13 @@ shelp.data = {
       {
         name = "IN.fetch_containers",
         sig = "IN.fetch_containers()",
-        file = "src/02_items.lua:128",
+        file = "src/02_items.lua:130",
         doc = { "Ask the server what's inside each container you carry." },
       },
       {
         name = "IN.find",
         sig = "IN.find(text, deep)",
-        file = "src/02_items.lua:153",
+        file = "src/02_items.lua:155",
         doc = { "Items you carry (and, with deep, inside your containers) matching text." },
       },
       {
@@ -48101,9 +51291,15 @@ shelp.data = {
         doc = {},
       },
       {
+        name = "IN.hand",
+        sig = "IN.hand(side)",
+        file = "src/06_wield.lua:19",
+        doc = { "  IN.hand(\"left\"|\"right\")  item in that hand, or nil" },
+      },
+      {
         name = "IN.has",
         sig = "IN.has(text, deep)",
-        file = "src/02_items.lua:167",
+        file = "src/02_items.lua:169",
         doc = {},
       },
       {
@@ -48115,8 +51311,20 @@ shelp.data = {
       {
         name = "IN.inv_count",
         sig = "IN.inv_count(key)",
-        file = "src/02_items.lua:170",
+        file = "src/02_items.lua:172",
         doc = { "Total quantity of a curative (short key) loose in inventory and containers." },
+      },
+      {
+        name = "IN.is_blunt",
+        sig = "IN.is_blunt(it)",
+        file = "src/06_wield.lua:47",
+        doc = {},
+      },
+      {
+        name = "IN.is_shield",
+        sig = "IN.is_shield(it)",
+        file = "src/06_wield.lua:21",
+        doc = { "  IN.is_shield(item)       true for shields" },
       },
       {
         name = "IN.line",
@@ -48131,6 +51339,12 @@ shelp.data = {
         doc = {},
       },
       {
+        name = "IN.main_weapon",
+        sig = "IN.main_weapon()",
+        file = "src/06_wield.lua:65",
+        doc = { "  IN.main_weapon()         first wielded weapon;  IN.weapon_id() its id" },
+      },
+      {
         name = "IN.make_item",
         sig = "IN.make_item(...)",
         file = nil,
@@ -48139,31 +51353,31 @@ shelp.data = {
       {
         name = "IN.matches",
         sig = "IN.matches(it, text)",
-        file = "src/02_items.lua:146",
+        file = "src/02_items.lua:148",
         doc = {},
       },
       {
         name = "IN.maybe_autogold",
         sig = "IN.maybe_autogold()",
-        file = "src/02_items.lua:226",
+        file = "src/02_items.lua:228",
         doc = {},
       },
       {
         name = "IN.on_add",
         sig = "IN.on_add()",
-        file = "src/02_items.lua:93",
+        file = "src/02_items.lua:95",
         doc = {},
       },
       {
         name = "IN.on_list",
         sig = "IN.on_list()",
-        file = "src/02_items.lua:75",
+        file = "src/02_items.lua:77",
         doc = {},
       },
       {
         name = "IN.on_remove",
         sig = "IN.on_remove()",
-        file = "src/02_items.lua:113",
+        file = "src/02_items.lua:115",
         doc = {},
       },
       {
@@ -48181,13 +51395,13 @@ shelp.data = {
       {
         name = "IN.on_status",
         sig = "IN.on_status()",
-        file = "src/02_items.lua:235",
+        file = "src/02_items.lua:237",
         doc = {},
       },
       {
         name = "IN.on_update",
         sig = "IN.on_update()",
-        file = "src/02_items.lua:103",
+        file = "src/02_items.lua:105",
         doc = {},
       },
       {
@@ -48232,9 +51446,15 @@ shelp.data = {
         doc = {},
       },
       {
+        name = "IN.parse_wielding",
+        sig = "IN.parse_wielding(l)",
+        file = "src/06_wield.lua:69",
+        doc = { "One WIELDING row -&gt; { id, name, hand }." },
+      },
+      {
         name = "IN.pickup",
         sig = "IN.pickup(text)",
-        file = "src/02_items.lua:200",
+        file = "src/02_items.lua:202",
         doc = {
           "Pick up room items whose name contains text (or matching a function).",
           "Returns how many get commands were sent.",
@@ -48243,7 +51463,7 @@ shelp.data = {
       {
         name = "IN.pickup_gold",
         sig = "IN.pickup_gold()",
-        file = "src/02_items.lua:214",
+        file = "src/02_items.lua:216",
         doc = {},
       },
       {
@@ -48279,13 +51499,13 @@ shelp.data = {
       {
         name = "IN.register_commands",
         sig = "IN.register_commands(M)",
-        file = "src/04_commands.lua:124",
+        file = "src/04_commands.lua:133",
         doc = {},
       },
       {
         name = "IN.request_all",
         sig = "IN.request_all(flush)",
-        file = "src/02_items.lua:136",
+        file = "src/02_items.lua:138",
         doc = {
           "With MCCP on, IRE answers GMCP requests promptly only after a line of",
           "input, so commands typed by the user follow requests with send(\" \").",
@@ -48316,6 +51536,12 @@ shelp.data = {
         doc = {},
       },
       {
+        name = "IN.request_wielding",
+        sig = "IN.request_wielding(loud)",
+        file = "src/06_wield.lua:103",
+        doc = {},
+      },
+      {
         name = "IN.rift_count",
         sig = "IN.rift_count(name)",
         file = "src/03_supplies.lua:63",
@@ -48330,7 +51556,7 @@ shelp.data = {
       {
         name = "IN.room_items",
         sig = "IN.room_items(what)",
-        file = "src/02_items.lua:181",
+        file = "src/02_items.lua:183",
         doc = {
           "Room contents. what: \"items\" (default, no mobs), \"mobs\", \"all\", or a",
           "function(item) -&gt; bool.",
@@ -48347,6 +51573,12 @@ shelp.data = {
         sig = "IN.set_rift(name, amount, desc, quiet)",
         file = "src/03_supplies.lua:31",
         doc = {},
+      },
+      {
+        name = "IN.set_wielding",
+        sig = "IN.set_wielding(rows)",
+        file = "src/06_wield.lua:78",
+        doc = { "Apply a WIELDING list: those items are wielded, nothing else is." },
       },
       {
         name = "IN.show_armour",
@@ -48415,6 +51647,12 @@ shelp.data = {
         doc = {},
       },
       {
+        name = "IN.venom_weapons",
+        sig = "IN.venom_weapons()",
+        file = "src/06_wield.lua:57",
+        doc = { "  IN.venom_weapons()       ids of those you can envenom: all of them except" },
+      },
+      {
         name = "IN.vial_sips",
         sig = "IN.vial_sips(kind)",
         file = "src/03_supplies.lua:209",
@@ -48437,6 +51675,18 @@ shelp.data = {
         sig = "IN.weapon(id)",
         file = "src/03_supplies.lua:298",
         doc = { "The stats for an item id, from either list." },
+      },
+      {
+        name = "IN.weapon_id",
+        sig = "IN.weapon_id()",
+        file = "src/06_wield.lua:66",
+        doc = { "  IN.main_weapon()         first wielded weapon;  IN.weapon_id() its id" },
+      },
+      {
+        name = "IN.weapons_wielded",
+        sig = "IN.weapons_wielded()",
+        file = "src/06_wield.lua:29",
+        doc = { "  IN.weapons_wielded()     wielded weapons, right hand first: items on your" },
       },
       {
         name = "IN.where",
@@ -48492,7 +51742,8 @@ shelp.data = {
       "| `in pipes [show]` | sends PIPELIST and lists pipes by herb |",
       "| `in weapons [show]` | sends WEAPONLIST: damage, to-hit, speed, decay, and which hand |",
       "| `in armour [show]` | sends ARMOURLIST: cutting, blunt, magical, decay, worn, and your class's best armour and shield |",
-      "| `in gear` | wielded (left/right) and worn |",
+      "| `in gear` | each hand (with weapon stats, shield, main weapon) and worn |",
+      "| `in wielding` | sends WIELDING and updates both hands (typing it yourself does too) |",
       "| `in gold` | gold on hand and in bank |",
       "| `in look &lt;container&gt;` | refresh and list one container |",
       "| `in get &lt;text&gt;` / `in get gold` | pick up matching room items |",
@@ -48514,7 +51765,10 @@ shelp.data = {
       "  IN.rift_count(\"potash\")    --&gt; just that rift entry",
       "  IN.pipes_by_herb.valerian  --&gt; pipe id to smoke",
       "  IN.vial_sips(\"health\")     --&gt; total sips across health vials",
-      "  IN.wielded.left, IN.wielded.right",
+      "  IN.hand(\"left\"), IN.hand(\"right\")  --&gt; item in that hand (two-handed: both)",
+      "  IN.weapon_id()             --&gt; id of the wielded weapon to envenom/wipe/probe (not the shield)",
+      "  IN.venom_weapons()         --&gt; ids of every wielded WEAPONLIST weapon except flails, maces, morningstars",
+      "  IN.main_weapon(), IN.weapons_wielded(), IN.is_shield(item)",
       "  IN.weapon(id)              --&gt; { name, dmg, tohit, speed, months } from WEAPONLIST",
       "  IN.armour_piece(id)        --&gt; { name, cutting, blunt, magical, months, type, slot }",
       "  IN.best_armour[class], IN.best_shield[class]",
@@ -49991,6 +53245,815 @@ shelp.data = {
     },
   },
   {
+    key = "wk",
+    module = "wk",
+    prefix = "wk",
+    title = "WK area walker",
+    blurb = "Walks every room of an area, or one floor of it, using the Mudlet map. Use it to sweep an area for bashing, extracting or harvesting, or just to patrol it.",
+    legacy = false,
+    dir = "achaea-walker",
+    commands = {
+      bash = {
+        help = { "bash on|off         stop in rooms with mobs BS would hunt (on)" },
+        see = nil,
+        readme = {
+          "* a mob BS would hunt there (`wk bash off` to not stop for them);",
+          "`wk bash on|off` : stop where BS has something to hunt (on)",
+        },
+      },
+      detour = {
+        help = { "detour N            most rooms in a row outside the area on the way (6)" },
+        see = nil,
+        readme = {
+          "* **Special exits.** The map's special exits (`enter portal`, `climb rope`, `touch stone`...) are used like any other exit, so rooms only reachable that way get visited. Short trips through a neighbouring area are fine too (at most 6 rooms in a row outside it, `wk detour`), and a room that's only reachable the long way round is reached with the map's own path.",
+          "`wk detour N` : most rooms in a row outside the area on the way (6)",
+        },
+      },
+      echo = {
+        help = { "echo on|off         a line for each new room" },
+        see = nil,
+        readme = { "`wk echo on|off` : a line for each new room" },
+      },
+      enemies = {
+        help = { "enemies on|off      stop when an enemy (PT) is in the room (on)" },
+        see = nil,
+        readme = {
+          "* someone PT counts as an enemy (`wk enemies off`);",
+          "`wk enemies on|off` : stop for enemies (on)",
+        },
+      },
+      floor = {
+        help = { "floor               walk every room of this area on your level" },
+        see = nil,
+        readme = {
+          "* **A floor at a time.** Going up or down counts as 3 extra steps when choosing (`wk zcost`), so it finishes the level it's on before changing. `wk floor` keeps to your level altogether.",
+          "`wk floor` / `wk start floor` : only the rooms on your level",
+        },
+      },
+      go = {
+        help = {},
+        see = nil,
+        readme = {},
+      },
+      left = {
+        help = { "left                the rooms still to go, closest first (-- = no way found)" },
+        see = nil,
+        readme = { "`wk left` : rooms still to go, closest first" },
+      },
+      loop = {
+        help = { "loop on|off         start again when every room is done (patrol)" },
+        see = nil,
+        readme = {
+          "For patrolling, `wk wait 5` stays 5 seconds in each new room, and `wk loop on` starts again when every room is done.",
+          "`wk loop on|off` : go round again when done (off)",
+        },
+      },
+      next = {
+        help = { "next (or just wk)   go on after a stop" },
+        see = nil,
+        readme = { "`wk` / `wk next` : carry on after a stop; status when not walking" },
+      },
+      off = {
+        help = {},
+        see = nil,
+        readme = {},
+      },
+      pause = {
+        help = { "pause               stop for now (wk goes on)" },
+        see = nil,
+        readme = {
+          "`wk pause` / `wk stop` : stop for now / stop the walk",
+          "* **Balance.** It waits for balance and equilibrium before each step. Afflictions that stop you moving (paralysis, prone...) just cost tries; pause with `wk pause` when fighting.",
+        },
+      },
+      reset = {
+        help = { "reset               forget which rooms are done (and what was blocked)" },
+        see = nil,
+        readme = { "`wk reset` : every room is to do again" },
+      },
+      skip = {
+        help = { "skip [ROOM|here]    never walk to that room" },
+        see = nil,
+        readme = { "`wk skip [ROOM|here]` / `wk unskip ROOM` / `wk skips` : never walk to a room" },
+      },
+      skipped = {
+        help = { "skipped             rooms the last walk couldn't get into, and why" },
+        see = nil,
+        readme = {
+          "* **Skips what it can't get into.** Rooms locked on the map, exits locked on the map and locked doors are left out from the start. A step that doesn't work (no such exit, \"The door is locked\", \"You cannot go that way\", nothing happening after 3 tries) marks that way as blocked for the rest of the walk and it routes around it. A room with no other way in is skipped. A closed door is opened first. `wk skipped` lists what was skipped and why.",
+          "`wk skipped` : rooms it couldn't get into, and why",
+        },
+      },
+      skips = {
+        help = { "skips               the rooms you skipped" },
+        see = nil,
+        readme = { "`wk skip [ROOM|here]` / `wk unskip ROOM` / `wk skips` : never walk to a room" },
+      },
+      start = {
+        help = {
+          "start [AREA]        walk every room of this area (or AREA, part of its name)",
+          "start floor [AREA]  only the rooms on your level",
+        },
+        see = nil,
+        readme = {
+          "`wk start` : walk every room of the area you're in",
+          "`wk start AREA` : walk another area (part of its name); it walks there first",
+          "`wk floor` / `wk start floor` : only the rooms on your level",
+        },
+      },
+      status = {
+        help = { "status              where the walk is up to and the settings" },
+        see = nil,
+        readme = { "`wk status` : where it's up to, and the settings" },
+      },
+      stop = {
+        help = { "stop                stop walking" },
+        see = nil,
+        readme = { "`wk pause` / `wk stop` : stop for now / stop the walk" },
+      },
+      stopfor = {
+        help = {
+          "stopfor add TEXT    stop in rooms with a denizen or item called that (part of the name)",
+          "stopfor remove TEXT take it off; stopfor clear: empty the list",
+        },
+        see = nil,
+        readme = {
+          "* a denizen or item whose name has something you've listed in it: `wk stopfor add glowing`, `wk stopfor add ore`.",
+          "`wk stopfor add|remove TEXT`, `wk stopfor clear` : stop in rooms with that denizen or item",
+        },
+      },
+      unskip = {
+        help = { "unskip ROOM|here    undo wk skip" },
+        see = nil,
+        readme = { "`wk skip [ROOM|here]` / `wk unskip ROOM` / `wk skips` : never walk to a room" },
+      },
+      via = {
+        help = { "via step|mapper     one exit at a time (step), or the mapper's goto for each leg" },
+        see = nil,
+        readme = { "`wk via step|mapper` : send one exit at a time (default), or let the mapper's goto walk each leg" },
+      },
+      wait = {
+        help = { "wait SECONDS        stay that long in each new room (0)" },
+        see = nil,
+        readme = {
+          "For patrolling, `wk wait 5` stays 5 seconds in each new room, and `wk loop on` starts again when every room is done.",
+          "`wk wait SECONDS` : stay that long in each new room (0)",
+        },
+      },
+      zcost = {
+        help = { "zcost N             how much a level change counts against a room (3; 0 = none)" },
+        see = nil,
+        readme = {
+          "* **A floor at a time.** Going up or down counts as 3 extra steps when choosing (`wk zcost`), so it finishes the level it's on before changing. `wk floor` keeps to your level altogether.",
+          "`wk zcost N` : how much a level change counts (3; 0 = don't care)",
+        },
+      },
+    },
+    aliases = {},
+    functions = {
+      {
+        name = "wk.active",
+        sig = "wk.active()",
+        file = "src/03_walk.lua:50",
+        doc = {},
+      },
+      {
+        name = "wk.add_check",
+        sig = "wk.add_check(name, fn)",
+        file = "src/03_walk.lua:146",
+        doc = {},
+      },
+      {
+        name = "wk.alias",
+        sig = "wk.alias(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "wk.approach",
+        sig = "wk.approach(from, rooms)",
+        file = "src/03_walk.lua:217",
+        doc = {
+          "Rooms the short search didn't reach (the way in goes through another",
+          "area, or you're outside the area): ask the map for a path, nearest first.",
+        },
+      },
+      {
+        name = "wk.area_name",
+        sig = "wk.area_name(area)",
+        file = "src/02_map.lua:20",
+        doc = {},
+      },
+      {
+        name = "wk.area_of",
+        sig = "wk.area_of(id)",
+        file = "src/02_map.lua:15",
+        doc = {},
+      },
+      {
+        name = "wk.blocked_step",
+        sig = "wk.blocked_step(why)",
+        file = "src/03_walk.lua:287",
+        doc = { "The step can't be taken: that way is out for this walk; route around it." },
+      },
+      {
+        name = "wk.cleanup",
+        sig = "wk.cleanup(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "wk.clear_state",
+        sig = "wk.clear_state()",
+        file = "src/03_walk.lua:21",
+        doc = {},
+      },
+      {
+        name = "wk.command",
+        sig = "wk.command(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "wk.commands.bash.fn",
+        sig = "wk.commands.bash.fn(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "wk.commands.detour.fn",
+        sig = "wk.commands.detour.fn(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "wk.commands.echo.fn",
+        sig = "wk.commands.echo.fn(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "wk.commands.enemies.fn",
+        sig = "wk.commands.enemies.fn(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "wk.commands.floor.fn",
+        sig = "wk.commands.floor.fn(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "wk.commands.go.fn",
+        sig = "wk.commands.go.fn(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "wk.commands.left.fn",
+        sig = "wk.commands.left.fn(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "wk.commands.loop.fn",
+        sig = "wk.commands.loop.fn(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "wk.commands.next.fn",
+        sig = "wk.commands.next.fn(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "wk.commands.off.fn",
+        sig = "wk.commands.off.fn(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "wk.commands.pause.fn",
+        sig = "wk.commands.pause.fn(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "wk.commands.reset.fn",
+        sig = "wk.commands.reset.fn(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "wk.commands.skip.fn",
+        sig = "wk.commands.skip.fn(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "wk.commands.skipped.fn",
+        sig = "wk.commands.skipped.fn(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "wk.commands.skips.fn",
+        sig = "wk.commands.skips.fn(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "wk.commands.start.fn",
+        sig = "wk.commands.start.fn(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "wk.commands.status.fn",
+        sig = "wk.commands.status.fn(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "wk.commands.stop.fn",
+        sig = "wk.commands.stop.fn(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "wk.commands.stopfor.fn",
+        sig = "wk.commands.stopfor.fn(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "wk.commands.unskip.fn",
+        sig = "wk.commands.unskip.fn(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "wk.commands.via.fn",
+        sig = "wk.commands.via.fn(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "wk.commands.wait.fn",
+        sig = "wk.commands.wait.fn(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "wk.commands.zcost.fn",
+        sig = "wk.commands.zcost.fn(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "wk.count",
+        sig = "wk.count(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "wk.debug",
+        sig = "wk.debug(msg)",
+        file = "src/01_wk.lua:40",
+        doc = {},
+      },
+      {
+        name = "wk.door",
+        sig = "wk.door(id, dir)",
+        file = "src/02_map.lua:54",
+        doc = { "Door on an exit: nil/0 none, 1 open, 2 closed, 3 locked." },
+      },
+      {
+        name = "wk.echo",
+        sig = "wk.echo(msg)",
+        file = "src/01_wk.lua:38",
+        doc = {},
+      },
+      {
+        name = "wk.err",
+        sig = "wk.err(msg)",
+        file = "src/01_wk.lua:39",
+        doc = {},
+      },
+      {
+        name = "wk.find_area",
+        sig = "wk.find_area(name)",
+        file = "src/02_map.lua:31",
+        doc = { "Area id for a name (whole or part of it), from the map." },
+      },
+      {
+        name = "wk.finish",
+        sig = "wk.finish(todo, unreach)",
+        file = "src/03_walk.lua:407",
+        doc = { "Nothing reachable left." },
+      },
+      {
+        name = "wk.hold_reason",
+        sig = "wk.hold_reason(num)",
+        file = "src/03_walk.lua:159",
+        doc = {},
+      },
+      {
+        name = "wk.in_scope",
+        sig = "wk.in_scope(id)",
+        file = "src/02_map.lua:102",
+        doc = { "Is a room part of the walk?" },
+      },
+      {
+        name = "wk.init",
+        sig = "wk.init()",
+        file = "src/99_init.lua:5",
+        doc = {},
+      },
+      {
+        name = "wk.item_names",
+        sig = "wk.item_names()",
+        file = "src/03_walk.lua:149",
+        doc = {},
+      },
+      {
+        name = "wk.items_listed",
+        sig = "wk.items_listed()",
+        file = "src/03_walk.lua:330",
+        doc = { "The room's item list arrived: the stop checks can run." },
+      },
+      {
+        name = "wk.map_ok",
+        sig = "wk.map_ok(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "wk.mapper",
+        sig = "wk.mapper()",
+        file = "src/03_walk.lua:35",
+        doc = {},
+      },
+      {
+        name = "wk.mapper_walking",
+        sig = "wk.mapper_walking()",
+        file = "src/03_walk.lua:39",
+        doc = {},
+      },
+      {
+        name = "wk.mark",
+        sig = "wk.mark(num)",
+        file = "src/03_walk.lua:122",
+        doc = {
+          "You're in num: it's done (if it's part of the walk), and unmapped",
+          "rooms next to it join the walk.",
+        },
+      },
+      {
+        name = "wk.needs_items",
+        sig = "wk.needs_items()",
+        file = "src/03_walk.lua:182",
+        doc = { "The stop checks need the room's items (a moment after the room)." },
+      },
+      {
+        name = "wk.neighbours",
+        sig = "wk.neighbours(id)",
+        file = "src/02_map.lua:64",
+        doc = {
+          "Ways out of a room: { { to, cmd, special } }. Ordinary exits, then the",
+          "map's special exits (\"enter portal\", \"climb rope\" ...). Locked exits,",
+          "locked doors and locked rooms aren't ways out. For the room you're in,",
+          "GMCP's exits count too (they know rooms the map doesn't yet).",
+        },
+      },
+      {
+        name = "wk.next",
+        sig = "wk.next()",
+        file = "src/03_walk.lua:191",
+        doc = { "Go on to the next room (or finish)." },
+      },
+      {
+        name = "wk.on",
+        sig = "wk.on(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "wk.on_block_line",
+        sig = "wk.on_block_line(text)",
+        file = "src/03_walk.lua:379",
+        doc = {},
+      },
+      {
+        name = "wk.on_items",
+        sig = "wk.on_items(kind)",
+        file = "src/01_wk.lua:96",
+        doc = {},
+      },
+      {
+        name = "wk.on_mapper",
+        sig = "wk.on_mapper(event)",
+        file = "src/03_walk.lua:393",
+        doc = { "Mapper legs (\"mapper\" mode)." },
+      },
+      {
+        name = "wk.on_room",
+        sig = "wk.on_room()",
+        file = "src/03_walk.lua:304",
+        doc = { "Every Room.Info." },
+      },
+      {
+        name = "wk.on_wrongdir",
+        sig = "wk.on_wrongdir()",
+        file = "src/03_walk.lua:361",
+        doc = {},
+      },
+      {
+        name = "wk.onoff",
+        sig = "wk.onoff(v, cur)",
+        file = "src/01_wk.lua:48",
+        doc = {},
+      },
+      {
+        name = "wk.paths",
+        sig = "wk.paths(from)",
+        file = "src/02_map.lua:160",
+        doc = {
+          "Shortest ways from a room to everything near the walk. A level change",
+          "costs zcost extra, so a floor gets finished before the next; the map's",
+          "room weights count. A path may leave the area for at most `detour`",
+          "rooms in a row. Returns dist (id -&gt; cost), prev (id -&gt; { from, cmd }).",
+        },
+      },
+      {
+        name = "wk.pause",
+        sig = "wk.pause()",
+        file = "src/03_walk.lua:94",
+        doc = {},
+      },
+      {
+        name = "wk.pick",
+        sig = "wk.pick(from)",
+        file = "src/02_map.lua:217",
+        doc = {
+          "The next room: the closest one still to do. Ties go to the room you were",
+          "already heading for, then to the one with fewest unvisited rooms around",
+          "it (dead ends and corners first, so none get left behind), then to the",
+          "one straight ahead. Returns id, steps, todo, unreachable (id -&gt; true);",
+          "id is nil when nothing reachable is left.",
+        },
+      },
+      {
+        name = "wk.players",
+        sig = "wk.players()",
+        file = "src/01_wk.lua:75",
+        doc = { "Players in the room with you (not you)." },
+      },
+      {
+        name = "wk.raise",
+        sig = "wk.raise(event, ...)",
+        file = "src/01_wk.lua:43",
+        doc = {},
+      },
+      {
+        name = "wk.remove_check",
+        sig = "wk.remove_check(name)",
+        file = "src/03_walk.lua:147",
+        doc = {},
+      },
+      {
+        name = "wk.resume",
+        sig = "wk.resume()",
+        file = "src/03_walk.lua:103",
+        doc = { "Carry on after a hold or a pause." },
+      },
+      {
+        name = "wk.room",
+        sig = "wk.room()",
+        file = "src/01_wk.lua:63",
+        doc = {
+          "The room you're in: straight from GMCP (always current, whichever",
+          "package's handler runs first), else RM's copy. { num, area, exits = dir -&gt; num }",
+        },
+      },
+      {
+        name = "wk.room_arg",
+        sig = "wk.room_arg(a)",
+        file = "src/04_commands.lua:82",
+        doc = {},
+      },
+      {
+        name = "wk.run",
+        sig = "wk.run(text)",
+        file = "src/04_commands.lua:7",
+        doc = {},
+      },
+      {
+        name = "wk.save_settings",
+        sig = "wk.save_settings()",
+        file = "src/01_wk.lua:37",
+        doc = {},
+      },
+      {
+        name = "wk.say",
+        sig = "wk.say(msg)",
+        file = "src/01_wk.lua:41",
+        doc = {},
+      },
+      {
+        name = "wk.settled",
+        sig = "wk.settled()",
+        file = "src/03_walk.lua:336",
+        doc = {},
+      },
+      {
+        name = "wk.start",
+        sig = "wk.start(area, floor)",
+        file = "src/03_walk.lua:58",
+        doc = {
+          "Start walking an area (id from the map; default the one you're in).",
+          "floor: only rooms on your level (or that z).",
+        },
+      },
+      {
+        name = "wk.state",
+        sig = "wk.state()",
+        file = "src/03_walk.lua:51",
+        doc = {},
+      },
+      {
+        name = "wk.steps",
+        sig = "wk.steps(prev, from, to)",
+        file = "src/02_map.lua:193",
+        doc = { "The steps from `from` to `to` along prev: { { to, cmd, special } }." },
+      },
+      {
+        name = "wk.stop",
+        sig = "wk.stop(reason, quiet)",
+        file = "src/03_walk.lua:82",
+        doc = { "wk.stop(reason)" },
+      },
+      {
+        name = "wk.summary",
+        sig = "wk.summary()",
+        file = "src/03_walk.lua:111",
+        doc = {},
+      },
+      {
+        name = "wk.take_step",
+        sig = "wk.take_step()",
+        file = "src/03_walk.lua:253",
+        doc = { "Send the first step of W.steps and wait for it to land." },
+      },
+      {
+        name = "wk.timer",
+        sig = "wk.timer(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "wk.todo",
+        sig = "wk.todo()",
+        file = "src/02_map.lua:111",
+        doc = { "Rooms of the walk still to go to: id -&gt; true." },
+      },
+      {
+        name = "wk.trigger",
+        sig = "wk.trigger(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "wk.z_of",
+        sig = "wk.z_of(id)",
+        file = "src/02_map.lua:24",
+        doc = {},
+      },
+    },
+    events = { "wk.arrived", "wk.done", "wk.held", "wk.skipped", "wk.start", "wk.stop", "wk.target" },
+    guide = {
+      "",
+      "Walks every room of an area, or one floor of it, using the Mudlet map.",
+      "Use it to sweep an area for bashing, extracting or harvesting, or just to",
+      "patrol it.",
+      "",
+      "* **Closest first.** The next room is always the nearest one not yet",
+      "  visited, counted along the map's real exits, so it doesn't zig-zag",
+      "  across the area. When two are equally close it finishes dead ends and",
+      "  corners first (so none get left behind for a long walk back later), then",
+      "  keeps going the way it was going.",
+      "* **A floor at a time.** Going up or down counts as 3 extra steps when",
+      "  choosing (`wk zcost`), so it finishes the level it's on before changing.",
+      "  `wk floor` keeps to your level altogether.",
+      "* **Special exits.** The map's special exits (`enter portal`, `climb rope`,",
+      "  `touch stone`...) are used like any other exit, so rooms only reachable",
+      "  that way get visited. Short trips through a neighbouring area are fine",
+      "  too (at most 6 rooms in a row outside it, `wk detour`), and a room that's",
+      "  only reachable the long way round is reached with the map's own path.",
+      "* **Skips what it can't get into.** Rooms locked on the map, exits locked",
+      "  on the map and locked doors are left out from the start. A step that",
+      "  doesn't work (no such exit, \"The door is locked\", \"You cannot go that",
+      "  way\", nothing happening after 3 tries) marks that way as blocked for the",
+      "  rest of the walk and it routes around it. A room with no other way in is",
+      "  skipped. A closed door is opened first. `wk skipped` lists what was",
+      "  skipped and why.",
+      "* **Unmapped rooms** next to the area (GMCP knows them, the map doesn't)",
+      "  join the walk.",
+      "",
+      "It counts every room you pass through, and every room you walk into",
+      "yourself while it's stopped.",
+      "",
+      "## Stopping in rooms",
+      "",
+      "It stops (and says why) in a room with:",
+      "",
+      "* a mob BS would hunt there (`wk bash off` to not stop for them);",
+      "* someone PT counts as an enemy (`wk enemies off`);",
+      "* a denizen or item whose name has something you've listed in it:",
+      "  `wk stopfor add glowing`, `wk stopfor add ore`.",
+      "",
+      "Do what you came for, then type **`wk`** to carry on. It doesn't carry on",
+      "by itself after a kill: Achaea's rules forbid automating gold and XP",
+      "gathering (that's why BS never moves you), so moving on from a hunting",
+      "room is always your keypress. Bind `wk` to a key to make it one press.",
+      "",
+      "For patrolling, `wk wait 5` stays 5 seconds in each new room, and `wk loop",
+      "on` starts again when every room is done.",
+      "",
+      "## Install",
+      "",
+      "It's in the all-in-one `Achaea.mpackage` / `Achaea.xml`. On its own:",
+      "**Toolbox &gt; Package Manager &gt; Install**, pick `build/WK.mpackage`. Needs a",
+      "Mudlet map (the IRE mapping script's download is fine). Type `wk help`.",
+      "",
+      "Rebuild after editing `src/`: `python3 build.py`. Tests:",
+      "`lua5.1 tests/test_wk.lua`, or `pip install lupa &amp;&amp; python3 tests/run_lua.py tests/test_wk.lua`.",
+      "",
+      "## Commands",
+      "",
+      "| Command | What it does |",
+      "|---|---|",
+      "| `wk start` | walk every room of the area you're in |",
+      "| `wk start AREA` | walk another area (part of its name); it walks there first |",
+      "| `wk floor` / `wk start floor` | only the rooms on your level |",
+      "| `wk` / `wk next` | carry on after a stop; status when not walking |",
+      "| `wk pause` / `wk stop` | stop for now / stop the walk |",
+      "| `wk status` | where it's up to, and the settings |",
+      "| `wk left` | rooms still to go, closest first |",
+      "| `wk skipped` | rooms it couldn't get into, and why |",
+      "| `wk skip [ROOM\\|here]` / `wk unskip ROOM` / `wk skips` | never walk to a room |",
+      "| `wk reset` | every room is to do again |",
+      "| `wk stopfor add\\|remove TEXT`, `wk stopfor clear` | stop in rooms with that denizen or item |",
+      "| `wk bash on\\|off` | stop where BS has something to hunt (on) |",
+      "| `wk enemies on\\|off` | stop for enemies (on) |",
+      "| `wk wait SECONDS` | stay that long in each new room (0) |",
+      "| `wk loop on\\|off` | go round again when done (off) |",
+      "| `wk zcost N` | how much a level change counts (3; 0 = don't care) |",
+      "| `wk detour N` | most rooms in a row outside the area on the way (6) |",
+      "| `wk via step\\|mapper` | send one exit at a time (default), or let the mapper's goto walk each leg |",
+      "| `wk echo on\\|off` | a line for each new room |",
+      "",
+      "## For other scripts",
+      "",
+      "```lua",
+      "wk.start(area_id, floor), wk.stop(), wk.pause(), wk.resume()",
+      "wk.active(), wk.state()   -- \"walking\" | \"waiting\" | \"held\" | \"paused\" | \"done\" | \"stopped\"",
+      "wk.add_check(\"herbs\", function(num) if something then return \"herbs here\" end end)",
+      "wk.remove_check(\"herbs\")",
+      "wk.pick(from)             -- next room, steps, rooms still to do, unreachable",
+      "```",
+      "",
+      "Events: `wk.start(area)`, `wk.target(num)`, `wk.arrived(num)`,",
+      "`wk.held(num, why)`, `wk.skipped(num, why)`, `wk.done(visited, skipped)`,",
+      "`wk.stop(reason)`.",
+      "",
+      "## Check in game",
+      "",
+      "Written from knowledge of Achaea and Mudlet's map API, tested offline:",
+      "",
+      "* **Block lines.** The \"you can't go that way\" lines in `wk.block_lines`",
+      "  (`src/03_walk.lua`) are a best guess. A step with no reply is retried",
+      "  and then treated as blocked anyway, so an unlisted line only costs a few",
+      "  seconds; paste it and it can be added.",
+      "* **Balance.** It waits for balance and equilibrium before each step.",
+      "  Afflictions that stop you moving (paralysis, prone...) just cost tries;",
+      "  pause with `wk pause` when fighting.",
+      "",
+      "## Files",
+      "",
+      "| File | What it does |",
+      "|---|---|",
+      "| `src/00_acs_core.lua` | shared ACS core (don't edit here; edit `achaea-shared/`) |",
+      "| `src/01_wk.lua` | module setup, settings, room and item helpers |",
+      "| `src/02_map.lua` | the area from the map, exits, picking the next room |",
+      "| `src/03_walk.lua` | walking, stops, blocked ways, finishing |",
+      "| `src/04_commands.lua` | `wk` commands |",
+      "| `src/99_init.lua` | wiring |",
+    },
+  },
+  {
     key = "pt",
     module = "pt",
     prefix = "ptr",
@@ -50007,7 +54070,9 @@ shelp.data = {
       ally = {
         help = { "ally [add|del NAME...]    your allies list" },
         see = nil,
-        readme = { "* `ptr enemy add NAME`, `ptr ally add NAME`, `ptr enemy` to list. Allies always win." },
+        readme = {
+          "* `ptr enemy add NAME`, `ptr ally add NAME`, `ptr enemy` to list. Allies always win. Enemying, unenemying or clearing enemies in game keeps this list in step too (PT reads the game's confirmation lines).",
+        },
       },
       arrivals = {
         help = {},
@@ -50044,7 +54109,9 @@ shelp.data = {
       enemy = {
         help = { "enemy [add|del NAME...]   your enemies list (allies win over enemies)" },
         see = nil,
-        readme = { "* `ptr enemy add NAME`, `ptr ally add NAME`, `ptr enemy` to list. Allies always win." },
+        readme = {
+          "* `ptr enemy add NAME`, `ptr ally add NAME`, `ptr enemy` to list. Allies always win. Enemying, unenemying or clearing enemies in game keeps this list in step too (PT reads the game's confirmation lines).",
+        },
       },
       find = {
         help = { "find FIELD VALUE          everyone known with that city/house/class, e.g. ptr find class serpent" },
@@ -50453,13 +54520,19 @@ shelp.data = {
       {
         name = "pt.init",
         sig = "pt.init()",
-        file = "src/99_init.lua:3",
+        file = "src/99_init.lua:19",
         doc = {},
       },
       {
         name = "pt.install",
         sig = "pt.install(regex, cls)",
         file = "src/08_class_signs.lua:16",
+        doc = {},
+      },
+      {
+        name = "pt.install_enemy_sync",
+        sig = "pt.install_enemy_sync()",
+        file = "src/99_init.lua:10",
         doc = {},
       },
       {
@@ -50830,6 +54903,8 @@ shelp.data = {
       "  online whose record is missing or more than 7 days old. Change it with",
       "  `ptr recheck SECONDS` or `ptr recheck off`.",
       "* `ptr enemy add NAME`, `ptr ally add NAME`, `ptr enemy` to list. Allies always win.",
+      "  Enemying, unenemying or clearing enemies in game keeps this list in step",
+      "  too (PT reads the game's confirmation lines).",
       "* `ptr hostile city mhaldor` makes everyone from Mhaldor count as an enemy",
       "  (`ptr hostile city mhaldor off` to undo). Houses work the same way.",
       "* `ptr list watch add NAME` makes your own lists.",
@@ -52246,7 +56321,7 @@ shelp.data = {
       {
         name = "gui.ui.draw_all",
         sig = "gui.ui.draw_all()",
-        file = "src/03_layout.lua:266",
+        file = "src/03_layout.lua:268",
         doc = {},
       },
       {
