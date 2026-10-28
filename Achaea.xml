@@ -25418,19 +25418,25 @@ tr.echo(word .. ": " .. (tr.settings[key] ~= "" and tr.settings[key] or what))
 -- tr survey floor        the same, your level only (wk stop ends it)
 local w = acs.words(matches[2] or "")
 local rest = matches[2] or ""
-local floor = w[1] and w[1]:lower() == "floor"
-local name = (floor and rest:match("^%S+%s*(.*)$") or rest):match("^%s*(.-)%s*$")
-local area
-if name ~= "" and name:lower() ~= "here" then
-  if not (wk and wk.find_area) then return tr.err("tr survey needs WK, the area walker") end
-  area = wk.find_area(name)
-  if not area then return tr.err("no area on the map called " .. name) end
-end
-tr.survey(area, floor)
+local ok, area, floor = tr.area_args(w, rest)
+if ok then tr.survey(area, floor) end
 </script>
             <command></command>
             <packageName></packageName>
             <regex>^tr\s+(?i)survey(?:\s+(.*))?$</regex>
+          </Alias>
+          <Alias isActive="yes" isFolder="no">
+            <name>tr sweep</name>
+            <script>-- tr sweep [AREA]        WK walks the area, stops where there are herbs and harvests them all;
+-- tr wk goes on to the next (sweep floor: your level only; wk stop ends it)
+local w = acs.words(matches[2] or "")
+local rest = matches[2] or ""
+local ok, area, floor = tr.area_args(w, rest)
+if ok then tr.sweep(area, floor) end
+</script>
+            <command></command>
+            <packageName></packageName>
+            <regex>^tr\s+(?i)sweep(?:\s+(.*))?$</regex>
           </Alias>
           <Alias isActive="yes" isFolder="no">
             <name>tr walkstop</name>
@@ -27907,6 +27913,7 @@ acs_command_items = {
   ["tr stop"] = true,
   ["tr store"] = true,
   ["tr survey"] = true,
+  ["tr sweep"] = true,
   ["tr walkstop"] = true,
   ["tr where"] = true,
   ["pt allies"] = true,
@@ -45241,7 +45248,7 @@ end
 
 -- WK: stop in rooms with a plant you listed (tr walkstop).
 function tr.wk_check(num)
-  if #tr.settings.stopfor == 0 then return nil end
+  if #tr.settings.stopfor == 0 or (tr.sweeping and tr.sweeping()) then return nil end
   local room = tr.plants.rooms[num]
   if not room or acs.now() - (room.seen or 0) &gt; 10 then return nil end
   local found = {}
@@ -45463,7 +45470,7 @@ function tr.harvest_finish(why, out)
   local nxt
   for _, r in ipairs(tr.rooms_with(key)) do if r.num ~= here and r.steps then nxt = r break end end
   tr.echo(("harvested %d %s (%s). %s"):format(got, key, why,
-    nxt and ("Next: %s, %d step%s: &lt;white&gt;harvest %s&lt;reset&gt;"):format(tr.room_name(nxt.num), nxt.steps, nxt.steps == 1 and "" or "s", key)
+    tr.sweeping() and "" or nxt and ("Next: %s, %d step%s: &lt;white&gt;harvest %s&lt;reset&gt;"):format(tr.room_name(nxt.num), nxt.steps, nxt.steps == 1 and "" or "s", key)
       or "No other room known with it."))
   tr.raise("tr.harvest.done", key, here, got, why)
 end
@@ -45977,18 +45984,28 @@ tr.command("walkstop", function(w, rest)
   tr.echo("WK stops for plants: " .. (#s.stopfor &gt; 0 and table.concat(s.stopfor, ", ") or "none"))
 end, "walkstop add|remove PLANT   the area walker stops in rooms with it (needs PLANTS ON)")
 
-tr.command("survey", function(w, rest)
+-- "[floor] [AREA]" for survey and sweep: ok, area id (nil = here), floor.
+function tr.area_args(w, rest)
   local floor = w[1] and w[1]:lower() == "floor"
   local name = (floor and rest:match("^%S+%s*(.*)$") or rest):match("^%s*(.-)%s*$")
-  local area
-  if name ~= "" and name:lower() ~= "here" then
-    if not (wk and wk.find_area) then return tr.err("tr survey needs WK, the area walker") end
-    area = wk.find_area(name)
-    if not area then return tr.err("no area on the map called " .. name) end
-  end
-  tr.survey(area, floor)
+  if name == "" or name:lower() == "here" then return true, nil, floor end
+  if not (wk and wk.find_area) then return tr.err("this needs WK, the area walker") end
+  local area = wk.find_area(name)
+  if not area then return tr.err("no area on the map called " .. name) end
+  return true, area, floor
+end
+
+tr.command("survey", function(w, rest)
+  local ok, area, floor = tr.area_args(w, rest)
+  if ok then tr.survey(area, floor) end
 end, { "survey [AREA]       WK walks the area (or AREA) and PLANTS is checked where the record looks wrong",
        "survey floor        the same, your level only (wk stop ends it)" })
+
+tr.command("sweep", function(w, rest)
+  local ok, area, floor = tr.area_args(w, rest)
+  if ok then tr.sweep(area, floor) end
+end, { "sweep [AREA]        WK walks the area, stops where there are herbs and harvests them all;",
+       "                    wk goes on to the next (sweep floor: your level only; wk stop ends it)" })
 
 tr.autocheck_says = {
   new = "PLANTS in rooms that have never been checked (a baseline), once each",
@@ -46033,6 +46050,139 @@ end, "status              what it's doing and the settings")
           <eventHandlerList />
         </Script>
         <Script isActive="yes" isFolder="no">
+          <name>sweep</name>
+          <packageName></packageName>
+          <script>-- TR sweep: "tr sweep" has WK walk the area and, in every room with herbs
+-- you can harvest, stops and harvests each of them (one harvest per plant,
+-- as the game allows). Then it waits: "wk" goes on to the next room with
+-- herbs. That keypress is what keeps it within Achaea's rules, the same
+-- as WK and BS: nothing gathers after you walk away.
+--
+-- Rooms that have never had a PLANTS list are checked on the way (WK
+-- stops a moment, PLANTS is sent, and it goes on by itself if there's
+-- nothing to harvest). Rooms with nothing left, or harvested within the
+-- hour, are walked past.
+--
+-- Events: tr.sweep.room(num, plants), tr.sweep.done(rooms, herbs)
+
+tr.sw = tr.sw or {}
+local S = tr.sw
+
+function tr.sweeping() return S.active and true or false end
+
+-- Plants in a room you can harvest now: keys, sorted.
+function tr.harvestable(num)
+  local room = tr.plants.rooms[num]
+  local r = {}
+  for key, p in pairs(room and room.plants or {}) do
+    if not tr.is_out(p) and p.bounty ~= "bare" then r[#r + 1] = key end
+  end
+  table.sort(r)
+  return r
+end
+
+function tr.sweep(area, floor)
+  if not (wk and wk.start and wk.add_check) then return tr.err("tr sweep needs WK, the area walker") end
+  wk.add_check("tr sweep", tr.sweep_check) -- in case WK loaded after TR
+  S.active, S.rooms, S.herbs, S.queue, S.num, S.state = true, 0, 0, nil, nil, nil
+  tr.surveying = true
+  tr.survey_rooms = 0
+  tr.say("sweeping: WK walks the area and stops where there are herbs; I harvest them all, then &lt;white&gt;wk&lt;reset&gt; goes on")
+  wk.start(area, floor)
+end
+
+function tr.sweep_end(why)
+  if not S.active then return end
+  S.active = false
+  if S.timer then killTimer(S.timer) S.timer = nil end
+  if S.state == "harvesting" then tr.stop_harvest(nil, true) end
+  S.state, S.queue = nil, nil
+  tr.surveying = false
+  tr.echo(("sweep over%s: %d herb%s from %d room%s"):format(why and (" (" .. why .. ")") or "",
+    S.herbs, S.herbs == 1 and "" or "s", S.rooms, S.rooms == 1 and "" or "s"))
+  tr.raise("tr.sweep.done", S.rooms, S.herbs)
+end
+
+-- WK stop check: hold where there's something to harvest, or where we
+-- don't know yet.
+function tr.sweep_check(num)
+  if not S.active then return nil end
+  if tr.unfamiliar(num) then return "checking plants" end
+  local keys = tr.harvestable(num)
+  if #keys &gt; 0 then return "herbs: " .. table.concat(keys, ", ") end
+end
+
+function tr.on_wk_held(_, num, why)
+  if not S.active or type(why) ~= "string" then return end
+  if why == "checking plants" then
+    S.state, S.num = "checking", num
+    local sent = tr.check_sent and tr.check_sent.num == num
+    if not sent and not tr.cap then
+      tr.rechecked[num] = acs.now()
+      tr.check_sent = { num = num, at = acs.now() }
+      acs.send("plants")
+    end
+    if S.timer then killTimer(S.timer) end
+    S.timer = tempTimer(3, function() S.timer = nil tr.sweep_checked(num) end)
+  elseif why:find("^herbs: ") then
+    tr.sweep_room(num)
+  end
+end
+
+-- A PLANTS list came in: the room we stopped to check is known now.
+function tr.sweep_on_plants(_, num)
+  if S.active and S.state == "checking" and num == S.num then
+    if S.timer then killTimer(S.timer) S.timer = nil end
+    tr.sweep_checked(num)
+  end
+end
+
+function tr.sweep_checked(num)
+  if not (S.active and S.state == "checking" and S.num == num) then return end
+  S.state = nil
+  if tr.unfamiliar(num) then
+    -- no list came back; count the room as seen with nothing in it
+    tr.set_room_plants(num, {})
+  end
+  if #tr.harvestable(num) &gt; 0 then return tr.sweep_room(num) end
+  if wk.state and wk.state() == "held" then wk.resume() end
+end
+
+-- Harvest every plant here, one after another.
+function tr.sweep_room(num)
+  S.num, S.queue, S.state = num, tr.harvestable(num), "harvesting"
+  S.got_here = 0
+  S.rooms = S.rooms + 1
+  tr.raise("tr.sweep.room", num, S.queue)
+  tr.sweep_next()
+end
+
+function tr.sweep_next()
+  if not (S.active and S.state == "harvesting") then return end
+  local key = table.remove(S.queue, 1)
+  if not key then
+    S.state = nil
+    tr.echo(("room done (%d herb%s). &lt;white&gt;wk&lt;reset&gt; goes on to the next."):format(S.got_here, S.got_here == 1 and "" or "s"))
+    return
+  end
+  tr.harvest(key)
+end
+
+function tr.sweep_on_harvest_done(_, plant, room, got, why)
+  if not (S.active and S.state == "harvesting") then return end
+  S.herbs = S.herbs + (got or 0)
+  S.got_here = S.got_here + (got or 0)
+  if why == "you moved" or why == "stopped" or why == "logged out" then
+    S.state = nil
+    return
+  end
+  -- let the harvest's own timers finish before starting the next
+  tempTimer(0, tr.sweep_next)
+end
+</script>
+          <eventHandlerList />
+        </Script>
+        <Script isActive="yes" isFolder="no">
           <name>startup</name>
           <packageName></packageName>
           <script>-- TR startup. Re-importing is safe: acs.module in 01_tr.lua removes the old
@@ -46059,8 +46209,12 @@ function tr.init()
   tr.alias([[^(?i)harvest(?:\s+(.*))?$]], function(m) tr.harvest_alias(m[2]) end)
   tr.on("acs.logout", function() tr.stop_harvest("logged out", true) tr.make_done("logged out") end)
   if wk and wk.add_check then wk.add_check("tr plants", tr.wk_check) end
-  tr.on("wk.done", function() tr.survey_end(nil, "area done") end)
-  tr.on("wk.stop", function(_, why) tr.survey_end(nil, why) end)
+  if wk and wk.add_check then wk.add_check("tr sweep", tr.sweep_check) end
+  tr.on("wk.held", tr.on_wk_held)
+  tr.on("tr.plants", tr.sweep_on_plants)
+  tr.on("tr.harvest.done", tr.sweep_on_harvest_done)
+  tr.on("wk.done", function() tr.sweep_end("area done") tr.survey_end(nil, "area done") end)
+  tr.on("wk.stop", function(_, why) tr.sweep_end(why) tr.survey_end(nil, why) end)
   tr.echo(("loaded v%s. Type &lt;white&gt;tr help&lt;reset&gt;."):format(tr.version))
 end
 
@@ -60087,6 +60241,18 @@ shelp.data = {
           "`tr survey [AREA|floor]` : WK walks the area; PLANTS where the record looks wrong",
         },
       },
+      sweep = {
+        help = {
+          "sweep [AREA]        WK walks the area, stops where there are herbs and harvests them all;",
+          "                    wk goes on to the next (sweep floor: your level only; wk stop ends it)",
+        },
+        see = nil,
+        readme = {
+          "`tr sweep` (or `tr sweep AREA`, `tr sweep floor`) has WK walk the area. It stops in every room with herbs you can harvest, and TR harvests each of them, one after another. Then it says \"room done\" and waits: **`wk` goes on to the next room with herbs.** Rooms that have never had a PLANTS list get a quick PLANTS on the way (WK goes on by itself if there's nothing there), and rooms with nothing left or harvested within the hour are walked past. `wk stop` ends the sweep and tells you how many herbs you got.",
+          "`tr sweep [AREA|floor]` : WK walks the area; harvests every herb in each room, `wk` for the next",
+          "`src/06_sweep.lua` : `tr sweep`: walk an area and harvest everything",
+        },
+      },
       walkstop = {
         help = { "walkstop add|remove PLANT   the area walker stops in rooms with it (needs PLANTS ON)" },
         see = nil,
@@ -60117,6 +60283,12 @@ shelp.data = {
         sig = "tr.alias(...)",
         file = nil,
         doc = {},
+      },
+      {
+        name = "tr.area_args",
+        sig = "tr.area_args(w, rest)",
+        file = "src/05_commands.lua:221",
+        doc = { "\"[floor] [AREA]\" for survey and sweep: ok, area id (nil = here), floor." },
       },
       {
         name = "tr.area_name",
@@ -60266,6 +60438,12 @@ shelp.data = {
         doc = {},
       },
       {
+        name = "tr.commands.sweep.fn",
+        sig = "tr.commands.sweep.fn(...)",
+        file = nil,
+        doc = {},
+      },
+      {
         name = "tr.commands.walkstop.fn",
         sig = "tr.commands.walkstop.fn(...)",
         file = nil,
@@ -60369,6 +60547,12 @@ shelp.data = {
         sig = "tr.harvest_start_here()",
         file = "src/03_harvest.lua:83",
         doc = {},
+      },
+      {
+        name = "tr.harvestable",
+        sig = "tr.harvestable(num)",
+        file = "src/06_sweep.lua:20",
+        doc = { "Plants in a room you can harvest now: keys, sorted." },
       },
       {
         name = "tr.harvesting",
@@ -60566,6 +60750,12 @@ shelp.data = {
         doc = { "GMCP vitals: note when the harvest takes balance." },
       },
       {
+        name = "tr.on_wk_held",
+        sig = "tr.on_wk_held(_, num, why)",
+        file = "src/06_sweep.lua:61",
+        doc = {},
+      },
+      {
         name = "tr.onoff",
         sig = "tr.onoff(v, cur)",
         file = "src/01_tr.lua:52",
@@ -60713,6 +60903,73 @@ shelp.data = {
         doc = {},
       },
       {
+        name = "tr.sweep",
+        sig = "tr.sweep(area, floor)",
+        file = "src/06_sweep.lua:30",
+        doc = {
+          "TR sweep: \"tr sweep\" has WK walk the area and, in every room with herbs",
+          "you can harvest, stops and harvests each of them (one harvest per plant,",
+          "as the game allows). Then it waits: \"wk\" goes on to the next room with",
+          "herbs. That keypress is what keeps it within Achaea's rules, the same",
+          "as WK and BS: nothing gathers after you walk away.",
+          "",
+          "Rooms that have never had a PLANTS list are checked on the way (WK",
+          "stops a moment, PLANTS is sent, and it goes on by itself if there's",
+          "nothing to harvest). Rooms with nothing left, or harvested within the",
+          "hour, are walked past.",
+          "",
+          "Events: tr.sweep.room(num, plants), tr.sweep.done(rooms, herbs)",
+        },
+      },
+      {
+        name = "tr.sweep_check",
+        sig = "tr.sweep_check(num)",
+        file = "src/06_sweep.lua:54",
+        doc = { "WK stop check: hold where there's something to harvest, or where we", "don't know yet." },
+      },
+      {
+        name = "tr.sweep_checked",
+        sig = "tr.sweep_checked(num)",
+        file = "src/06_sweep.lua:86",
+        doc = {},
+      },
+      {
+        name = "tr.sweep_end",
+        sig = "tr.sweep_end(why)",
+        file = "src/06_sweep.lua:40",
+        doc = {},
+      },
+      {
+        name = "tr.sweep_next",
+        sig = "tr.sweep_next()",
+        file = "src/06_sweep.lua:106",
+        doc = {},
+      },
+      {
+        name = "tr.sweep_on_harvest_done",
+        sig = "tr.sweep_on_harvest_done(_, plant, room, got, why)",
+        file = "src/06_sweep.lua:117",
+        doc = {},
+      },
+      {
+        name = "tr.sweep_on_plants",
+        sig = "tr.sweep_on_plants(_, num)",
+        file = "src/06_sweep.lua:79",
+        doc = { "A PLANTS list came in: the room we stopped to check is known now." },
+      },
+      {
+        name = "tr.sweep_room",
+        sig = "tr.sweep_room(num)",
+        file = "src/06_sweep.lua:98",
+        doc = { "Harvest every plant here, one after another." },
+      },
+      {
+        name = "tr.sweeping",
+        sig = "tr.sweeping()",
+        file = "src/06_sweep.lua:17",
+        doc = {},
+      },
+      {
         name = "tr.timer",
         sig = "tr.timer(...)",
         file = nil,
@@ -60744,6 +61001,8 @@ shelp.data = {
       "tr.make.done",
       "tr.make.start",
       "tr.plants",
+      "tr.sweep.done",
+      "tr.sweep.room",
     },
     guide = {
       "",
@@ -60796,6 +61055,19 @@ shelp.data = {
       "`harvest skin`, `harvest sac` and a bare `harvest` go to the game unchanged.",
       "`irid` is understood as `moss`, `prickly ash` as `ash`.",
       "",
+      "## Harvesting a whole area",
+      "",
+      "`tr sweep` (or `tr sweep AREA`, `tr sweep floor`) has WK walk the area. It",
+      "stops in every room with herbs you can harvest, and TR harvests each of",
+      "them, one after another. Then it says \"room done\" and waits: **`wk` goes on",
+      "to the next room with herbs.** Rooms that have never had a PLANTS list get",
+      "a quick PLANTS on the way (WK goes on by itself if there's nothing there),",
+      "and rooms with nothing left or harvested within the hour are walked past.",
+      "`wk stop` ends the sweep and tells you how many herbs you got.",
+      "",
+      "The `wk` keypress per room is what keeps it within Achaea's rules: nothing",
+      "gathers once you walk away. Bind `wk` to a key and it's one press a room.",
+      "",
       "## Making things",
       "",
       "`tr make health` makes as many batches of health as you have the",
@@ -60843,6 +61115,7 @@ shelp.data = {
       "| Command | What it does |",
       "|---|---|",
       "| `harvest PLANT` | harvest here, or walk to the nearest room with it and harvest there |",
+      "| `tr sweep [AREA\\|floor]` | WK walks the area; harvests every herb in each room, `wk` for the next |",
       "| `tr survey [AREA\\|floor]` | WK walks the area; PLANTS where the record looks wrong |",
       "| `tr autocheck off\\|new\\|all` | walking yourself: nothing (off), PLANTS in never-checked rooms (new), also differences (all) |",
       "| `tr where PLANT` | rooms known to have it, nearest first, with how much it had |",
@@ -60907,6 +61180,7 @@ shelp.data = {
       "| `src/03_harvest.lua` | walking to a plant and harvesting it |",
       "| `src/04_make.lua` | recipes and the maker |",
       "| `src/05_commands.lua` | `tr` commands and the `harvest` alias |",
+      "| `src/06_sweep.lua` | `tr sweep`: walk an area and harvest everything |",
       "| `src/99_init.lua` | wiring |",
     },
   },
