@@ -5675,7 +5675,12 @@ ft.on_line(kind)
           <colorTriggerBgColor>#000000</colorTriggerBgColor>
           <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
             <name>The following plants are growing in this room:</name>
-            <script>tr.cap = { num = tr.room().num, list = {} }
+            <script>-- a PLANTS sent by the survey answers for the room it was sent in, even
+-- if the walker has already stepped on
+local p = tr.check_sent
+local num = (p and acs.now() - p.at &lt; 3) and p.num or tr.room().num
+tr.check_sent = nil
+tr.cap = { num = num, list = {} }
 </script>
             <triggerType>0</triggerType>
             <conditonLineDelta>0</conditonLineDelta>
@@ -5812,7 +5817,8 @@ tr.set_room_plants(tr.room().num, {})
           <colorTriggerBgColor>#000000</colorTriggerBgColor>
           <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
             <name></name>
-            <script>local cap = tr.cap
+            <script>if tr.desc then tr.desc_line() end
+local cap = tr.cap
 if not cap then return end
 local text = line or ""
 if text:find("^The following plants are growing") then return end
@@ -5853,6 +5859,27 @@ tr.finish_capture()
           <mSoundFile></mSoundFile>
           <colorTriggerFgColor>#000000</colorTriggerFgColor>
           <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+            <name>You have already harvested from this plant recently.</name>
+            <script>if acs._modules.tr.h.active and acs._modules.tr.h.state == "harvesting" then tr.harvest_finish("nothing more", true) end
+</script>
+            <triggerType>0</triggerType>
+            <conditonLineDelta>0</conditonLineDelta>
+            <mStayOpen>0</mStayOpen>
+            <mCommand></mCommand>
+            <packageName></packageName>
+            <mFgColor>#ff0000</mFgColor>
+            <mBgColor>#ffff00</mBgColor>
+            <mSoundFile></mSoundFile>
+            <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            <colorTriggerBgColor>#000000</colorTriggerBgColor>
+            <regexCodeList>
+              <string>^You have already harvested from this plant recently\.</string>
+            </regexCodeList>
+            <regexCodePropertyList>
+              <integer>1</integer>
+            </regexCodePropertyList>
+          </Trigger>
           <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
             <name>There is nothing left to harvest</name>
             <script>if acs._modules.tr.h.active and acs._modules.tr.h.state == "harvesting" then tr.harvest_finish("nothing more", true) end
@@ -25068,6 +25095,25 @@ tr.echo(word .. ": " .. (tr.settings[key] ~= "" and tr.settings[key] or what))
             <regex>^tr\s+(?i)alembic(?:\s+(.*))?$</regex>
           </Alias>
           <Alias isActive="yes" isFolder="no">
+            <name>tr autocheck</name>
+            <script>-- tr autocheck new|all|off   when walking yourself: PLANTS in never-checked rooms (new), also differences (all); off by default
+local w = acs.words(matches[2] or "")
+local m = (w[1] or ""):lower()
+if m == "on" then m = "new" end
+if not tr.autocheck_says[m] then
+  local cur = tr.settings.autocheck
+  if cur == true then cur = "new" elseif cur == false then cur = "off" end
+  return tr.echo("autocheck " .. tostring(cur) .. ": " .. (tr.autocheck_says[cur] or "") .. " (new|all|off)")
+end
+tr.settings.autocheck = m
+tr.save_settings()
+tr.echo("autocheck " .. m .. ": " .. tr.autocheck_says[m])
+</script>
+            <command></command>
+            <packageName></packageName>
+            <regex>^tr\s+(?i)autocheck(?:\s+(.*))?$</regex>
+          </Alias>
+          <Alias isActive="yes" isFolder="no">
             <name>tr can</name>
             <script>-- tr can [NAME]          how many batches of each remedy you have the ingredients for
 local w = acs.words(matches[2] or "")
@@ -25132,7 +25178,7 @@ tr.echo("forgotten")
           </Alias>
           <Alias isActive="yes" isFolder="no">
             <name>tr fresh</name>
-            <script>-- tr fresh [PLANT]       count harvested-out rooms as ready again
+            <script>-- tr fresh [PLANT]       count harvested rooms as ready again now
 local w = acs.words(matches[2] or "")
 local rest = matches[2] or ""
 local key = rest ~= "" and tr.plant_key(rest) or nil
@@ -25288,7 +25334,7 @@ end
           </Alias>
           <Alias isActive="yes" isFolder="no">
             <name>tr regrow</name>
-            <script>-- tr regrow HOURS        when a harvested-out room counts again (12)
+            <script>-- tr regrow HOURS        how long before a room's plant can be harvested again (1)
 local w = acs.words(matches[2] or "")
 local n = tonumber(w[1])
 if not n or n &lt; 0 then return tr.echo("regrow " .. tr.settings.regrow .. "h") end
@@ -25365,6 +25411,26 @@ tr.echo(word .. ": " .. (tr.settings[key] ~= "" and tr.settings[key] or what))
             <command></command>
             <packageName></packageName>
             <regex>^tr\s+(?i)store(?:\s+(.*))?$</regex>
+          </Alias>
+          <Alias isActive="yes" isFolder="no">
+            <name>tr survey</name>
+            <script>-- tr survey [AREA]       WK walks the area (or AREA) and PLANTS is checked where the record looks wrong
+-- tr survey floor        the same, your level only (wk stop ends it)
+local w = acs.words(matches[2] or "")
+local rest = matches[2] or ""
+local floor = w[1] and w[1]:lower() == "floor"
+local name = (floor and rest:match("^%S+%s*(.*)$") or rest):match("^%s*(.-)%s*$")
+local area
+if name ~= "" and name:lower() ~= "here" then
+  if not (wk and wk.find_area) then return tr.err("tr survey needs WK, the area walker") end
+  area = wk.find_area(name)
+  if not area then return tr.err("no area on the map called " .. name) end
+end
+tr.survey(area, floor)
+</script>
+            <command></command>
+            <packageName></packageName>
+            <regex>^tr\s+(?i)survey(?:\s+(.*))?$</regex>
           </Alias>
           <Alias isActive="yes" isFolder="no">
             <name>tr walkstop</name>
@@ -27559,6 +27625,7 @@ acs_items = {
   ["tr\0" .. [[^No plants are growing here\.]]] = true,
   ["tr\0" .. [[^You see no plants growing here\.]]] = true,
   ["tr\0" .. [[^]]] = true,
+  ["tr\0" .. [[^You have already harvested from this plant recently\.]]] = true,
   ["tr\0" .. [[^There is nothing left to harvest]]] = true,
   ["tr\0" .. [[^There is no .+ here to harvest]]] = true,
   ["tr\0" .. [[^You cannot find any .+ (?:here|to harvest)]]] = true,
@@ -27822,6 +27889,7 @@ acs_command_items = {
   ["in weapons"] = true,
   ["in wielding"] = true,
   ["tr alembic"] = true,
+  ["tr autocheck"] = true,
   ["tr can"] = true,
   ["tr echo"] = true,
   ["tr forget"] = true,
@@ -27838,6 +27906,7 @@ acs_command_items = {
   ["tr status"] = true,
   ["tr stop"] = true,
   ["tr store"] = true,
+  ["tr survey"] = true,
   ["tr walkstop"] = true,
   ["tr where"] = true,
   ["pt allies"] = true,
@@ -30202,6 +30271,9 @@ D.situations = {
   -- (AW: ideally only when herb balance and the legs come back before the
   -- opponent's balance; SS doesn't know their balance yet.)
   { name = "stand up", when = { "prone", DAMAGED_LEGS }, prios = { paralysis = 25 } },
+  -- Can't eat or apply (AW's Apostate death): smoke valerian for slickness
+  -- first, and SS touches tree as soon as it's back (15_salves.lua).
+  { name = "eat/apply lock", when = { "anorexia", "slickness" }, prios = { slickness = 1 } },
 }
 
 -- Helpers for class scripts' against blocks.
@@ -35694,10 +35766,30 @@ function V.check()
   end
 end
 
+-- Anorexia and slickness together: no herbs, no salves, no sips. Touch
+-- tree the moment it's back (AW), unless you can't: asleep, stunned, or
+-- both arms broken.
+V.TREE_BLOCKERS = { "asleep", "sleeping", "stun", "paralysis", "brokenleftarm&amp;brokenrightarm" }
+function V.tree_check()
+  local s = ss.settings
+  if not (s.enabled and acs.online() and s.server_tree ~= false) then return end
+  if not (ss.affs.anorexia and ss.affs.slickness) then return end
+  if not ss.bal_ready("tree") then return end
+  for _, b in ipairs(V.TREE_BLOCKERS) do if ss.prio.term(b) then return end end
+  if since("tree") &lt; 2 then return end
+  V._last.tree = acs.now()
+  acs.send("touch tree")
+  ss.use_bal("tree")
+end
+
 function V.install(M)
-  M.on("ss.balance", function(_, b, v) if b == "salve" and v then V.check() end end)
+  M.on("ss.balance", function(_, b, v)
+    if b == "salve" and v then V.check() end
+    if b == "tree" and v then V.tree_check() end
+  end)
+  M.on("ss.aff.gained", V.tree_check)
   for _, ev in ipairs({ "ss.aff.gained", "ss.aff.lost", "ss.limbs.changed" }) do M.on(ev, V.check) end
-  local function loop() V.check() M.timer(0.5, loop) end
+  local function loop() V.check() V.tree_check() M.timer(0.5, loop) end
   loop()
 end
 
@@ -44694,12 +44786,13 @@ tr.default_settings = {
   pot = "",                           -- pot id ("" = the first pot or cauldron you carry)
   alembic = "",                       -- alembic id ("" = the first alembic you carry)
   prefer = "most",                    -- herbs, minerals, or most: the recipe that makes the most batches
-  regrow = 12,                        -- hours before a room you harvested out counts again
+  regrow = 1,                         -- hours before you can harvest a plant in a room again (about 1 in game)
   fails = 2,                          -- harvests in a row that give nothing before the plant counts as done
   gap = 0.3,                          -- seconds after balance comes back before the next command
   stopfor = {},                       -- WK stops in rooms with these plants
   recipes = {},                       -- your own: name -&gt; { "command {n}", ... }
   echo = true,
+  autocheck = "off",                  -- rooms you walk yourself: "off" (only tr survey checks), "new" (never-checked rooms), "all"
 }
 tr.settings = acs.store("tr", tr.default_settings)
 
@@ -44840,8 +44933,14 @@ function tr.set_room_plants(num, list)
     local was = old and old.plants and old.plants[p.key]
     plants[p.key] = { name = p.name, bounty = p.bounty, out = was and was.out or nil }
   end
+  -- A plant that was here and isn't listed now has been harvested bare
+  -- (PLANTS shows just the heading then). Keep it, out for now, so the
+  -- room counts again once it has regrown.
+  for key, was in pairs(old and old.plants or {}) do
+    if not plants[key] then plants[key] = { name = was.name, bounty = "bare", out = acs.now() } end
+  end
   local here = tr.room()
-  tr.plants.rooms[num] = { seen = acs.now(), plants = plants,
+  tr.plants.rooms[num] = { seen = acs.now(), checked = acs.now(), plants = plants,
     area = here.num == num and here.area or (old and old.area) or tr.area_name(num),
     name = here.num == num and here.name or (old and old.name) or nil }
   tr.save_plants()
@@ -44893,7 +44992,9 @@ end
 -- Reading the PLANTS list
 
 tr.plants_header = [[^The following plants are growing in this room:]]
--- Best guesses at "nothing grows here"; paste the real one if it differs.
+-- In a room with nothing left, PLANTS shows the heading and then the
+-- prompt (AW's paste), which the capture handles. These are guesses at a
+-- room where nothing grows at all.
 tr.no_plants_lines = {
   [[^There are no plants growing here\.]],
   [[^There are no plants growing in this room\.]],
@@ -44904,7 +45005,12 @@ tr.no_plants_lines = {
 tr.cap = nil
 
 function tr.on_plants_header()
-  tr.cap = { num = tr.room().num, list = {} }
+  -- a PLANTS sent by the survey answers for the room it was sent in, even
+  -- if the walker has already stepped on
+  local p = tr.check_sent
+  local num = (p and acs.now() - p.at &lt; 3) and p.num or tr.room().num
+  tr.check_sent = nil
+  tr.cap = { num = num, list = {} }
 end
 
 function tr.on_no_plants()
@@ -44927,6 +45033,7 @@ end
 
 -- Every line while a list is being read.
 function tr.on_line()
+  if tr.desc then tr.desc_line() end
   local cap = tr.cap
   if not cap then return end
   local text = line or ""
@@ -44936,6 +45043,200 @@ function tr.on_line()
   if p then cap.list[#cap.list + 1] = p return end
   if text:match("^%s*$") then return end
   tr.finish_capture()
+end
+
+---------------------------------------------------------------------------
+-- Plants in the room description, without PLANTS ON:
+--
+--   ... A low-lying wild ginger plant is growing here. A red elm tree grows
+--   here, its branches gently swaying in the breeze. ...
+--
+-- After each GMCP Room.Info the lines up to "You see exits ..." are read.
+-- A herb counts when its name is in purple (how the game shows plants), or
+-- in a sentence that says it grows (or is planted, or is) here. That says the plant is there, not how
+-- much it has left, so it only adds plants; PLANTS still has the last word.
+
+-- Words in a description -&gt; the HARVEST word.
+tr.desc_words = {
+  { "coneflower", "echinacea" }, { "echinacea", "echinacea" }, { "prickly ash", "ash" }, { "prickly pear", "pear" },
+  { "irid moss", "moss" }, { "slipper", "slipper" }, { "ginger", "ginger" }, { "ginseng", "ginseng" },
+  { "elm", "elm" }, { "myrrh", "myrrh" }, { "lobelia", "lobelia" }, { "kelp", "kelp" }, { "bayberry", "bayberry" },
+  { "bellwort", "bellwort" }, { "bloodroot", "bloodroot" }, { "hawthorn", "hawthorn" }, { "kuzu", "kuzu" },
+  { "skullcap", "skullcap" }, { "goldenseal", "goldenseal" }, { "valerian", "valerian" }, { "cohosh", "cohosh" },
+  { "sileris", "sileris" }, { "kola", "kola" }, { "burdock", "burdock" },
+}
+
+tr.desc = nil
+
+function tr.on_room_desc()
+  tr.desc = { num = tr.room().num, lines = {}, purple = {} }
+end
+
+function tr.desc_line()
+  local d = tr.desc
+  local text = line or ""
+  local prompt = type(isPrompt) == "function" and isPrompt()
+  if not prompt then
+    d.lines[#d.lines + 1] = text
+    for _, run in ipairs(tr.purple_runs(text)) do d.purple[#d.purple + 1] = run end
+  end
+  if prompt or text:find("^You see a single exit") or text:find("^You see exits") or #d.lines &gt; 40 then
+    tr.desc = nil
+    local keys = tr.plants_in_desc(table.concat(d.lines, " "))
+    local seen = {}
+    for _, k in ipairs(keys) do seen[k] = true end
+    for _, k in ipairs(tr.plants_in_text(table.concat(d.purple, " "))) do
+      if not seen[k] then seen[k] = true keys[#keys + 1] = k end
+    end
+    tr.maybe_recheck(d.num, keys)
+    tr.note_plants(d.num, keys)
+  end
+end
+
+-- The game shows plant names in purple. The purple stretches of the
+-- current line (needs Mudlet's selectSection/getFgColor; none otherwise).
+function tr.is_purple(r, g, b)
+  return r and r &gt;= 100 and b &gt;= 100 and g &lt;= 90
+end
+
+function tr.purple_runs(text)
+  local runs = {}
+  if type(selectSection) ~= "function" or type(getFgColor) ~= "function" or text == "" then return runs end
+  local start
+  for i = 1, #text + 1 do
+    local purple = false
+    if i &lt;= #text then
+      selectSection(i - 1, 1)
+      purple = tr.is_purple(getFgColor())
+    end
+    if purple and not start then start = i
+    elseif not purple and start then
+      runs[#runs + 1] = text:sub(start, i - 1)
+      start = nil
+    end
+  end
+  if type(deselect) == "function" then deselect() end
+  return runs
+end
+
+-- HARVEST words named anywhere in some text (the purple names).
+function tr.plants_in_text(text)
+  local found, seen = {}, {}
+  local s = tostring(text):lower()
+  for _, w in ipairs(tr.desc_words) do
+    if not seen[w[2]] and s:find("%f[%a]" .. w[1] .. "s?%f[%A]") then
+      seen[w[2]] = true
+      found[#found + 1] = w[2]
+    end
+  end
+  return found
+end
+
+-- HARVEST words for the herbs a description says are growing here.
+function tr.plants_in_desc(text)
+  local found, seen = {}, {}
+  for sentence in (tostring(text):gsub("%s+", " ") .. " "):gmatch("(.-[%.!])%s") do
+    local s = sentence:lower()
+    if s:find("%f[%a]here%f[%A]") and (s:find("grow") or s:find("planted") or s:find("%f[%a]is here") or s:find("%f[%a]are here")) then
+      for _, w in ipairs(tr.desc_words) do
+        if not seen[w[2]] and s:find("%f[%a]" .. w[1] .. "s?%f[%A]") then
+          seen[w[2]] = true
+          found[#found + 1] = w[2]
+        end
+      end
+    end
+  end
+  return found
+end
+
+-- Survey: "tr survey [AREA]" has WK walk the area, and in each room whose
+-- description's herbs don't match what's recorded (or nothing is, or a
+-- plant's bounty isn't known) it sends PLANTS. Plants rarely change, so
+-- most rooms are left alone. At most once every 10 minutes per room.
+-- Walking yourself, nothing is sent (settings.autocheck "off"); "new"
+-- checks rooms that have never had a PLANTS list, "all" differences too.
+tr.surveying = tr.surveying or false
+
+function tr.survey(area, floor)
+  if not (wk and wk.start) then return tr.err("tr survey needs WK, the area walker") end
+  tr.surveying = true
+  tr.survey_rooms = 0
+  tr.say("surveying plants: WK walks the area; PLANTS is checked where a room's description and the record differ")
+  wk.start(area, floor)
+end
+
+function tr.survey_end(_, why)
+  if not tr.surveying then return end
+  tr.surveying = false
+  tr.echo(("survey over%s: checked %d room%s"):format(type(why) == "string" and (" (" .. why .. ")") or "",
+    tr.survey_rooms or 0, tr.survey_rooms == 1 and "" or "s"))
+end
+tr.rechecked = tr.rechecked or {}
+
+-- Never had a PLANTS list (a description alone doesn't count).
+function tr.unfamiliar(num)
+  local room = tr.plants.rooms[num]
+  return not (room and room.checked)
+end
+
+function tr.needs_recheck(num, keys)
+  local room = tr.plants.rooms[num]
+  if not room or not room.checked then return true end
+  local want = {}
+  for _, k in ipairs(keys) do
+    want[k] = true
+    local p = room.plants[k]
+    if not p or p.bounty == "?" then return true end
+  end
+  -- something recorded that the description doesn't show any more
+  -- (only herbs a description can name: the rest can't be checked)
+  local nameable = {}
+  for _, w in ipairs(tr.desc_words) do nameable[w[2]] = true end
+  for k, p in pairs(room.plants) do
+    if nameable[k] and not want[k] and p.bounty ~= "bare" then return true end
+  end
+  return false
+end
+
+function tr.maybe_recheck(num, keys)
+  if not num or num == 0 or tr.cap then return end
+  local surveying = tr.surveying and wk and wk.active and wk.active()
+  local mode = tr.settings.autocheck
+  if (tr.rechecked[num] or 0) + 600 &gt; acs.now() then return end
+  if surveying or mode == "all" then
+    if not tr.needs_recheck(num, keys) then return end
+  elseif mode == "new" or mode == true then
+    if not tr.unfamiliar(num) then return end
+  else
+    return
+  end
+  tr.rechecked[num] = acs.now()
+  tr.check_sent = { num = num, at = acs.now() }
+  tr.survey_rooms = (tr.survey_rooms or 0) + 1
+  tr.debug("checking plants in " .. num)
+  acs.send("plants")
+end
+
+-- Add plants seen in a description to the room (bounty unknown).
+function tr.note_plants(num, keys)
+  if not num or num == 0 or #keys == 0 then return end
+  local room = tr.plants.rooms[num]
+  if not room then
+    local here = tr.room()
+    room = { seen = acs.now(), plants = {}, area = here.num == num and here.area or tr.area_name(num),
+      name = here.num == num and here.name or nil }
+    tr.plants.rooms[num] = room
+  end
+  local added = false
+  for _, key in ipairs(keys) do
+    if not room.plants[key] then
+      room.plants[key] = { name = key, bounty = "?" }
+      added = true
+    end
+  end
+  room.seen = acs.now()
+  if added then tr.save_plants() end
+  tr.raise("tr.plants", num, room.plants)
 end
 
 -- WK: stop in rooms with a plant you listed (tr walkstop).
@@ -44959,8 +45260,10 @@ end
           <script>-- TR harvesting: "harvest kelp" harvests here when this room has kelp,
 -- else walks to the nearest room known to have it and harvests there.
 --
--- It harvests one plant in one room until it gives nothing (or you've had
--- the number you asked for), then stops and says where the next room is.
+-- A plant gives you one harvest per room about once an hour ("You have
+-- already harvested from this plant recently."), so it harvests once,
+-- marks the room done for settings.regrow hours, and says where the next
+-- room is.
 -- Going on to that room is another "harvest kelp": Achaea's rules forbid a
 -- character that keeps gathering after you walk away, so each room is a
 -- keypress, as WK's are.
@@ -44983,6 +45286,7 @@ function tr.harvesting() return H.active and true or false end
 -- Best guesses at "this plant has no more"; a harvest that gives nothing
 -- counts too (settings.fails in a row), so a missing line costs a try.
 tr.out_lines = {
+  [[^You have already harvested from this plant recently\.]], -- AW's paste
   [[^There is nothing left to harvest]],
   [[^There is no .+ here to harvest]],
   [[^You cannot find any .+ (?:here|to harvest)]],
@@ -45097,6 +45401,9 @@ function tr.harvest_check(waited)
   if H.pending.got then
     H.got = H.got + (H.pending.n or 1)
     H.fails = 0
+    -- a plant gives you one harvest an hour or so: that's this room done
+    H.pending = nil
+    return tr.harvest_finish("harvested", true)
   else
     H.fails = H.fails + 1
     if H.fails &gt;= tr.settings.fails then return tr.harvest_finish("nothing more", true) end
@@ -45104,6 +45411,14 @@ function tr.harvest_check(waited)
   H.pending = nil
   kill("timer")
   H.timer = tempTimer(tr.settings.gap, function() H.timer = nil tr.harvest_next() end)
+end
+
+-- A PLANTS list for the room being harvested: stop when the plant isn't
+-- on it any more.
+function tr.on_plants_seen(_, num, plants)
+  if not (H.active and H.state == "harvesting" and num == H.at) then return end
+  local p = plants[H.plant]
+  if not p or p.bounty == "bare" then tr.harvest_finish("nothing left", true) end
 end
 
 -- GMCP vitals: note when the harvest takes balance.
@@ -45532,7 +45847,7 @@ tr.command("fresh", function(w, rest)
   end
   tr.save_plants()
   tr.echo(n .. " harvested-out mark" .. (n == 1 and "" or "s") .. " cleared")
-end, "fresh [PLANT]       count harvested-out rooms as ready again")
+end, "fresh [PLANT]       count harvested rooms as ready again now")
 
 tr.command("stop", function()
   if not (tr.harvesting() or tr.making()) then return tr.echo("nothing to stop") end
@@ -45643,7 +45958,7 @@ tr.command("regrow", function(w)
   tr.settings.regrow = n
   tr.save_settings()
   tr.echo(("a harvested-out room counts again after %sh"):format(n))
-end, "regrow HOURS        when a harvested-out room counts again (12)")
+end, "regrow HOURS        how long before a room's plant can be harvested again (1)")
 
 tr.command("walkstop", function(w, rest)
   local s = tr.settings
@@ -45661,6 +45976,37 @@ tr.command("walkstop", function(w, rest)
   tr.save_settings()
   tr.echo("WK stops for plants: " .. (#s.stopfor &gt; 0 and table.concat(s.stopfor, ", ") or "none"))
 end, "walkstop add|remove PLANT   the area walker stops in rooms with it (needs PLANTS ON)")
+
+tr.command("survey", function(w, rest)
+  local floor = w[1] and w[1]:lower() == "floor"
+  local name = (floor and rest:match("^%S+%s*(.*)$") or rest):match("^%s*(.-)%s*$")
+  local area
+  if name ~= "" and name:lower() ~= "here" then
+    if not (wk and wk.find_area) then return tr.err("tr survey needs WK, the area walker") end
+    area = wk.find_area(name)
+    if not area then return tr.err("no area on the map called " .. name) end
+  end
+  tr.survey(area, floor)
+end, { "survey [AREA]       WK walks the area (or AREA) and PLANTS is checked where the record looks wrong",
+       "survey floor        the same, your level only (wk stop ends it)" })
+
+tr.autocheck_says = {
+  new = "PLANTS in rooms that have never been checked (a baseline), once each",
+  all = "PLANTS in new rooms, and where the description and the record differ",
+  off = "never sends PLANTS when you walk yourself (tr survey still does)",
+}
+tr.command("autocheck", function(w)
+  local m = (w[1] or ""):lower()
+  if m == "on" then m = "new" end
+  if not tr.autocheck_says[m] then
+    local cur = tr.settings.autocheck
+    if cur == true then cur = "new" elseif cur == false then cur = "off" end
+    return tr.echo("autocheck " .. tostring(cur) .. ": " .. (tr.autocheck_says[cur] or "") .. " (new|all|off)")
+  end
+  tr.settings.autocheck = m
+  tr.save_settings()
+  tr.echo("autocheck " .. m .. ": " .. tr.autocheck_says[m])
+end, "autocheck new|all|off   when walking yourself: PLANTS in never-checked rooms (new), also differences (all); off by default")
 
 tr.command("echo", function(w)
   tr.settings.echo = tr.onoff(w[1], tr.settings.echo)
@@ -45696,7 +46042,9 @@ function tr.init()
   tr.load_plants()
   acs.gmcp_support({ "Room 1", "Char.Items 1", "IRE.Rift 1" })
   tr.on("gmcp.Room.Info", tr.on_room)
+  tr.on("gmcp.Room.Info", tr.on_room_desc)
   tr.on("gmcp.Char.Vitals", tr.on_vitals)
+  tr.on("tr.plants", tr.on_plants_seen)
   tr.on("gmcp.Char.Items.Add", function() tr.on_items("Add") end)
   tr.on("gmcp.Char.Items.Update", function() tr.on_items("Update") end)
   tr.on("gmcp.IRE.Rift.Change", tr.on_rift)
@@ -45711,6 +46059,8 @@ function tr.init()
   tr.alias([[^(?i)harvest(?:\s+(.*))?$]], function(m) tr.harvest_alias(m[2]) end)
   tr.on("acs.logout", function() tr.stop_harvest("logged out", true) tr.make_done("logged out") end)
   if wk and wk.add_check then wk.add_check("tr plants", tr.wk_check) end
+  tr.on("wk.done", function() tr.survey_end(nil, "area done") end)
+  tr.on("wk.stop", function(_, why) tr.survey_end(nil, why) end)
   tr.echo(("loaded v%s. Type &lt;white&gt;tr help&lt;reset&gt;."):format(tr.version))
 end
 
@@ -50542,7 +50892,7 @@ shelp.data = {
       {
         name = "ss.any",
         sig = "ss.any(...)",
-        file = "src/02_classes.lua:180",
+        file = "src/02_classes.lua:183",
         doc = { "the same as \"when\" terms (a|b|c)" },
       },
       {
@@ -50695,13 +51045,13 @@ shelp.data = {
       {
         name = "ss.class_script",
         sig = "ss.class_script(name, def)",
-        file = "src/02_classes.lua:258",
+        file = "src/02_classes.lua:261",
         doc = { "  ss.class_script(\"monk\", {" },
       },
       {
         name = "ss.classes.apply",
         sig = "ss.classes.apply(old)",
-        file = "src/02_classes.lua:301",
+        file = "src/02_classes.lua:304",
         doc = {
           "Put the current class's (and subclass's) actives, passives and defence",
           "commands in place of the previous class's. Called on load and on every",
@@ -50711,31 +51061,31 @@ shelp.data = {
       {
         name = "ss.classes.current",
         sig = "ss.classes.current()",
-        file = "src/02_classes.lua:273",
+        file = "src/02_classes.lua:276",
         doc = {},
       },
       {
         name = "ss.classes.current_sub",
         sig = "ss.classes.current_sub()",
-        file = "src/02_classes.lua:287",
+        file = "src/02_classes.lua:290",
         doc = {},
       },
       {
         name = "ss.classes.current_sub_name",
         sig = "ss.classes.current_sub_name()",
-        file = "src/02_classes.lua:275",
+        file = "src/02_classes.lua:278",
         doc = {},
       },
       {
         name = "ss.classes.key",
         sig = "ss.classes.key(cls)",
-        file = "src/02_classes.lua:268",
+        file = "src/02_classes.lua:271",
         doc = {},
       },
       {
         name = "ss.classes.tick",
         sig = "ss.classes.tick()",
-        file = "src/02_classes.lua:329",
+        file = "src/02_classes.lua:332",
         doc = {},
       },
       {
@@ -51065,7 +51415,7 @@ shelp.data = {
       {
         name = "ss.data.call",
         sig = "ss.data.call(fn, ...)",
-        file = "src/02_classes.lua:292",
+        file = "src/02_classes.lua:295",
         doc = {},
       },
       {
@@ -51609,7 +51959,7 @@ shelp.data = {
       {
         name = "ss.knight_styles",
         sig = "ss.knight_styles(over)",
-        file = "src/02_classes.lua:192",
+        file = "src/02_classes.lua:195",
         doc = {
           "Knight weapon styles (AW, 2026-10-26; old dwb/snb/2h/dwc swaps). Infernal,",
           "Paladin, Runewarden and Unnamable use these as their against.subclasses,",
@@ -51733,7 +52083,7 @@ shelp.data = {
       {
         name = "ss.merge",
         sig = "ss.merge(...)",
-        file = "src/02_classes.lua:166",
+        file = "src/02_classes.lua:169",
         doc = {
           "Helpers for class scripts' against blocks.",
           "ss.prios_of(\"a b c\", 3) -&gt; { a = 3, b = 3, c = 3 }; ss.merge(t1, t2, ...)",
@@ -52372,7 +52722,7 @@ shelp.data = {
       {
         name = "ss.prios_of",
         sig = "ss.prios_of(names, p)",
-        file = "src/02_classes.lua:161",
+        file = "src/02_classes.lua:164",
         doc = {
           "Helpers for class scripts' against blocks.",
           "ss.prios_of(\"a b c\", 3) -&gt; { a = 3, b = 3, c = 3 }; ss.merge(t1, t2, ...)",
@@ -52463,7 +52813,7 @@ shelp.data = {
       {
         name = "ss.salves.install",
         sig = "ss.salves.install(M)",
-        file = "src/15_salves.lua:103",
+        file = "src/15_salves.lua:119",
         doc = {},
       },
       {
@@ -52477,6 +52827,12 @@ shelp.data = {
         sig = "ss.salves.target(limb)",
         file = "src/15_salves.lua:33",
         doc = { "\"leftleg\" -&gt; \"left leg\"; legs, arms, head, torso as they are." },
+      },
+      {
+        name = "ss.salves.tree_check",
+        sig = "ss.salves.tree_check()",
+        file = "src/15_salves.lua:107",
+        doc = {},
       },
       {
         name = "ss.salves.wanted",
@@ -59601,6 +59957,16 @@ shelp.data = {
           "`tr pot ID|auto`, `tr alembic ID|auto` : what to make it in",
         },
       },
+      autocheck = {
+        help = {
+          "autocheck new|all|off   when walking yourself: PLANTS in never-checked rooms (new), also differences (all); off by default",
+        },
+        see = nil,
+        readme = {
+          "**Surveying an area:** `tr survey` (or `tr survey AREA`, `tr survey floor`) has WK walk the whole area. In each room, TR compares the herbs in the description with what it has recorded, and sends PLANTS only where they differ, where nothing is recorded yet, or where it doesn't know how much a plant has left. Plants rarely change, so most rooms aren't checked twice. WK's usual stops still apply (`wk` carries on); `wk stop` ends the survey. A survey checks every room that has never had a PLANTS list, as a baseline. When you walk yourself TR never sends PLANTS; it only notes the herbs it sees in descriptions (`tr autocheck new` would check never-checked rooms as you walk too, `tr autocheck all` differences as well).",
+          "`tr autocheck off|new|all` : walking yourself: nothing (off), PLANTS in never-checked rooms (new), also differences (all)",
+        },
+      },
       can = {
         help = { "can [NAME]          how many batches of each remedy you have the ingredients for" },
         see = nil,
@@ -59621,9 +59987,9 @@ shelp.data = {
         readme = { "`tr forget [here|ROOM|all]` : forget a room's plants" },
       },
       fresh = {
-        help = { "fresh [PLANT]       count harvested-out rooms as ready again" },
+        help = { "fresh [PLANT]       count harvested rooms as ready again now" },
         see = nil,
-        readme = { "`tr fresh [PLANT]` : count harvested-out rooms as ready again" },
+        readme = { "`tr fresh [PLANT]` : count harvested rooms as ready again now" },
       },
       here = {
         help = { "here                the plants recorded in this room" },
@@ -59680,9 +60046,12 @@ shelp.data = {
         readme = { "`tr recipes [remedies|toxins|mine]` : what `tr make` knows" },
       },
       regrow = {
-        help = { "regrow HOURS        when a harvested-out room counts again (12)" },
+        help = { "regrow HOURS        how long before a room's plant can be harvested again (1)" },
         see = nil,
-        readme = { "`tr regrow HOURS` : when a harvested-out room counts again (12)" },
+        readme = {
+          "A plant gives you one harvest per room about once an hour (\"You have already harvested from this plant recently.\"). So TR harvests once (waiting for balance), puts the kelp in your rift (`inr all kelp`), marks that room done for an hour (`tr regrow`), and tells you the next room. **Type `harvest kelp` again to go there.** Achaea's rules forbid a character that keeps gathering after you walk away, so going on to the next room is always your keypress, as it is with WK. Bind it to a key to make it one press.",
+          "`tr regrow HOURS` : how long before a room's plant can be harvested again (1)",
+        },
       },
       rift = {
         help = { "rift CMD|off        after harvesting ({plant}; inr all {plant})" },
@@ -59705,6 +60074,17 @@ shelp.data = {
         readme = {
           "`tr store CMD|off` : after making (`pour {equip} into rift`)",
           "* **Pouring into the rift.** `pour &lt;pot&gt; into rift` is from the Remedies POUR syntax. Toxins may need `fill &lt;vial&gt; from &lt;pot&gt;` instead; change it with `tr store`.",
+        },
+      },
+      survey = {
+        help = {
+          "survey [AREA]       WK walks the area (or AREA) and PLANTS is checked where the record looks wrong",
+          "survey floor        the same, your level only (wk stop ends it)",
+        },
+        see = nil,
+        readme = {
+          "**Surveying an area:** `tr survey` (or `tr survey AREA`, `tr survey floor`) has WK walk the whole area. In each room, TR compares the herbs in the description with what it has recorded, and sends PLANTS only where they differ, where nothing is recorded yet, or where it doesn't know how much a plant has left. Plants rarely change, so most rooms aren't checked twice. WK's usual stops still apply (`wk` carries on); `wk stop` ends the survey. A survey checks every room that has never had a PLANTS list, as a baseline. When you walk yourself TR never sends PLANTS; it only notes the herbs it sees in descriptions (`tr autocheck new` would check never-checked rooms as you walk too, `tr autocheck all` differences as well).",
+          "`tr survey [AREA|floor]` : WK walks the area; PLANTS where the record looks wrong",
         },
       },
       walkstop = {
@@ -59741,13 +60121,13 @@ shelp.data = {
       {
         name = "tr.area_name",
         sig = "tr.area_name(num)",
-        file = "src/01_tr.lua:104",
+        file = "src/01_tr.lua:105",
         doc = {},
       },
       {
         name = "tr.balanced",
         sig = "tr.balanced()",
-        file = "src/01_tr.lua:69",
+        file = "src/01_tr.lua:70",
         doc = { "Balance and equilibrium both up (true when GMCP hasn't said)." },
       },
       {
@@ -59774,6 +60154,12 @@ shelp.data = {
       {
         name = "tr.commands.alembic.fn",
         sig = "tr.commands.alembic.fn(...)",
+        file = nil,
+        doc = {},
+      },
+      {
+        name = "tr.commands.autocheck.fn",
+        sig = "tr.commands.autocheck.fn(...)",
         file = nil,
         doc = {},
       },
@@ -59874,6 +60260,12 @@ shelp.data = {
         doc = {},
       },
       {
+        name = "tr.commands.survey.fn",
+        sig = "tr.commands.survey.fn(...)",
+        file = nil,
+        doc = {},
+      },
+      {
         name = "tr.commands.walkstop.fn",
         sig = "tr.commands.walkstop.fn(...)",
         file = nil,
@@ -59888,13 +60280,19 @@ shelp.data = {
       {
         name = "tr.debug",
         sig = "tr.debug(msg)",
-        file = "src/01_tr.lua:43",
+        file = "src/01_tr.lua:44",
+        doc = {},
+      },
+      {
+        name = "tr.desc_line",
+        sig = "tr.desc_line()",
+        file = "src/02_plants.lua:202",
         doc = {},
       },
       {
         name = "tr.echo",
         sig = "tr.echo(msg)",
-        file = "src/01_tr.lua:41",
+        file = "src/01_tr.lua:42",
         doc = {},
       },
       {
@@ -59906,25 +60304,25 @@ shelp.data = {
       {
         name = "tr.err",
         sig = "tr.err(msg)",
-        file = "src/01_tr.lua:42",
+        file = "src/01_tr.lua:43",
         doc = {},
       },
       {
         name = "tr.fill",
         sig = "tr.fill(template, vars)",
-        file = "src/01_tr.lua:57",
+        file = "src/01_tr.lua:58",
         doc = { "\"{plant}\" and the like in a command template." },
       },
       {
         name = "tr.finish_capture",
         sig = "tr.finish_capture()",
-        file = "src/02_plants.lua:142",
+        file = "src/02_plants.lua:155",
         doc = {},
       },
       {
         name = "tr.go_to",
         sig = "tr.go_to(num)",
-        file = "src/01_tr.lua:81",
+        file = "src/01_tr.lua:82",
         doc = {
           "Walk to a room with the mapper (RM's go_to when it's loaded, so its",
           "walk tracking sees it too).",
@@ -59933,7 +60331,7 @@ shelp.data = {
       {
         name = "tr.harvest",
         sig = "tr.harvest(text, want)",
-        file = "src/03_harvest.lua:48",
+        file = "src/03_harvest.lua:51",
         doc = {
           "Start: here if this room has it (or we don't know this room yet), else",
           "the nearest room that does.",
@@ -59951,31 +60349,31 @@ shelp.data = {
       {
         name = "tr.harvest_check",
         sig = "tr.harvest_check(waited)",
-        file = "src/03_harvest.lua:129",
+        file = "src/03_harvest.lua:132",
         doc = { "After a harvest: wait for balance, then see whether it gave anything." },
       },
       {
         name = "tr.harvest_finish",
         sig = "tr.harvest_finish(why, out)",
-        file = "src/03_harvest.lua:184",
+        file = "src/03_harvest.lua:198",
         doc = {},
       },
       {
         name = "tr.harvest_next",
         sig = "tr.harvest_next()",
-        file = "src/03_harvest.lua:111",
+        file = "src/03_harvest.lua:114",
         doc = {},
       },
       {
         name = "tr.harvest_start_here",
         sig = "tr.harvest_start_here()",
-        file = "src/03_harvest.lua:80",
+        file = "src/03_harvest.lua:83",
         doc = {},
       },
       {
         name = "tr.harvesting",
         sig = "tr.harvesting()",
-        file = "src/03_harvest.lua:23",
+        file = "src/03_harvest.lua:25",
         doc = {},
       },
       {
@@ -59993,19 +60391,28 @@ shelp.data = {
       {
         name = "tr.is_out",
         sig = "tr.is_out(p)",
-        file = "src/02_plants.lua:80",
+        file = "src/02_plants.lua:86",
         doc = {},
       },
       {
         name = "tr.is_plant_item",
         sig = "tr.is_plant_item(name)",
-        file = "src/03_harvest.lua:162",
+        file = "src/03_harvest.lua:176",
         doc = { "Did an item that just arrived come from this harvest?" },
+      },
+      {
+        name = "tr.is_purple",
+        sig = "tr.is_purple(r, g, b)",
+        file = "src/02_plants.lua:225",
+        doc = {
+          "The game shows plant names in purple. The purple stretches of the",
+          "current line (needs Mudlet's selectSection/getFgColor; none otherwise).",
+        },
       },
       {
         name = "tr.known_plants",
         sig = "tr.known_plants()",
-        file = "src/02_plants.lua:104",
+        file = "src/02_plants.lua:110",
         doc = { "Every plant known: key -&gt; number of rooms." },
       },
       {
@@ -60053,14 +60460,32 @@ shelp.data = {
       {
         name = "tr.mapper",
         sig = "tr.mapper()",
-        file = "src/01_tr.lua:75",
+        file = "src/01_tr.lua:76",
         doc = {},
       },
       {
         name = "tr.mark_out",
         sig = "tr.mark_out(num, key)",
-        file = "src/02_plants.lua:72",
+        file = "src/02_plants.lua:78",
         doc = { "The plant gave nothing: this room is out of it for a while." },
+      },
+      {
+        name = "tr.maybe_recheck",
+        sig = "tr.maybe_recheck(num, keys)",
+        file = "src/02_plants.lua:328",
+        doc = {},
+      },
+      {
+        name = "tr.needs_recheck",
+        sig = "tr.needs_recheck(num, keys)",
+        file = "src/02_plants.lua:309",
+        doc = {},
+      },
+      {
+        name = "tr.note_plants",
+        sig = "tr.note_plants(num, keys)",
+        file = "src/02_plants.lua:348",
+        doc = { "Add plants seen in a description to the room (bounty unknown)." },
       },
       {
         name = "tr.on",
@@ -60071,13 +60496,13 @@ shelp.data = {
       {
         name = "tr.on_items",
         sig = "tr.on_items(kind)",
-        file = "src/03_harvest.lua:171",
+        file = "src/03_harvest.lua:185",
         doc = {},
       },
       {
         name = "tr.on_line",
         sig = "tr.on_line()",
-        file = "src/02_plants.lua:149",
+        file = "src/02_plants.lua:162",
         doc = { "Every line while a list is being read." },
       },
       {
@@ -60089,55 +60514,67 @@ shelp.data = {
       {
         name = "tr.on_mapper",
         sig = "tr.on_mapper(event)",
-        file = "src/03_harvest.lua:102",
+        file = "src/03_harvest.lua:105",
         doc = {},
       },
       {
         name = "tr.on_no_plants",
         sig = "tr.on_no_plants()",
-        file = "src/02_plants.lua:130",
+        file = "src/02_plants.lua:143",
         doc = {},
       },
       {
         name = "tr.on_out_line",
         sig = "tr.on_out_line()",
-        file = "src/03_harvest.lua:157",
+        file = "src/03_harvest.lua:171",
         doc = { "The game says this plant has no more." },
       },
       {
         name = "tr.on_plants_header",
         sig = "tr.on_plants_header()",
-        file = "src/02_plants.lua:126",
+        file = "src/02_plants.lua:134",
         doc = {},
+      },
+      {
+        name = "tr.on_plants_seen",
+        sig = "tr.on_plants_seen(_, num, plants)",
+        file = "src/03_harvest.lua:159",
+        doc = { "A PLANTS list for the room being harvested: stop when the plant isn't", "on it any more." },
       },
       {
         name = "tr.on_rift",
         sig = "tr.on_rift()",
-        file = "src/03_harvest.lua:178",
+        file = "src/03_harvest.lua:192",
         doc = {},
       },
       {
         name = "tr.on_room",
         sig = "tr.on_room()",
-        file = "src/03_harvest.lua:88",
+        file = "src/03_harvest.lua:91",
         doc = { "GMCP Room.Info: arrived, or wandered off." },
+      },
+      {
+        name = "tr.on_room_desc",
+        sig = "tr.on_room_desc()",
+        file = "src/02_plants.lua:198",
+        doc = {},
       },
       {
         name = "tr.on_vitals",
         sig = "tr.on_vitals()",
-        file = "src/03_harvest.lua:152",
+        file = "src/03_harvest.lua:166",
         doc = { "GMCP vitals: note when the harvest takes balance." },
       },
       {
         name = "tr.onoff",
         sig = "tr.onoff(v, cur)",
-        file = "src/01_tr.lua:51",
+        file = "src/01_tr.lua:52",
         doc = {},
       },
       {
         name = "tr.parse_plant_line",
         sig = "tr.parse_plant_line(text)",
-        file = "src/02_plants.lua:136",
+        file = "src/02_plants.lua:149",
         doc = { "\"Some kelp (kelp)                Moderate\" -&gt; { key, name, bounty }" },
       },
       {
@@ -60153,9 +60590,27 @@ shelp.data = {
         doc = {},
       },
       {
+        name = "tr.plants_in_desc",
+        sig = "tr.plants_in_desc(text)",
+        file = "src/02_plants.lua:263",
+        doc = { "HARVEST words for the herbs a description says are growing here." },
+      },
+      {
+        name = "tr.plants_in_text",
+        sig = "tr.plants_in_text(text)",
+        file = "src/02_plants.lua:250",
+        doc = { "HARVEST words named anywhere in some text (the purple names)." },
+      },
+      {
+        name = "tr.purple_runs",
+        sig = "tr.purple_runs(text)",
+        file = "src/02_plants.lua:229",
+        doc = {},
+      },
+      {
         name = "tr.raise",
         sig = "tr.raise(event, ...)",
-        file = "src/01_tr.lua:46",
+        file = "src/01_tr.lua:47",
         doc = {},
       },
       {
@@ -60167,19 +60622,19 @@ shelp.data = {
       {
         name = "tr.room",
         sig = "tr.room()",
-        file = "src/01_tr.lua:62",
+        file = "src/01_tr.lua:63",
         doc = { "The room you're in, straight from GMCP: { num, area, name }." },
       },
       {
         name = "tr.room_name",
         sig = "tr.room_name(num)",
-        file = "src/01_tr.lua:99",
+        file = "src/01_tr.lua:100",
         doc = {},
       },
       {
         name = "tr.rooms_with",
         sig = "tr.rooms_with(key, all)",
-        file = "src/02_plants.lua:86",
+        file = "src/02_plants.lua:92",
         doc = {
           "Rooms known to have a plant, nearest first: { { num, steps, plant } }.",
           "With all, rooms where it's out are listed too.",
@@ -60206,13 +60661,13 @@ shelp.data = {
       {
         name = "tr.save_settings",
         sig = "tr.save_settings()",
-        file = "src/01_tr.lua:40",
+        file = "src/01_tr.lua:41",
         doc = {},
       },
       {
         name = "tr.say",
         sig = "tr.say(msg)",
-        file = "src/01_tr.lua:44",
+        file = "src/01_tr.lua:45",
         doc = {},
       },
       {
@@ -60230,19 +60685,31 @@ shelp.data = {
       {
         name = "tr.steps",
         sig = "tr.steps(from, to)",
-        file = "src/01_tr.lua:92",
+        file = "src/01_tr.lua:93",
         doc = { "Steps from here to a room along the map (0 here, nil when there's no way)." },
       },
       {
         name = "tr.stop_harvest",
         sig = "tr.stop_harvest(why, quiet)",
-        file = "src/03_harvest.lua:35",
+        file = "src/03_harvest.lua:38",
         doc = {},
       },
       {
         name = "tr.stop_mapper",
         sig = "tr.stop_mapper()",
-        file = "src/01_tr.lua:86",
+        file = "src/01_tr.lua:87",
+        doc = {},
+      },
+      {
+        name = "tr.survey",
+        sig = "tr.survey(area, floor)",
+        file = "src/02_plants.lua:287",
+        doc = {},
+      },
+      {
+        name = "tr.survey_end",
+        sig = "tr.survey_end(_, why)",
+        file = "src/02_plants.lua:295",
         doc = {},
       },
       {
@@ -60258,9 +60725,15 @@ shelp.data = {
         doc = {},
       },
       {
+        name = "tr.unfamiliar",
+        sig = "tr.unfamiliar(num)",
+        file = "src/02_plants.lua:304",
+        doc = { "Never had a PLANTS list (a description alone doesn't count)." },
+      },
+      {
         name = "tr.wk_check",
         sig = "tr.wk_check(num)",
-        file = "src/02_plants.lua:162",
+        file = "src/02_plants.lua:370",
         doc = { "WK: stop in rooms with a plant you listed (tr walkstop)." },
       },
     },
@@ -60290,20 +60763,35 @@ shelp.data = {
       "The list is shared by all your characters (`acs_tr_plants.lua` in your",
       "Mudlet home).",
       "",
+      "**Surveying an area:** `tr survey` (or `tr survey AREA`, `tr survey floor`)",
+      "has WK walk the whole area. In each room, TR compares the herbs in the",
+      "description with what it has recorded, and sends PLANTS only where they",
+      "differ, where nothing is recorded yet, or where it doesn't know how much a",
+      "plant has left. Plants rarely change, so most rooms aren't checked twice.",
+      "WK's usual stops still apply (`wk` carries on); `wk stop` ends the survey.",
+      "A survey checks every room that has never had a PLANTS list, as a baseline.",
+      "When you walk yourself TR never sends PLANTS; it only notes the herbs it",
+      "sees in descriptions (`tr autocheck new` would check never-checked rooms as",
+      "you walk too, `tr autocheck all` differences as well).",
+      "",
+      "Without PLANTS ON, TR also reads the room description: a sentence like \"A",
+      "low-lying wild ginger plant is growing here.\" or \"A purple coneflower grows",
+      "here\" records ginger or echinacea in that room. That only says the plant is",
+      "there, not how much it has left, so PLANTS ON is still better.",
+      "",
       "## Harvesting",
       "",
       "`harvest kelp` harvests kelp here if this room has it. If it doesn't, it",
       "walks you to the nearest room known to have kelp (the mapper's goto, so",
-      "FT's wormholes, dash and gallop apply) and harvests there. `harvest kelp 20`",
-      "stops after 20.",
+      "FT's wormholes, dash and gallop apply) and harvests there.",
       "",
-      "It harvests until the plant gives nothing twice in a row (or the game says",
-      "there's none left), waiting for balance each time. Then it puts the kelp in",
-      "your rift (`inr all kelp`), marks that room harvested out for 12 hours, and",
-      "tells you the next room. **Type `harvest kelp` again to go there.** Achaea's",
-      "rules forbid a character that keeps gathering after you walk away, so going",
-      "on to the next room is always your keypress, as it is with WK. Bind it to a",
-      "key to make it one press.",
+      "A plant gives you one harvest per room about once an hour (\"You have",
+      "already harvested from this plant recently.\"). So TR harvests once (waiting",
+      "for balance), puts the kelp in your rift (`inr all kelp`), marks that room",
+      "done for an hour (`tr regrow`), and tells you the next room. **Type",
+      "`harvest kelp` again to go there.** Achaea's rules forbid a character that",
+      "keeps gathering after you walk away, so going on to the next room is always",
+      "your keypress, as it is with WK. Bind it to a key to make it one press.",
       "",
       "`harvest skin`, `harvest sac` and a bare `harvest` go to the game unchanged.",
       "`irid` is understood as `moss`, `prickly ash` as `ash`.",
@@ -60354,13 +60842,15 @@ shelp.data = {
       "",
       "| Command | What it does |",
       "|---|---|",
-      "| `harvest PLANT [N]` | harvest here, or walk to the nearest room with it and harvest there |",
+      "| `harvest PLANT` | harvest here, or walk to the nearest room with it and harvest there |",
+      "| `tr survey [AREA\\|floor]` | WK walks the area; PLANTS where the record looks wrong |",
+      "| `tr autocheck off\\|new\\|all` | walking yourself: nothing (off), PLANTS in never-checked rooms (new), also differences (all) |",
       "| `tr where PLANT` | rooms known to have it, nearest first, with how much it had |",
       "| `tr plants [PLANT]` | every plant recorded and in how many rooms |",
       "| `tr here` | the plants recorded in this room |",
       "| `tr forget [here\\|ROOM\\|all]` | forget a room's plants |",
-      "| `tr fresh [PLANT]` | count harvested-out rooms as ready again |",
-      "| `tr regrow HOURS` | when a harvested-out room counts again (12) |",
+      "| `tr fresh [PLANT]` | count harvested rooms as ready again now |",
+      "| `tr regrow HOURS` | how long before a room's plant can be harvested again (1) |",
       "| `tr rift CMD\\|off` | after harvesting (`inr all {plant}`) |",
       "| `tr walkstop add\\|remove PLANT` | WK stops in rooms with that plant |",
       "| `tr make NAME [N]` | make a remedy, toxin or your own recipe |",
@@ -60395,8 +60885,9 @@ shelp.data = {
       "  inventory or rift. The \"nothing left\" lines in `tr.out_lines`",
       "  (`src/03_harvest.lua`) are guesses; without them it stops after two empty",
       "  harvests anyway. Paste the real line and it can stop on the first.",
-      "* **No plants here.** The \"no plants\" lines in `tr.no_plants_lines` are",
-      "  guesses too. Paste what PLANTS says in an empty room.",
+      "* **Harvested bare.** When a plant is used up, PLANTS shows just the",
+      "  heading. TR then marks that plant bare (out until it regrows) and stops",
+      "  harvesting if it was.",
       "* **Pouring into the rift.** `pour &lt;pot&gt; into rift` is from the Remedies",
       "  POUR syntax. Toxins may need `fill &lt;vial&gt; from &lt;pot&gt;` instead; change it",
       "  with `tr store`.",
